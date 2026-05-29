@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button"
+import { requireUser } from "@/lib/require-user"
+import { redirect } from "next/navigation"
 
-export default function Page() {
+export default async function Page() {
+  const user = await requireUser()
+
+  if (user) {
+    redirect("/dashboard")
+  }
+
   return (
     <div className="flex min-h-svh p-6">
       <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
