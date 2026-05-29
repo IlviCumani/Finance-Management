@@ -7,7 +7,8 @@
     "noResults": "Asnjë rezultat",
     "goToPreviousPage": "Kalo te faqja e mëparshme",
     "goToNextPage": "Kalo te faqja e ardhshme",
-    "of": "nga"
+    "of": "nga",
+    "toggleSidebar": "Hap ose mbyll panelin anësor"
   },
   "auth": {
     "login": {
@@ -50,26 +51,41 @@
     "passwordUppercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të madhe",
     "passwordNumber": "Fjalëkalimi duhet të përmbajë të pakërkuar një numër",
     "passwordLowercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të vogël",
-    "passwordSpecial": "Fjalëkalimi duhet të përmbajë të pakërkuar një karakter special"
+    "passwordSpecial": "Fjalëkalimi duhet të përmbajë të pakërkuar një karakter special",
+    "fullNameRequired": "Emri i plotë është i detyrueshëm",
+    "passwordsDoNotMatch": "Fjalëkalimet nuk përputhen",
+    "confirmPasswordRequired": "Konfirmimi i fjalëkalimit është i detyrueshëm",
+    "confirmPasswordMinLength": "Konfirmimi i fjalëkalimit duhet të jetë i pakërkuar se 8 karaktere",
+    "confirmPasswordUppercase": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një shkronjë të madhe",
+    "confirmPasswordNumber": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një numër",
+    "confirmPasswordLowercase": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një shkronjë të vogël",
+    "confirmPasswordSpecial": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një karakter special",
+    "confirmPasswordMatch": "Konfirmimi i fjalëkalimit duhet të përputhet me fjalëkalimin"
   },
   "app": {
     "title": "Aplikacioni",
-    "dashboard": "Dashboard",
+    "dashboard": "Paneli",
     "logout": "Dil",
     "userMenu": {
-      "settings": "Parapëlqimet",
+      "settings": "Cilësimet",
       "logout": "Dil"
+    },
+    "settings": {
+      "profile": "Profili",
+      "preferences": "Parapëlqimet",
+      "security": "Siguria",
+      "notifications": "Njoftimet"
     }
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "Paneli",
     "transactions": "Transaksionet",
-    "accounts": "Konti",
-    "budgets": "Budjetet",
-    "savings": "Shportat",
+    "accounts": "Llogaritë",
+    "budgets": "Buxhetet",
+    "savings": "Kursimet",
     "subscriptions": "Abonimet",
     "analytics": "Analitika",
-    "settings": "Parapëlqimet",
+    "settings": "Cilësimet",
     "profile": "Profili",
     "preferences": "Parapëlqimet",
     "security": "Siguria",
@@ -78,7 +94,7 @@
   "language": {
     "en": "Anglisht",
     "sq": "Shqip",
-    "ariaLabel": "Përzgjidh gjuhën",
+    "ariaLabel": "Përzgjidh gjuhën: {language}",
     "placeholder": "Përzgjidh gjuhën"
   },
   "theme": {
@@ -89,5 +105,19 @@
   },
   "userMenu": {
     "logout": "Dil"
+  },
+  "pageStatus": {
+    "underDevelopment": {
+      "title": "Në zhvillim",
+      "description": "Kjo faqe është ende duke u zhvilluar. Ju lutemi kontrolloni më vonë.",
+      "imageAlt": "Ilustrim i faqes në zhvillim"
+    }
+  },
+  "home": {
+    "title": "Projekti është gati!",
+    "description1": "Tani mund të shtoni komponentë dhe të filloni ndërtimin.",
+    "description2": "Ne kemi shtuar tashmë komponentin e butonit për ju.",
+    "button": "Butoni",
+    "darkModeHint": "Shtypni {key} për të ndryshuar modalitetin e errët"
   }
 }

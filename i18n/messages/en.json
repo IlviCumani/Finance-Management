@@ -7,7 +7,8 @@
     "noResults": "No results",
     "goToPreviousPage": "Go to previous page",
     "goToNextPage": "Go to next page",
-    "of": "of"
+    "of": "of",
+    "toggleSidebar": "Toggle sidebar"
   },
   "auth": {
     "login": {
@@ -97,7 +98,7 @@
   "language": {
     "en": "English",
     "sq": "Albanian",
-    "ariaLabel": "Select language",
+    "ariaLabel": "Select language: {language}",
     "placeholder": "Select language"
   },
   "theme": {
@@ -105,5 +106,19 @@
     "dark": "Dark",
     "system": "System",
     "toggle": "Toggle Theme"
+  },
+  "pageStatus": {
+    "underDevelopment": {
+      "title": "Under Development",
+      "description": "This is currently under development. Please check back later.",
+      "imageAlt": "Under development illustration"
+    }
+  },
+  "home": {
+    "title": "Project ready!",
+    "description1": "You may now add components and start building.",
+    "description2": "We've already added the button component for you.",
+    "button": "Button",
+    "darkModeHint": "Press {key} to toggle dark mode"
   }
 }
