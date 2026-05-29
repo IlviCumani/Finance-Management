@@ -1,0 +1,55 @@
+{
+  "common": {
+    "columns": "Kolona",
+    "search": "Kërko",
+    "reset": "Rivendos",
+    "rowsPerPage": "Rreshta per faqe",
+    "noResults": "Asnjë rezultat",
+    "goToPreviousPage": "Kalo te faqja e mëparshme",
+    "goToNextPage": "Kalo te faqja e ardhshme",
+    "of": "nga"
+  },
+  "auth": {
+    "login": {
+      "title": "Hyni",
+      "description": "Hyni te konti juaj",
+      "email": "Email",
+      "emailPlaceholder": "Jepni emailin tuaj",
+      "emailDescription": "Jepni emailin tuaj",
+      "password": "Fjalëkalimi",
+      "passwordPlaceholder": "Jepni fjalëkalimin tuaj",
+      "passwordDescription": "Jepni fjalëkalimin tuaj",
+      "submit": "Hyni",
+      "noAccount": "Nuk keni një llogari?",
+      "createOne": "Krijo një llogari"
+    },
+    "register": {
+      "title": "Regjistrohu",
+      "description": "Regjistrohu te konti juaj",
+      "fullName": "Emri i plotë",
+      "fullNamePlaceholder": "Jepni emrin tuaj të plotë",
+      "fullNameDescription": "Jepni emrin tuaj të plotë",
+      "confirmPassword": "Konfirmo fjalëkalimin",
+      "confirmPasswordPlaceholder": "Konfirmo fjalëkalimin tuaj",
+      "confirmPasswordDescription": "Konfirmo fjalëkalimin tuaj",
+      "email": "Email",
+      "emailPlaceholder": "Jepni emailin tuaj",
+      "emailDescription": "Jepni emailin tuaj",
+      "password": "Fjalëkalimi",
+      "passwordPlaceholder": "Jepni fjalëkalimin tuaj",
+      "passwordDescription": "Jepni fjalëkalimin tuaj",
+      "submit": "Regjistrohu",
+      "hasAccount": "Keni tashmë një llogari?",
+      "signIn": "Hyni"
+    },
+    "terms": "Me klikimin mbi butonin më sipër, ju pranoni kushtet të Shërbimit dhe Rregullave të Privatësisë."
+  },
+  "validation": {
+    "emailInvalid": "Emaili është i pavlefshëm",
+    "passwordMinLength": "Fjalëkalimi duhet të jetë i pakërkuar se 8 karaktere",
+    "passwordUppercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të madhe",
+    "passwordNumber": "Fjalëkalimi duhet të përmbajë të pakërkuar një numër",
+    "passwordLowercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të vogël",
+    "passwordSpecial": "Fjalëkalimi duhet të përmbajë të pakërkuar një karakter special"
+  }
+}
