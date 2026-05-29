@@ -50,7 +50,6 @@ export default function LoginPage() {
             email: "",
             password: "",
         },
-        mode: "onTouched",
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {

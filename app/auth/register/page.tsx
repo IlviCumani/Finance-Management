@@ -13,12 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { LockPasswordIcon, MailIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
-import { Controller, useForm } from "react-hook-form"
+import { Controller } from "react-hook-form"
 import * as z from "zod"
 import { register } from "@/app/auth/actions"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { useMemo, useState } from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "@/hooks/use-form"
 
 export default function RegisterPage() {
     const t = useTranslations("auth.register")
