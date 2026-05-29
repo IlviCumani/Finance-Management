@@ -3,6 +3,16 @@ import type { NextConfig } from "next"
 
 const withNextIntl = createNextIntlPlugin()
 
-const nextConfig: NextConfig = {}
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+        pathname: "/w40/**",
+      },
+    ],
+  },
+}
 
 export default withNextIntl(nextConfig)

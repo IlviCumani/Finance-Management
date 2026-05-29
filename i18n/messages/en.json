@@ -61,5 +61,49 @@
     "confirmPasswordLowercase": "Confirm password must contain at least one lowercase letter",
     "confirmPasswordSpecial": "Confirm password must contain at least one special character",
     "confirmPasswordMatch": "Confirm password must match password"
+  },
+  "app": {
+    "title": "App",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "userMenu": {
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "settings": {
+      "profile": "Profile",
+      "preferences": "Preferences",
+      "security": "Security",
+      "notifications": "Notifications"
+    }
+  },
+  "userMenu": {
+    "logout": "Logout"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "accounts": "Accounts",
+    "budgets": "Budgets",
+    "savings": "Savings",
+    "subscriptions": "Subscriptions",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "security": "Security",
+    "notifications": "Notifications"
+  },
+  "language": {
+    "en": "English",
+    "sq": "Albanian",
+    "ariaLabel": "Select language",
+    "placeholder": "Select language"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Toggle Theme"
   }
 }

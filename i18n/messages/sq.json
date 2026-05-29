@@ -51,5 +51,43 @@
     "passwordNumber": "Fjalëkalimi duhet të përmbajë të pakërkuar një numër",
     "passwordLowercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të vogël",
     "passwordSpecial": "Fjalëkalimi duhet të përmbajë të pakërkuar një karakter special"
+  },
+  "app": {
+    "title": "Aplikacioni",
+    "dashboard": "Dashboard",
+    "logout": "Dil",
+    "userMenu": {
+      "settings": "Parapëlqimet",
+      "logout": "Dil"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transaksionet",
+    "accounts": "Konti",
+    "budgets": "Budjetet",
+    "savings": "Shportat",
+    "subscriptions": "Abonimet",
+    "analytics": "Analitika",
+    "settings": "Parapëlqimet",
+    "profile": "Profili",
+    "preferences": "Parapëlqimet",
+    "security": "Siguria",
+    "notifications": "Njoftimet"
+  },
+  "language": {
+    "en": "Anglisht",
+    "sq": "Shqip",
+    "ariaLabel": "Përzgjidh gjuhën",
+    "placeholder": "Përzgjidh gjuhën"
+  },
+  "theme": {
+    "light": "Drite",
+    "dark": "Nate",
+    "system": "Sistemi",
+    "toggle": "Ndrysho Ngjyrat"
+  },
+  "userMenu": {
+    "logout": "Dil"
   }
 }
