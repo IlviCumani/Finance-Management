@@ -10,7 +10,8 @@ import {
   useActiveEmoji,
   useSkinTone,
 } from "frimousse";
-import { LoaderIcon, SearchIcon } from "lucide-react";
+import { Loading03Icon, SearchIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ function EmojiPickerSearch({
       data-slot="emoji-picker-search-wrapper"
       className={cn("flex h-9 items-center gap-2 border-b px-3", className)}
     >
-      <SearchIcon className="size-4 shrink-0 opacity-50" />
+      <HugeiconsIcon icon={SearchIcon} className="size-4 shrink-0 opacity-50" />
       <EmojiPickerPrimitive.Search
         data-slot="emoji-picker-search"
         className="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
@@ -112,7 +113,7 @@ function EmojiPickerContent({
         data-slot="emoji-picker-loading"
         className="text-muted-foreground absolute inset-0 flex items-center justify-center"
       >
-        <LoaderIcon className="size-4 animate-spin" />
+        <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
       </EmojiPickerPrimitive.Loading>
       <EmojiPickerPrimitive.Empty
         data-slot="emoji-picker-empty"

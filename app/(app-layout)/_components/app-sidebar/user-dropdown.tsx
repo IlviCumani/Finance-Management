@@ -27,6 +27,7 @@ import {
 import { logout } from "@/app/auth/actions"
 import { getInitials } from "@/lib/format/text-format"
 import { useTranslations } from "next-intl"
+import { Button } from "@/components/ui/button"
 // import { getSupabaseStorageUrl } from "@/lib/storage/get-supabase-storage-url"
 
 export function NavUser({
@@ -86,7 +87,10 @@ export function NavUser({
                         <DropdownMenuSeparator />
                         <DropdownMenuItem variant="destructive" onClick={() => logout()}>
                             <HugeiconsIcon icon={LogoutIcon} />
-                            {t("logout")}
+                            <span className="text-destructive!">
+                                Test
+                                {t("logout")}
+                            </span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

@@ -8,7 +8,8 @@
     "goToPreviousPage": "Go to previous page",
     "goToNextPage": "Go to next page",
     "of": "of",
-    "toggleSidebar": "Toggle sidebar"
+    "toggleSidebar": "Toggle sidebar",
+    "save": "Save"
   },
   "auth": {
     "login": {

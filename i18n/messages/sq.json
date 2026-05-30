@@ -8,7 +8,8 @@
     "goToPreviousPage": "Kalo te faqja e mëparshme",
     "goToNextPage": "Kalo te faqja e ardhshme",
     "of": "nga",
-    "toggleSidebar": "Hap ose mbyll panelin anësor"
+    "toggleSidebar": "Hap ose mbyll panelin anësor",
+    "save": "Ruaje"
   },
   "auth": {
     "login": {
