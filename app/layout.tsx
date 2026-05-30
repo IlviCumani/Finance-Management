@@ -35,13 +35,13 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LocaleSync />
-          <ThemeProvider>
-            <TooltipProvider>
+          <TooltipProvider>
+            <ThemeProvider>
               {children}
-            </TooltipProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </TooltipProvider>
         </NextIntlClientProvider>
       </body>
-    </html>
+    </html >
   )
 }

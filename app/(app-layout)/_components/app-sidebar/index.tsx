@@ -7,28 +7,27 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { getTranslations } from "next-intl/server"
 import { NavUser } from "./user-dropdown"
 import { NavMain } from "./nav-menu"
 import { getLoggedUserProfile } from "@/lib/supabase/queries/user-profile"
+import { LogoSvg } from "@/components/svg/app-logo/logo"
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar>
 
 export default async function AppSidebar({ ...props }: AppSidebarProps) {
     const { loggedUserDetails, user } = await getLoggedUserProfile()
-    const t = await getTranslations("app")
 
     return <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton
-                        asChild
-                        className="data-[slot=sidebar-menu-button]:p-1.5!"
+                        tooltip="FinSanctuary"
+                        className="group-data-[collapsible=icon]:justify-center [&_svg]:size-8!"
                     >
-                        <span className="text-base font-semibold">
-                            {/* <VideoIcon className="h-4 w-4" /> */}
-                            {t("title")}
+                        <LogoSvg size={32} />
+                        <span className="truncate font-bold text-lg group-data-[collapsible=icon]:hidden">
+                            FinSanctuary
                         </span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
