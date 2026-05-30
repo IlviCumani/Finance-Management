@@ -6,7 +6,9 @@ import "./globals.css"
 import { LocaleSync } from "@/components/locale-sync"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Confirmer } from "@/components/ui/confirmer";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner"
 
 const ralewayHeading = Raleway({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -40,6 +42,8 @@ export default async function RootLayout({
               {children}
             </ThemeProvider>
           </TooltipProvider>
+          <Confirmer />
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html >

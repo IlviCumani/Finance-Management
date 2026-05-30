@@ -1,6 +1,4 @@
-import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { SmileIcon } from "@hugeicons/core-free-icons";
 import { EmojiPicker, EmojiPickerContent, EmojiPickerFooter, EmojiPickerSearch, } from "../ui/emoji-picker";
 import { PropsWithChildren } from "react";
 
