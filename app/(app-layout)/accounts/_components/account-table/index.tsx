@@ -6,8 +6,11 @@ import { useEffect, useState } from "react";
 import { getColumns } from "./get-columns";
 import { Account } from "@/types/account/account-types";
 import { AccountsForm } from "../accounts-form";
+import { useTranslations } from "next-intl";
 
 export function AccountTable({ accounts }: { accounts: Array<Account> }) {
+    const t = useTranslations("accounts.table")
+    const tForm = useTranslations("accounts.form")
     const { table, setTableColumns, setTableData } = useTable<Account>();
     const [editAccount, setEditAccount] = useState<Account | undefined>(undefined);
     const [open, setOpen] = useState(false);
@@ -22,9 +25,11 @@ export function AccountTable({ accounts }: { accounts: Array<Account> }) {
             onEdit: (account) => {
                 handleEditAccount(account);
             },
+            t,
+            tForm,
         });
         setTableColumns(columns);
-    }, [setTableColumns]);
+    }, [setTableColumns, t, tForm]);
 
     useEffect(() => {
         setTableData(accounts);

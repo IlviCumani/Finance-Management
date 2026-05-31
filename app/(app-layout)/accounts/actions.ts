@@ -4,6 +4,7 @@ import { createActionClient } from "@/lib/supabase/actions"
 import { requireUser } from "@/lib/require-user"
 import { Account_Response } from "@/types/account/account-types"
 import { revalidatePath } from "next/cache"
+import { getTranslations } from "next-intl/server"
 
 const PATH = "/accounts"
 
@@ -20,8 +21,9 @@ export async function getAccounts(): Promise<{
     .eq("user_id", user.id)
 
   if (error) {
+    const t = await getTranslations("accounts.actions")
     return {
-      error: error.message || "Failed to fetch accounts",
+      error: error.message || t("fetchError"),
     }
   }
 
@@ -50,8 +52,9 @@ export async function createAccount(formData: FormData): Promise<{
   })
 
   if (error) {
+    const t = await getTranslations("accounts.actions")
     return {
-      error: error.message || "Failed to create account",
+      error: error.message || t("createError"),
     }
   }
 
@@ -83,8 +86,9 @@ export async function updateAccount(formData: FormData): Promise<{
     .eq("id", id)
 
   if (error) {
+    const t = await getTranslations("accounts.actions")
     return {
-      error: error.message || "Failed to update account",
+      error: error.message || t("updateError"),
     }
   }
 
@@ -104,8 +108,9 @@ export async function deleteAccount(id: string): Promise<{
   const { error } = await supabase.from("accounts").delete().eq("id", id)
 
   if (error) {
+    const t = await getTranslations("accounts.actions")
     return {
-      error: error.message || "Failed to delete account",
+      error: error.message || t("deleteError"),
     }
   }
 

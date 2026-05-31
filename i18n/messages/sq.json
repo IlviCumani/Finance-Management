@@ -9,7 +9,13 @@
     "goToNextPage": "Kalo te faqja e ardhshme",
     "of": "nga",
     "toggleSidebar": "Hap ose mbyll panelin anësor",
-    "save": "Ruaje"
+    "save": "Ruaje",
+    "actions": "Veprimet",
+    "details": "Detajet",
+    "edit": "Ndrysho",
+    "delete": "Fshi",
+    "deleteConfirmTitle": "A jeni plotësisht i sigurt?",
+    "deleteConfirmDefaultDescription": "Ky veprim nuk mund të zhbëhet."
   },
   "auth": {
     "login": {
@@ -120,5 +126,50 @@
     "description2": "Ne kemi shtuar tashmë komponentin e butonit për ju.",
     "button": "Butoni",
     "darkModeHint": "Shtypni {key} për të ndryshuar modalitetin e errët"
+  },
+  "accounts": {
+    "page": {
+      "title": "Llogaritë",
+      "description": "Menaxho të gjitha burimet e parave në një vend.",
+      "addAccount": "Shto llogari",
+      "fetchError": "Dështoi ngarkimi i llogarive"
+    },
+    "form": {
+      "addTitle": "Shto llogari",
+      "editTitle": "Ndrysho llogarinë",
+      "name": "Emri",
+      "currentBalance": "Bilanci aktual",
+      "currency": "Monedha",
+      "archived": "Arkivuar",
+      "archivedDescription": "Arkivoni llogarinë nëse nuk e përdorni më, por doni ta mbani në databazë.",
+      "createdSuccess": "Llogaria u krijua me sukses",
+      "updatedSuccess": "Llogaria u përditësua me sukses"
+    },
+    "table": {
+      "name": "Emri",
+      "currentBalance": "Bilanci aktual",
+      "currency": "Monedha",
+      "isArchived": "Arkivuar",
+      "createdAt": "Krijuar më",
+      "lastUpdated": "Përditësuar së fundmi",
+      "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë llogarinë tuaj dhe do të heqë të dhënat nga serverët tanë.",
+      "deleteSuccess": "Llogaria u fshi me sukses",
+      "updateError": "Dështoi përditësimi i llogarisë",
+      "deleteError": "Dështoi fshirja e llogarisë"
+    },
+    "validation": {
+      "nameRequired": "Emri është i detyrueshëm",
+      "currentBalanceRequired": "Bilanci aktual është i detyrueshëm",
+      "currencyRequired": "Monedha është e detyrueshme",
+      "currencyInvalid": "Monedha duhet të jetë një nga këto: {currencies}",
+      "currentBalanceNumber": "Bilanci aktual duhet të jetë numër",
+      "currentBalanceMin": "Bilanci aktual nuk mund të jetë më i vogël se 0"
+    },
+    "actions": {
+      "fetchError": "Dështoi ngarkimi i llogarive",
+      "createError": "Dështoi krijimi i llogarisë",
+      "updateError": "Dështoi përditësimi i llogarisë",
+      "deleteError": "Dështoi fshirja e llogarisë"
+    }
   }
 }

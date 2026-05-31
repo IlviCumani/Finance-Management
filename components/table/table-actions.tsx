@@ -4,6 +4,7 @@ import { Button } from "../ui/button"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { DeleteIcon, EditIcon, LinkSquare01Icon, MoreVerticalIcon } from "@hugeicons/core-free-icons"
 import { confirm } from "@/components/ui/confirmer"
+import { useTranslations } from "next-intl"
 
 type TableActionsProps = {
     deleteTitle?: string
@@ -13,7 +14,9 @@ type TableActionsProps = {
     onDelete?: () => void
 }
 
-export function TableActions({ deleteTitle = "Are you absolutely sure?", deleteDescription = "This action cannot be undone.", onView, onEdit, onDelete }: TableActionsProps) {
+export function TableActions({ deleteTitle, deleteDescription, onView, onEdit, onDelete }: TableActionsProps) {
+    const t = useTranslations("common")
+
     return <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
@@ -21,26 +24,26 @@ export function TableActions({ deleteTitle = "Are you absolutely sure?", deleteD
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem hidden={!onView} onClick={onView}>
                 <HugeiconsIcon icon={LinkSquare01Icon} />
-                Details
+                {t("details")}
             </DropdownMenuItem>
             <DropdownMenuItem hidden={!onEdit} onClick={onEdit}>
                 <HugeiconsIcon icon={EditIcon} />
-                Edit
+                {t("edit")}
             </DropdownMenuItem>
             <DropdownMenuItem variant="destructive" hidden={!onDelete} onClick={() => confirm({
-                title: deleteTitle,
-                description: deleteDescription,
+                title: deleteTitle ?? t("deleteConfirmTitle"),
+                description: deleteDescription ?? t("deleteConfirmDefaultDescription"),
             }).then((confirmed) => {
                 if (confirmed) {
                     onDelete?.()
                 }
             })}>
                 <HugeiconsIcon icon={DeleteIcon} />
-                Delete
+                {t("delete")}
             </DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>

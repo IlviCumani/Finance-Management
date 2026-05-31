@@ -9,7 +9,13 @@
     "goToNextPage": "Go to next page",
     "of": "of",
     "toggleSidebar": "Toggle sidebar",
-    "save": "Save"
+    "save": "Save",
+    "actions": "Actions",
+    "details": "Details",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDefaultDescription": "This action cannot be undone."
   },
   "auth": {
     "login": {
@@ -121,5 +127,50 @@
     "description2": "We've already added the button component for you.",
     "button": "Button",
     "darkModeHint": "Press {key} to toggle dark mode"
+  },
+  "accounts": {
+    "page": {
+      "title": "Accounts",
+      "description": "Manage all money sources in one place.",
+      "addAccount": "Add Account",
+      "fetchError": "Failed to fetch accounts"
+    },
+    "form": {
+      "addTitle": "Add Account",
+      "editTitle": "Edit Account",
+      "name": "Name",
+      "currentBalance": "Current Balance",
+      "currency": "Currency",
+      "archived": "Archived",
+      "archivedDescription": "Archive the account if you are not using it anymore but you want to keep it in the database.",
+      "createdSuccess": "Account created successfully",
+      "updatedSuccess": "Account updated successfully"
+    },
+    "table": {
+      "name": "Name",
+      "currentBalance": "Current Balance",
+      "currency": "Currency",
+      "isArchived": "Is Archived",
+      "createdAt": "Created At",
+      "lastUpdated": "Last Updated",
+      "deleteDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+      "deleteSuccess": "Account deleted successfully",
+      "updateError": "Failed to update account",
+      "deleteError": "Failed to delete account"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "currentBalanceRequired": "Current balance is required",
+      "currencyRequired": "Currency is required",
+      "currencyInvalid": "Currency must be one of the following: {currencies}",
+      "currentBalanceNumber": "Current balance must be a number",
+      "currentBalanceMin": "Current balance can't be lower than 0"
+    },
+    "actions": {
+      "fetchError": "Failed to fetch accounts",
+      "createError": "Failed to create account",
+      "updateError": "Failed to update account",
+      "deleteError": "Failed to delete account"
+    }
   }
 }

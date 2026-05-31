@@ -6,14 +6,23 @@ import { TableActions } from "@/components/table/table-actions"
 import { deleteAccount, updateAccount } from "../../actions"
 import { toast } from "sonner"
 
+type AccountsTranslator = (
+    key: string,
+    values?: Record<string, string | number | Date>
+) => string
+
 export function getColumns({
     onEdit,
+    t,
+    tForm,
 }: {
     onEdit: (account: Account) => void
+    t: AccountsTranslator
+    tForm: AccountsTranslator
 }): ColumnDef<Account>[] {
     return [
         {
-            header: "Name",
+            header: t("name"),
             accessorKey: "name",
             cell: ({ getValue }) => {
                 const name = getValue() as string
@@ -26,7 +35,7 @@ export function getColumns({
             },
         },
         {
-            header: "Current Balance",
+            header: t("currentBalance"),
             accessorKey: "currentBalance",
             cell: ({ getValue }) => {
                 const balance = getValue() as number
@@ -39,7 +48,7 @@ export function getColumns({
             },
         },
         {
-            header: "Currency",
+            header: t("currency"),
             accessorKey: "currency",
             cell: ({ getValue }) => {
                 const currency = getValue() as string
@@ -52,7 +61,7 @@ export function getColumns({
             },
         },
         {
-            header: "Is Archived",
+            header: t("isArchived"),
             accessorKey: "isArchived",
             cell: ({ getValue, row }) => {
                 const isArchived = getValue() as boolean
@@ -65,11 +74,11 @@ export function getColumns({
                     formData.append("currency", row.original.currency)
                     const { error } = await updateAccount(formData)
                     if (error) {
-                        toast.error(error || "Failed to update account", {
+                        toast.error(error || t("updateError"), {
                             position: "top-right"
                         })
                     } else {
-                        toast.success("Account updated successfully", {
+                        toast.success(tForm("updatedSuccess"), {
                             position: "top-right"
                         })
                     }
@@ -79,7 +88,7 @@ export function getColumns({
             },
         },
         {
-            header: "Created At",
+            header: t("createdAt"),
             accessorKey: "createdAt",
             cell: ({ getValue }) => {
                 const createdAt = getValue() as string
@@ -92,7 +101,7 @@ export function getColumns({
             },
         },
         {
-            header: "Last Updated",
+            header: t("lastUpdated"),
             accessorKey: "updatedAt",
             cell: ({ getValue }) => {
                 const updatedAt = getValue() as string
@@ -112,11 +121,11 @@ export function getColumns({
                 async function handleDelete() {
                     const { error } = await deleteAccount(row.original.id)
                     if (error) {
-                        toast.error(error || "Failed to delete account", {
+                        toast.error(error || t("deleteError"), {
                             position: "top-right"
                         })
                     } else {
-                        toast.success("Account deleted successfully", {
+                        toast.success(t("deleteSuccess"), {
                             position: "top-right"
                         })
                     }
@@ -126,7 +135,7 @@ export function getColumns({
                     <TableActions
                         onEdit={() => onEdit(row.original)}
                         onDelete={handleDelete}
-                        deleteDescription="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+                        deleteDescription={t("deleteDescription")}
                     />
                 )
             },
