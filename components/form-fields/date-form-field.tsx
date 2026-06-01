@@ -1,13 +1,25 @@
-import { Field, FieldError, FieldDescription, FieldLabel } from "../ui/field"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectScrollUpButton, SelectScrollDownButton } from "../ui/select"
-import { cn } from "@/lib/utils"
-import { ControllerRenderProps, ControllerFieldState, FieldPath, FieldValues } from "react-hook-form"
-import { ComponentProps } from "react"
-import { Tooltip, TooltipTrigger } from "../ui/tooltip"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { InformationCircleIcon } from "@hugeicons/core-free-icons"
+"use client"
 
-type SelectFormFieldProps<
+import { Field, FieldError, FieldDescription, FieldLabel } from "../ui/field"
+import { DatePicker, DatePickerTrigger, DatePickerValue, DatePickerContent, DatePickerCalendar } from "@/components/ui/date-picker"
+import { cn } from "@/lib/utils"
+import type { PropsWithChildren, ComponentProps } from "react"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "../ui/tooltip"
+import { InformationCircleIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import type {
+    ControllerFieldState,
+    ControllerRenderProps,
+    FieldPath,
+    FieldValues,
+} from "react-hook-form"
+// import { EyeIcon, EyeOffIcon } from "lucide-react"
+
+type DateFormFieldProps<
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = ComponentProps<typeof Field> & {
@@ -17,14 +29,10 @@ type SelectFormFieldProps<
     fieldState: ControllerFieldState
     field: ControllerRenderProps<TFieldValues, TName>
     descriptionAsTooltip?: boolean
-    options: Array<{
-        label: string
-        value: string
-    }>
-    position?: "popper" | "item-aligned"
+    mode?: React.ComponentProps<typeof DatePicker>["mode"]
 }
 
-export function SelectFormField<
+export function DateFormField<
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
@@ -34,10 +42,9 @@ export function SelectFormField<
     fieldState,
     field,
     descriptionAsTooltip = false,
-    options,
-    position = "popper",
+    mode = "single",
     ...props
-}: SelectFormFieldProps<TFieldValues, TName>) {
+}: PropsWithChildren<DateFormFieldProps<TFieldValues, TName>>) {
     return (
         <Field data-invalid={fieldState.invalid} {...props}>
             <FieldLabel>
@@ -46,34 +53,31 @@ export function SelectFormField<
                     <TooltipTrigger asChild hidden={!description || !descriptionAsTooltip}>
                         <HugeiconsIcon icon={InformationCircleIcon} className="h-4 w-4" />
                     </TooltipTrigger>
+                    <TooltipContent align="start" side="right">{description}</TooltipContent>
                 </Tooltip>
             </FieldLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger
+            <DatePicker mode={mode} value={field.value} onValueChange={field.onChange} required={false}>
+                <DatePickerTrigger
                     aria-invalid={fieldState.invalid || undefined}
                     className={cn(
-                        "w-full",
-                        fieldState.invalid &&
-                            "border-destructive ring-3 ring-destructive/20 dark:ring-destructive/40",
+                        "h-fit bg-input/50!",
+                        fieldState.invalid
+                            ? "border-destructive ring-3 ring-destructive/20 dark:ring-destructive/40"
+                            : "border-none!",
                     )}
                 >
-                    <SelectValue placeholder={placeholder || `${label}...`} />
-                </SelectTrigger>
-                <SelectContent className="max-h-60" position={position}>
-                    <SelectScrollUpButton />
-                    {options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                        </SelectItem>
-                    ))}
-                    <SelectScrollDownButton />
-                </SelectContent>
-            </Select>
+                    <DatePickerValue placeholder={placeholder || `${label}...`} className="text-wrap">
+                    </DatePickerValue>
+
+                </DatePickerTrigger>
+                <DatePickerContent>
+                    <DatePickerCalendar captionLayout="dropdown" />
+                </DatePickerContent>
+            </DatePicker>
             <FieldDescription hidden={!description || descriptionAsTooltip}>
                 {description}
             </FieldDescription>
             <FieldError errors={[fieldState.error]} hidden={!fieldState.invalid} />
-
         </Field>
     )
 }

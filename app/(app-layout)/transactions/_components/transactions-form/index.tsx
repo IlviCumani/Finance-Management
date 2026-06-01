@@ -11,10 +11,8 @@ import { useTranslations } from "next-intl"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMemo } from "react"
-import { InputFormField } from "@/components/form-fields/input-form-field"
+import { InputFormField, SelectFormField, TextareaFormField, DateFormField } from "@/components/form-fields"
 import { Controller } from "react-hook-form"
-import { SelectFormField } from "@/components/form-fields/select-form-field"
-import { TextareaFormField } from "@/components/form-fields/textarea-form-field"
 import { InputGroupAddon, InputGroupText } from "@/components/ui/input-group"
 import { Money03Icon, } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -84,8 +82,14 @@ export function TransactionsForm({
     })
     const [error, setError] = useState<string | undefined>(undefined)
 
-    async function onSubmit(_values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const formData = new FormData()
+        formData.append("name", values.name)
+        formData.append("amount", values.amount.toString())
+        formData.append("accountId", values.accountId)
+        formData.append("description", values.description)
+        formData.append("transactionCategoryId", values.transactionCategoryId)
+        formData.append("transactionDate", values.transactionDate.toISOString())
 
         if (transaction) {
             formData.append("id", transaction.id)
@@ -163,6 +167,13 @@ export function TransactionsForm({
                                 label: category.name,
                                 value: category.id,
                             }))}
+                        />
+                    )} />
+                    <Controller control={form.control} name="transactionDate" render={({ field, fieldState }) => (
+                        <DateFormField
+                            label={t("transactionDate")}
+                            field={field}
+                            fieldState={fieldState}
                         />
                     )} />
                     <Controller control={form.control} name="description" render={({ field, fieldState }) => (
