@@ -1,43 +1,28 @@
+"use client"
+
 import { FormSheetWrapper } from "@/app/(app-layout)/_components/form-sheet-wrapper"
 import { Account } from "@/types/account/account-types"
 import { useForm } from "@/hooks/use-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller } from "react-hook-form"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { FieldGroup } from "@/components/ui/field"
 import { SelectFormField } from "@/components/form-fields/select-form-field"
 import { SwitchFormField } from "@/components/form-fields/switch-form-field"
 import { createAccount, updateAccount } from "../../actions"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 
 const currencies = ["EUR", "ALL", "USD"]
 
-const formSchema = z
-    .object({
-        name: z.string().min(1, "Name is required"),
-        currentBalance: z.string().min(0, "Current balance is required"),
-        currency: z
-            .string()
-            .min(1, "Currency is required")
-            .refine((value) => currencies.includes(value), {
-                path: ["currency"],
-                message:
-                    "Currency must be one of the following: " + currencies.join(", "),
-            }),
-        isArchived: z.boolean(),
-    })
-    .refine((data) => !Number.isNaN(Number(data.currentBalance)), {
-        path: ["currentBalance"],
-        message: "Current balance must be a number",
-    })
-    .refine((data) => Number(data.currentBalance) >= 0, {
-        path: ["currentBalance"],
-        message: "Current balance can't be lower than 0",
-    })
-
-type FormValues = z.infer<typeof formSchema>
+type FormValues = {
+    name: string
+    currentBalance: string
+    currency: string
+    isArchived: boolean
+}
 
 type AccountsFormProps = {
     open: boolean
@@ -50,6 +35,37 @@ export function AccountsForm({
     onOpenChange,
     account,
 }: AccountsFormProps) {
+    const t = useTranslations("accounts.form")
+    const tValidation = useTranslations("accounts.validation")
+
+    const formSchema = useMemo(
+        () =>
+            z
+                .object({
+                    name: z.string().min(1, tValidation("nameRequired")),
+                    currentBalance: z.string().min(0, tValidation("currentBalanceRequired")),
+                    currency: z
+                        .string()
+                        .min(1, tValidation("currencyRequired"))
+                        .refine((value) => currencies.includes(value), {
+                            path: ["currency"],
+                            message: tValidation("currencyInvalid", {
+                                currencies: currencies.join(", "),
+                            }),
+                        }),
+                    isArchived: z.boolean(),
+                })
+                .refine((data) => !Number.isNaN(Number(data.currentBalance)), {
+                    path: ["currentBalance"],
+                    message: tValidation("currentBalanceNumber"),
+                })
+                .refine((data) => Number(data.currentBalance) >= 0, {
+                    path: ["currentBalance"],
+                    message: tValidation("currentBalanceMin"),
+                }),
+        [tValidation]
+    )
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -77,7 +93,7 @@ export function AccountsForm({
             } else {
                 onOpenChange(false)
                 setError(undefined)
-                toast.success("Account updated successfully", {
+                toast.success(t("updatedSuccess"), {
                     position: "top-right"
                 })
             }
@@ -86,7 +102,7 @@ export function AccountsForm({
             if (error) {
                 setError(error)
             } else {
-                toast.success("Account created successfully", {
+                toast.success(t("createdSuccess"), {
                     position: "top-right"
                 })
                 onOpenChange(false)
@@ -109,7 +125,7 @@ export function AccountsForm({
 
     return (
         <FormSheetWrapper
-            title="Add Account"
+            title={account ? t("editTitle") : t("addTitle")}
             formId="accounts-form"
             open={open}
             onOpenChange={onOpenChange}
@@ -122,7 +138,7 @@ export function AccountsForm({
                         name="name"
                         render={({ field, fieldState }) => (
                             <InputFormField
-                                label="Name"
+                                label={t("name")}
                                 field={field}
                                 fieldState={fieldState}
                             />
@@ -133,7 +149,7 @@ export function AccountsForm({
                         name="currentBalance"
                         render={({ field, fieldState }) => (
                             <InputFormField
-                                label="Current Balance"
+                                label={t("currentBalance")}
                                 field={field}
                                 hidden={account !== undefined}
                                 fieldState={fieldState}
@@ -145,7 +161,7 @@ export function AccountsForm({
                         name="currency"
                         render={({ field, fieldState }) => (
                             <SelectFormField
-                                label="Currency"
+                                label={t("currency")}
                                 field={field}
                                 fieldState={fieldState}
                                 options={currencies.map((currency) => ({
@@ -160,10 +176,10 @@ export function AccountsForm({
                         name="isArchived"
                         render={({ field, fieldState }) => (
                             <SwitchFormField
-                                label="Archived"
+                                label={t("archived")}
                                 field={field}
                                 fieldState={fieldState}
-                                description="Archive the account if you are not using it anymore but you want to keep it in the database."
+                                description={t("archivedDescription")}
                                 hidden={account === undefined}
                             />
                         )}

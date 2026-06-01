@@ -1,12 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table"
-import { Account } from "@/types/account/account-types"
-import { Switch } from "@/components/ui/switch"
+import { TransactionCategory, TransactionCategoryType } from "@/types/transaction-category/transaction-category-types"
 import { formatDateForUI } from "@/lib/format/date-format"
 import { TableActions } from "@/components/table/table-actions"
-import { deleteAccount, updateAccount } from "../../actions"
+import { deleteTransactionCategory } from "../../actions"
 import { toast } from "sonner"
+import { ColorBadge } from "@/components/ui/color-badge"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Wallet01Icon, MoneyExchange01Icon, HandCoinsIcon } from "@hugeicons/core-free-icons"
 
-type AccountsTranslator = (
+type TransactionCategoriesTranslator = (
     key: string,
     values?: Record<string, string | number | Date>
 ) => string
@@ -14,12 +16,10 @@ type AccountsTranslator = (
 export function getColumns({
     onEdit,
     t,
-    tForm,
 }: {
-    onEdit: (account: Account) => void
-    t: AccountsTranslator
-    tForm: AccountsTranslator
-}): ColumnDef<Account>[] {
+    onEdit: (category: TransactionCategory) => void
+    t: TransactionCategoriesTranslator
+}): ColumnDef<TransactionCategory>[] {
     return [
         {
             header: t("name"),
@@ -35,56 +35,21 @@ export function getColumns({
             },
         },
         {
-            header: t("currentBalance"),
-            accessorKey: "currentBalance",
+            header: t("type"),
+            accessorKey: "type",
             cell: ({ getValue }) => {
-                const balance = getValue() as number
+                const type = getValue() as TransactionCategoryType
 
-                if (!balance && balance !== 0) {
+                if (!type) {
                     return <span className="text-muted-foreground">--</span>
                 }
 
-                return <div>{balance}</div>
-            },
-        },
-        {
-            header: t("currency"),
-            accessorKey: "currency",
-            cell: ({ getValue }) => {
-                const currency = getValue() as string
+                const color = type === "income" ? "green" : type === "expense" ? "red" : "blue"
 
-                if (!currency) {
-                    return <span className="text-muted-foreground">--</span>
-                }
-
-                return <div>{currency}</div>
-            },
-        },
-        {
-            header: t("isArchived"),
-            accessorKey: "isArchived",
-            cell: ({ getValue, row }) => {
-                const isArchived = getValue() as boolean
-
-                async function handleCheckedChange(checked: boolean) {
-                    const formData = new FormData()
-                    formData.append("id", row.original.id)
-                    formData.append("isArchived", checked.toString())
-                    formData.append("name", row.original.name)
-                    formData.append("currency", row.original.currency)
-                    const { error } = await updateAccount(formData)
-                    if (error) {
-                        toast.error(error || t("updateError"), {
-                            position: "top-right"
-                        })
-                    } else {
-                        toast.success(tForm("updatedSuccess"), {
-                            position: "top-right"
-                        })
-                    }
-                }
-
-                return <Switch checked={isArchived} onCheckedChange={handleCheckedChange} />
+                return <ColorBadge color={color}>
+                    <HugeiconsIcon icon={type === "income" ? Wallet01Icon : type === "expense" ? HandCoinsIcon : MoneyExchange01Icon} className="size-8" />
+                    {t(type)}
+                </ColorBadge>
             },
         },
         {
@@ -117,9 +82,8 @@ export function getColumns({
             header: "",
             accessorKey: "actions",
             cell: ({ row }) => {
-
                 async function handleDelete() {
-                    const { error } = await deleteAccount(row.original.id)
+                    const { error } = await deleteTransactionCategory(row.original.id)
                     if (error) {
                         toast.error(error || t("deleteError"), {
                             position: "top-right"
@@ -129,8 +93,8 @@ export function getColumns({
                             position: "top-right"
                         })
                     }
-
                 }
+
                 return (
                     <TableActions
                         onEdit={() => onEdit(row.original)}
