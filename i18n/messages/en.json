@@ -174,6 +174,33 @@
       "deleteError": "Failed to delete account"
     }
   },
+  "transactions": {
+    "page": {
+      "title": "Transactions",
+      "description": "Track and manage all your financial transactions.",
+      "addTransaction": "Add Transaction",
+      "fetchError": "Failed to fetch transactions"
+    },
+    "form": {
+      "addTitle": "Add Transaction",
+      "editTitle": "Edit Transaction",
+      "createdSuccess": "Transaction created successfully",
+      "updatedSuccess": "Transaction updated successfully"
+    },
+    "table": {
+      "id": "ID",
+      "deleteDescription": "This action cannot be undone. This will permanently delete your transaction and remove your data from our servers.",
+      "deleteSuccess": "Transaction deleted successfully",
+      "deleteError": "Failed to delete transaction"
+    },
+    "validation": {},
+    "actions": {
+      "fetchError": "Failed to fetch transactions",
+      "createError": "Failed to create transaction",
+      "updateError": "Failed to update transaction",
+      "deleteError": "Failed to delete transaction"
+    }
+  },
   "settings": {
     "transactionCategories": {
       "page": {

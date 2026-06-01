@@ -173,6 +173,33 @@
       "deleteError": "Dështoi fshirja e llogarisë"
     }
   },
+  "transactions": {
+    "page": {
+      "title": "Transaksionet",
+      "description": "Ndiqni dhe menaxhoni të gjitha transaksionet tuaja financiare.",
+      "addTransaction": "Shto transaksion",
+      "fetchError": "Dështoi ngarkimi i transaksioneve"
+    },
+    "form": {
+      "addTitle": "Shto transaksion",
+      "editTitle": "Ndrysho transaksionin",
+      "createdSuccess": "Transaksioni u krijua me sukses",
+      "updatedSuccess": "Transaksioni u përditësua me sukses"
+    },
+    "table": {
+      "id": "ID",
+      "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë transaksionin tuaj dhe do të heqë të dhënat nga serverët tanë.",
+      "deleteSuccess": "Transaksioni u fshi me sukses",
+      "deleteError": "Dështoi fshirja e transaksionit"
+    },
+    "validation": {},
+    "actions": {
+      "fetchError": "Dështoi ngarkimi i transaksioneve",
+      "createError": "Dështoi krijimi i transaksionit",
+      "updateError": "Dështoi përditësimi i transaksionit",
+      "deleteError": "Dështoi fshirja e transaksionit"
+    }
+  },
   "settings": {
     "transactionCategories": {
       "page": {
