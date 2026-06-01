@@ -12,6 +12,7 @@ import {
   LaptopVideoIcon,
   Settings05Icon,
   SecurityLockIcon,
+  ListXIcon,
 } from "@hugeicons/core-free-icons"
 
 export type NavItem = {
@@ -67,6 +68,11 @@ export function getNavItems(): NavItem[] {
           titleKey: "nav.profile",
           url: "/settings/profile",
           icon: User03Icon,
+        },
+        {
+          titleKey: "nav.transactionCategories",
+          url: "/settings/transaction-categories",
+          icon: ListXIcon,
         },
         {
           titleKey: "nav.preferences",

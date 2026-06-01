@@ -96,7 +96,8 @@
     "profile": "Profili",
     "preferences": "Parapëlqimet",
     "security": "Siguria",
-    "notifications": "Njoftimet"
+    "notifications": "Njoftimet",
+    "transactionCategories": "Kategoritë e Transaksioneve"
   },
   "language": {
     "en": "Anglisht",
@@ -170,6 +171,45 @@
       "createError": "Dështoi krijimi i llogarisë",
       "updateError": "Dështoi përditësimi i llogarisë",
       "deleteError": "Dështoi fshirja e llogarisë"
+    }
+  },
+  "settings": {
+    "transactionCategories": {
+      "page": {
+        "title": "Kategoritë e Transaksioneve",
+        "description": "Organizoni transaksionet tuaja me kategori të personalizuara.",
+        "addTransactionCategory": "Shto kategori",
+        "fetchError": "Dështoi ngarkimi i kategorive të transaksioneve"
+      },
+      "form": {
+        "addTitle": "Shto kategori",
+        "editTitle": "Ndrysho kategorinë",
+        "description": "Krijoni ose përditësoni një kategori për transaksionet tuaja.",
+        "name": "Emri",
+        "type": "Lloji",
+        "createdSuccess": "Kategoria u krijua me sukses",
+        "updatedSuccess": "Kategoria u përditësua me sukses"
+      },
+      "table": {
+        "name": "Emri",
+        "type": "Lloji",
+        "income": "Të ardhura",
+        "expense": "Shpenzime",
+        "transfer": "Transfer",
+        "createdAt": "Krijuar më",
+        "lastUpdated": "Përditësuar së fundmi",
+        "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë dhe do ta heqë nga transaksionet tuaja.",
+        "deleteSuccess": "Kategoria u fshi me sukses",
+        "deleteError": "Dështoi fshirja e kategorisë"
+      },
+      "validation": {
+        "nameRequired": "Emri është i detyrueshëm",
+        "typeInvalid": "Lloji duhet të jetë një nga këto: {types}"
+      },
+      "actions": {
+        "fetchError": "Dështoi ngarkimi i kategorive të transaksioneve",
+        "deleteError": "Dështoi fshirja e kategorisë së transaksionit"
+      }
     }
   }
 }

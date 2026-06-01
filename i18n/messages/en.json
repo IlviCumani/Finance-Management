@@ -100,7 +100,8 @@
     "profile": "Profile",
     "preferences": "Preferences",
     "security": "Security",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "transactionCategories": "Transaction Categories"
   },
   "language": {
     "en": "English",
@@ -171,6 +172,45 @@
       "createError": "Failed to create account",
       "updateError": "Failed to update account",
       "deleteError": "Failed to delete account"
+    }
+  },
+  "settings": {
+    "transactionCategories": {
+      "page": {
+        "title": "Transaction Categories",
+        "description": "Organize your transactions with custom categories.",
+        "addTransactionCategory": "Add Category",
+        "fetchError": "Failed to fetch transaction categories"
+      },
+      "form": {
+        "addTitle": "Add Category",
+        "editTitle": "Edit Category",
+        "description": "Create or update a category for your transactions.",
+        "name": "Name",
+        "type": "Type",
+        "createdSuccess": "Category created successfully",
+        "updatedSuccess": "Category updated successfully"
+      },
+      "table": {
+        "name": "Name",
+        "type": "Type",
+        "income": "Income",
+        "expense": "Expense",
+        "transfer": "Transfer",
+        "createdAt": "Created At",
+        "lastUpdated": "Last Updated",
+        "deleteDescription": "This action cannot be undone. This will permanently delete the category and remove it from your transactions.",
+        "deleteSuccess": "Category deleted successfully",
+        "deleteError": "Failed to delete category"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "typeInvalid": "Type must be one of the following: {types}"
+      },
+      "actions": {
+        "fetchError": "Failed to fetch transaction categories",
+        "deleteError": "Failed to delete transaction category"
+      }
     }
   }
 }
