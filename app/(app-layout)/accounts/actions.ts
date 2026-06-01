@@ -2,23 +2,24 @@
 
 import { createActionClient } from "@/lib/supabase/actions"
 import { requireUser } from "@/lib/require-user"
-import { Account_Response } from "@/types/account/account-types"
+import { Account, Account_Response } from "@/types/account/account-types"
 import { revalidatePath } from "next/cache"
 import { getTranslations } from "next-intl/server"
 
 const PATH = "/accounts"
 
 export async function getAccounts(): Promise<{
-  data?: Array<Account_Response>
+  data?: Array<Account> | null
   error?: string
 }> {
   const supabase = await createActionClient()
   const user = await requireUser()
 
-  const { data, error } = await supabase
-    .from("accounts")
-    .select("*")
-    .eq("user_id", user.id)
+  const {
+    data,
+    error,
+  }: { data: Array<Account_Response> | null; error: Error | null } =
+    await supabase.from("accounts").select("*").eq("user_id", user.id)
 
   if (error) {
     const t = await getTranslations("accounts.actions")
@@ -27,8 +28,20 @@ export async function getAccounts(): Promise<{
     }
   }
 
+  const mappedData: Array<Account> =
+    data?.map((account) => ({
+      id: account.id,
+      userId: account.user_id,
+      name: account.name,
+      currentBalance: account.current_balance,
+      currency: account.currency,
+      isArchived: account.is_archived,
+      createdAt: account.created_at,
+      updatedAt: account.updated_at,
+    })) ?? []
+
   return {
-    data,
+    data: mappedData,
   }
 }
 

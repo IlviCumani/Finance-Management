@@ -7,8 +7,15 @@ import { PlusSignCircleIcon } from "@hugeicons/core-free-icons"
 import { TransactionsForm } from "../transactions-form"
 import { useState } from "react"
 import { useTranslations } from "next-intl"
+import { Account } from "@/types/account/account-types"
+import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
 
-export function TransactionsHeader() {
+type TransactionsHeaderProps = {
+    accounts: Array<Account>
+    transactionCategories: Array<TransactionCategory>
+}
+
+export function TransactionsHeader({ accounts, transactionCategories }: TransactionsHeaderProps) {
     const t = useTranslations("transactions.page")
     const [open, setOpen] = useState(false)
 
@@ -20,7 +27,7 @@ export function TransactionsHeader() {
                     {t("addTransaction")}
                 </Button>
             </div>
-            <TransactionsForm open={open} onOpenChange={setOpen} />
+            <TransactionsForm open={open} onOpenChange={setOpen} accounts={accounts} transactionCategories={transactionCategories} />
         </PageHeader>
     )
 }

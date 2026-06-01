@@ -4,6 +4,7 @@ import { createActionClient } from "@/lib/supabase/actions"
 import { requireUser } from "@/lib/require-user"
 import {
   TransactionCategory_Response,
+  TransactionCategory,
   TransactionCategoryType,
 } from "@/types/transaction-category/transaction-category-types"
 import { revalidatePath } from "next/cache"
@@ -12,16 +13,20 @@ import { getTranslations } from "next-intl/server"
 const PATH = "/settings/transaction-categories"
 
 export async function getTransactionCategories(): Promise<{
-  data?: Array<TransactionCategory_Response>
+  data?: Array<TransactionCategory> | null
   error?: string
 }> {
   const supabase = await createActionClient()
   const user = await requireUser()
 
-  const { data, error } = await supabase
-    .from("transaction_categories")
-    .select("*")
-    .eq("user_id", user.id)
+  const {
+    data,
+    error,
+  }: { data: Array<TransactionCategory_Response> | null; error: Error | null } =
+    await supabase
+      .from("transaction_categories")
+      .select("*")
+      .eq("user_id", user.id)
 
   if (error) {
     const t = await getTranslations("settings.transactionCategories.actions")
@@ -30,8 +35,18 @@ export async function getTransactionCategories(): Promise<{
     }
   }
 
+  const mappedData: Array<TransactionCategory> =
+    data?.map((category) => ({
+      id: category.id,
+      userId: category.user_id,
+      name: category.name,
+      type: category.type,
+      createdAt: category.created_at,
+      updatedAt: category.updated_at,
+    })) ?? []
+
   return {
-    data,
+    data: mappedData,
   }
 }
 

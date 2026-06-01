@@ -184,16 +184,41 @@
     "form": {
       "addTitle": "Add Transaction",
       "editTitle": "Edit Transaction",
+      "name": "Name",
+      "amount": "Amount",
+      "account": "Account",
+      "transactionCategory": "Category",
+      "transactionDate": "Transaction Date",
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer",
       "createdSuccess": "Transaction created successfully",
+      "description": "Description",
       "updatedSuccess": "Transaction updated successfully"
     },
     "table": {
-      "id": "ID",
+      "name": "Name",
+      "amount": "Amount",
+      "transactionDate": "Transaction Date",
+      "transactionType": "Type",
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer",
+      "account": "Account",
+      "transactionCategory": "Category",
+      "description": "Description",
       "deleteDescription": "This action cannot be undone. This will permanently delete your transaction and remove your data from our servers.",
       "deleteSuccess": "Transaction deleted successfully",
       "deleteError": "Failed to delete transaction"
     },
-    "validation": {},
+    "validation": {
+      "nameRequired": "Name is required",
+      "amountRequired": "Amount is required",
+      "accountRequired": "Account is required",
+      "transactionCategoryRequired": "Transaction category is required",
+      "transactionDateRequired": "Transaction date is required",
+      "transactionDateFuture": "Transaction date cannot be in the future"
+    },
     "actions": {
       "fetchError": "Failed to fetch transactions",
       "createError": "Failed to create transaction",

@@ -18,16 +18,7 @@ export default async function AccountsPage() {
         <div>
             <AccountsHeader />
             <div className="p-4">
-                <AccountTable accounts={data?.map((account) => ({
-                    id: account.id,
-                    userId: account.user_id,
-                    name: account.name,
-                    currentBalance: account.current_balance,
-                    currency: account.currency,
-                    isArchived: account.is_archived,
-                    createdAt: account.created_at,
-                    updatedAt: account.updated_at,
-                })) ?? []} />
+                <AccountTable accounts={data ?? []} />
             </div>
         </div>
     )

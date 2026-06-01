@@ -17,14 +17,7 @@ export default async function TransactionCategoriesPage() {
             <TransactionCategoriesHeader />
             <div className="p-4">
                 <TransactionCategoryTable
-                    categories={data?.map((category) => ({
-                        id: category.id,
-                        userId: category.user_id,
-                        name: category.name,
-                        type: category.type,
-                        createdAt: category.created_at,
-                        updatedAt: category.updated_at,
-                    })) ?? []}
+                    categories={data ?? []}
                 />
             </div>
         </div>
