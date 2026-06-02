@@ -174,6 +174,63 @@
       "deleteError": "Failed to delete account"
     }
   },
+  "transactions": {
+    "page": {
+      "title": "Transactions",
+      "description": "Track and manage all your financial transactions.",
+      "addTransaction": "Add Transaction",
+      "fetchError": "Failed to fetch transactions"
+    },
+    "form": {
+      "addTitle": "Add Transaction",
+      "editTitle": "Edit Transaction",
+      "name": "Name",
+      "amount": "Amount",
+      "account": "Transaction Account",
+      "fromAccount": "From Account",
+      "toAccount": "To Account",
+      "transactionCategory": "Transaction Category",
+      "transactionDate": "Transaction Date",
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer",
+      "createdSuccess": "Transaction created successfully",
+      "description": "Description",
+      "updatedSuccess": "Transaction updated successfully"
+    },
+    "table": {
+      "name": "Name",
+      "amount": "Amount",
+      "transactionDate": "Transaction Date",
+      "transactionType": "Type",
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer",
+      "account": "Account",
+      "transactionCategory": "Category",
+      "description": "Description",
+      "deleteDescription": "This action cannot be undone. This will permanently delete your transaction and remove your data from our servers.",
+      "deleteSuccess": "Transaction deleted successfully",
+      "deleteError": "Failed to delete transaction"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "amountRequired": "Amount is required",
+      "amountWholeNumber": "Amount must be a whole number",
+      "amountMin": "Amount must be greater than 0",
+      "accountRequired": "Account is required",
+      "toAccountRequired": "To account is required",
+      "transactionCategoryRequired": "Transaction category is required",
+      "transactionDateRequired": "Transaction date is required",
+      "transactionDateFuture": "Transaction date cannot be in the future"
+    },
+    "actions": {
+      "fetchError": "Failed to fetch transactions",
+      "createError": "Failed to create transaction",
+      "updateError": "Failed to update transaction",
+      "deleteError": "Failed to delete transaction"
+    }
+  },
   "settings": {
     "transactionCategories": {
       "page": {

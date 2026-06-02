@@ -3,7 +3,6 @@ import {
   HomeIcon,
   PiggyBankIcon,
   Wallet01Icon,
-  NoteIcon,
   ChartAnalysisIcon,
   LandmarkIcon,
   Settings02Icon,
@@ -12,6 +11,7 @@ import {
   LaptopVideoIcon,
   Settings05Icon,
   SecurityLockIcon,
+  Invoice04Icon,
   ListXIcon,
 } from "@hugeicons/core-free-icons"
 
@@ -32,7 +32,7 @@ export function getNavItems(): NavItem[] {
     {
       titleKey: "nav.transactions",
       url: "/transactions",
-      icon: NoteIcon,
+      icon: Invoice04Icon,
     },
     {
       titleKey: "nav.accounts",

@@ -173,6 +173,62 @@
       "deleteError": "Dështoi fshirja e llogarisë"
     }
   },
+  "transactions": {
+    "page": {
+      "title": "Transaksionet",
+      "description": "Ndiqni dhe menaxhoni të gjitha transaksionet tuaja financiare.",
+      "addTransaction": "Shto transaksion",
+      "fetchError": "Dështoi ngarkimi i transaksioneve"
+    },
+    "form": {
+      "addTitle": "Shto transaksion",
+      "editTitle": "Ndrysho transaksionin",
+      "name": "Emri",
+      "amount": "Shuma",
+      "account": "Llogaria e transaksionit",
+      "fromAccount": "Nga llogaria",
+      "toAccount": "Në llogarinë",
+      "transactionCategory": "Kategoria e transaksionit",
+      "transactionDate": "Data e transaksionit",
+      "income": "Të ardhura",
+      "expense": "Shpenzime",
+      "transfer": "Transfer",
+      "createdSuccess": "Transaksioni u krijua me sukses",
+      "description": "Përshkrimi",
+      "updatedSuccess": "Transaksioni u përditësua me sukses"
+    },
+    "table": {
+      "name": "Emri",
+      "amount": "Shuma",
+      "transactionDate": "Data e transaksionit",
+      "transactionType": "Lloji",
+      "income": "Të ardhura",
+      "expense": "Shpenzime",
+      "transfer": "Transfer",
+      "account": "Llogaria",
+      "transactionCategory": "Kategoria",
+      "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë transaksionin tuaj dhe do të heqë të dhënat nga serverët tanë.",
+      "deleteSuccess": "Transaksioni u fshi me sukses",
+      "deleteError": "Dështoi fshirja e transaksionit"
+    },
+    "validation": {
+      "nameRequired": "Emri është i detyrueshëm",
+      "amountRequired": "Shuma është e detyrueshme",
+      "amountWholeNumber": "Shuma duhet të jetë numër i plotë",
+      "amountMin": "Shuma duhet të jetë më e madhe se 0",
+      "accountRequired": "Llogaria është e detyrueshme",
+      "toAccountRequired": "Llogaria e destinacionit është e detyrueshme",
+      "transactionCategoryRequired": "Kategoria e transaksionit është e detyrueshme",
+      "transactionDateRequired": "Data e transaksionit është e detyrueshme",
+      "transactionDateFuture": "Data e transaksionit nuk mund të jetë në të ardhmen"
+    },
+    "actions": {
+      "fetchError": "Dështoi ngarkimi i transaksioneve",
+      "createError": "Dështoi krijimi i transaksionit",
+      "updateError": "Dështoi përditësimi i transaksionit",
+      "deleteError": "Dështoi fshirja e transaksionit"
+    }
+  },
   "settings": {
     "transactionCategories": {
       "page": {

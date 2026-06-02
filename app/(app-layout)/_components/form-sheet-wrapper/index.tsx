@@ -29,7 +29,7 @@ export function FormSheetWrapper({ children, open, onOpenChange, title, descript
                 <div className="p-4">
                     {children}
                 </div>
-                <SheetFooter>
+                <SheetFooter className="bg-secondary">
                     <p className="text-destructive text-center" hidden={!error}>{error}</p>
                     <Button type="submit" form={formId}>
                         {t("save")}
