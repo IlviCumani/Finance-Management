@@ -10,6 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRightIcon, HandCoinsIcon, MoneyExchange01Icon, Wallet01Icon } from "@hugeicons/core-free-icons"
 import { Account } from "@/types/account/account-types"
 import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 type TransactionsTranslator = (
     key: string,
@@ -29,6 +30,32 @@ export function getColumns({
                 const name = getValue() as string
 
                 return <div>{name}</div>
+            },
+        },
+        {
+            header: t("description"),
+            accessorKey: "description",
+            cell: ({ getValue }) => {
+                const description = getValue() as string
+
+                if (!description) {
+                    return <span className="text-muted-foreground">--</span>
+                }
+
+                return <Tooltip>
+                    <TooltipTrigger asChild>
+                        <div className="text-sm text-muted-foreground text-ellipsis overflow-hidden">{description}</div>
+                    </TooltipTrigger>
+                    <TooltipContent
+                        align="start"
+                        className="block max-w-xs whitespace-normal wrap-break-word text-left leading-relaxed"
+                    >
+                        {description}
+                    </TooltipContent>
+                </Tooltip>
+            },
+            meta: {
+                cellClassName: "max-w-40",
             },
         },
         {
@@ -96,6 +123,7 @@ export function getColumns({
                 return <div>{transactionCategory?.name}</div>
             },
         },
+
         {
             header: "",
             accessorKey: "actions",
