@@ -1,0 +1,15 @@
+{
+  "dashboard": "Dashboard",
+  "transactions": "Transactions",
+  "accounts": "Accounts",
+  "budgets": "Budgets",
+  "savings": "Savings",
+  "subscriptions": "Subscriptions",
+  "analytics": "Analytics",
+  "settings": "Settings",
+  "profile": "Profile",
+  "preferences": "Preferences",
+  "security": "Security",
+  "notifications": "Notifications",
+  "transactionCategories": "Transaction Categories"
+}

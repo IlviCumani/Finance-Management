@@ -1,0 +1,19 @@
+{
+  "title": "Regjistrohu",
+  "description": "Regjistrohu te konti juaj",
+  "fullName": "Emri i plotë",
+  "fullNamePlaceholder": "Jepni emrin tuaj të plotë",
+  "fullNameDescription": "Jepni emrin tuaj të plotë",
+  "confirmPassword": "Konfirmo fjalëkalimin",
+  "confirmPasswordPlaceholder": "Konfirmo fjalëkalimin tuaj",
+  "confirmPasswordDescription": "Konfirmo fjalëkalimin tuaj",
+  "email": "Email",
+  "emailPlaceholder": "Jepni emailin tuaj",
+  "emailDescription": "Jepni emailin tuaj",
+  "password": "Fjalëkalimi",
+  "passwordPlaceholder": "Jepni fjalëkalimin tuaj",
+  "passwordDescription": "Jepni fjalëkalimin tuaj",
+  "submit": "Regjistrohu",
+  "hasAccount": "Keni tashmë një llogari?",
+  "signIn": "Hyni"
+}

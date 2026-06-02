@@ -1,0 +1,6 @@
+{
+  "title": "Accounts",
+  "description": "Manage all money sources in one place.",
+  "addAccount": "Add Account",
+  "fetchError": "Failed to fetch accounts"
+}

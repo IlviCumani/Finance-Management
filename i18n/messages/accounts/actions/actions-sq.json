@@ -1,0 +1,6 @@
+{
+  "fetchError": "Dështoi ngarkimi i llogarive",
+  "createError": "Dështoi krijimi i llogarisë",
+  "updateError": "Dështoi përditësimi i llogarisë",
+  "deleteError": "Dështoi fshirja e llogarisë"
+}

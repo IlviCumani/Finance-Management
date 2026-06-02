@@ -1,0 +1,13 @@
+{
+  "title": "Hyni",
+  "description": "Hyni te konti juaj",
+  "email": "Email",
+  "emailPlaceholder": "Jepni emailin tuaj",
+  "emailDescription": "Jepni emailin tuaj",
+  "password": "Fjalëkalimi",
+  "passwordPlaceholder": "Jepni fjalëkalimin tuaj",
+  "passwordDescription": "Jepni fjalëkalimin tuaj",
+  "submit": "Hyni",
+  "noAccount": "Nuk keni një llogari?",
+  "createOne": "Krijo një llogari"
+}

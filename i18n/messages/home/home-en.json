@@ -1,0 +1,7 @@
+{
+  "title": "Project ready!",
+  "description1": "You may now add components and start building.",
+  "description2": "We've already added the button component for you.",
+  "button": "Button",
+  "darkModeHint": "Press {key} to toggle dark mode"
+}

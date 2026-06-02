@@ -1,0 +1,15 @@
+{
+  "title": "Aplikacioni",
+  "dashboard": "Paneli",
+  "logout": "Dil",
+  "userMenu": {
+    "settings": "Cilësimet",
+    "logout": "Dil"
+  },
+  "settings": {
+    "profile": "Profili",
+    "preferences": "Parapëlqimet",
+    "security": "Siguria",
+    "notifications": "Njoftimet"
+  }
+}

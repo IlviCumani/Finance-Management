@@ -1,0 +1,6 @@
+{
+  "fetchError": "Failed to fetch accounts",
+  "createError": "Failed to create account",
+  "updateError": "Failed to update account",
+  "deleteError": "Failed to delete account"
+}

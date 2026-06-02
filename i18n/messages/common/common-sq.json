@@ -1,0 +1,18 @@
+{
+  "columns": "Kolona",
+  "search": "Kërko",
+  "reset": "Rivendos",
+  "rowsPerPage": "Rreshta per faqe",
+  "noResults": "Asnjë rezultat",
+  "goToPreviousPage": "Kalo te faqja e mëparshme",
+  "goToNextPage": "Kalo te faqja e ardhshme",
+  "of": "nga",
+  "toggleSidebar": "Hap ose mbyll panelin anësor",
+  "save": "Ruaje",
+  "actions": "Veprimet",
+  "details": "Detajet",
+  "edit": "Ndrysho",
+  "delete": "Fshi",
+  "deleteConfirmTitle": "A jeni plotësisht i sigurt?",
+  "deleteConfirmDefaultDescription": "Ky veprim nuk mund të zhbëhet."
+}

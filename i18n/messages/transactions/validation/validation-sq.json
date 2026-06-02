@@ -1,0 +1,11 @@
+{
+  "nameRequired": "Emri është i detyrueshëm",
+  "amountRequired": "Shuma është e detyrueshme",
+  "amountWholeNumber": "Shuma duhet të jetë numër i plotë",
+  "amountMin": "Shuma duhet të jetë më e madhe se 0",
+  "accountRequired": "Llogaria është e detyrueshme",
+  "toAccountRequired": "Llogaria e destinacionit është e detyrueshme",
+  "transactionCategoryRequired": "Kategoria e transaksionit është e detyrueshme",
+  "transactionDateRequired": "Data e transaksionit është e detyrueshme",
+  "transactionDateFuture": "Data e transaksionit nuk mund të jetë në të ardhmen"
+}

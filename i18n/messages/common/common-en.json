@@ -1,0 +1,18 @@
+{
+  "columns": "Columns",
+  "search": "Search",
+  "reset": "Reset",
+  "rowsPerPage": "Rows per page",
+  "noResults": "No results",
+  "goToPreviousPage": "Go to previous page",
+  "goToNextPage": "Go to next page",
+  "of": "of",
+  "toggleSidebar": "Toggle sidebar",
+  "save": "Save",
+  "actions": "Actions",
+  "details": "Details",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteConfirmTitle": "Are you absolutely sure?",
+  "deleteConfirmDefaultDescription": "This action cannot be undone."
+}

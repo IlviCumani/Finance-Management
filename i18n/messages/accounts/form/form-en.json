@@ -1,0 +1,11 @@
+{
+  "addTitle": "Add Account",
+  "editTitle": "Edit Account",
+  "name": "Name",
+  "currentBalance": "Current Balance",
+  "currency": "Currency",
+  "archived": "Archived",
+  "archivedDescription": "Archive the account if you are not using it anymore but you want to keep it in the database.",
+  "createdSuccess": "Account created successfully",
+  "updatedSuccess": "Account updated successfully"
+}
