@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table"
 import { TableProps } from "./types"
 import {
+    Column,
     flexRender,
 } from "@tanstack/react-table"
 import { cn } from "@/lib/utils"
@@ -18,9 +19,26 @@ import { FilterColumnsDropdown } from "./filter-column-dropdown"
 import { TableSearch } from "./table-search"
 import { useTable } from "./use-table"
 import { useTranslations } from "next-intl"
+import { CSSProperties } from "react"
 
 export function Table<T>({ table, id, density = "standard" }: TableProps<T>) {
     const t = useTranslations("common")
+
+
+
+    function getPinnedColStyle(column: Column<T>, isHeader: boolean): CSSProperties {
+        const isPinned = column.getIsPinned()
+
+        return {
+            left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
+            right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
+            opacity: 1,
+            position: isPinned ? "sticky" : "relative",
+            width: column.getSize(),
+            zIndex: isPinned ? 1 : 0,
+            backgroundColor: isPinned && !isHeader ? "var(--background)" : "transparent",
+        }
+    }
 
     return <div className="overflow-hidden rounded-lg border">
         <TableUI id={id} className={cn({
@@ -33,7 +51,7 @@ export function Table<T>({ table, id, density = "standard" }: TableProps<T>) {
                     <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => {
                             return (
-                                <TableHead key={header.id} className=" my-2">
+                                <TableHead key={header.id} className=" my-2" style={getPinnedColStyle(header.column, true)} >
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
@@ -57,6 +75,7 @@ export function Table<T>({ table, id, density = "standard" }: TableProps<T>) {
                                 <TableCell
                                     key={cell.id}
                                     className={cell.column.columnDef.meta?.cellClassName}
+                                    style={getPinnedColStyle(cell.column, false)}
                                 >
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </TableCell>
