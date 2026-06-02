@@ -39,9 +39,19 @@ export async function getTransactions(): Promise<{
   }
 
   const allAccountIds = data?.map((transaction) => transaction.account_id)
+  const allTransferredToAccountIds = data
+    ?.map((transaction) => transaction.transferred_to_account_id)
+    .filter((id) => id !== null)
+
+  const allUniqueAccountIds = [
+    ...new Set([
+      ...(allAccountIds ?? []),
+      ...(allTransferredToAccountIds ?? []),
+    ]),
+  ]
 
   const { data: accounts, error: accountsError } = await getAccountsByIds(
-    allAccountIds ?? []
+    allUniqueAccountIds as string[]
   )
 
   if (accountsError) {
@@ -70,6 +80,10 @@ export async function getTransactions(): Promise<{
       account:
         accounts?.find((account) => account.id === transaction.account_id) ??
         null,
+      transferredToAccount:
+        accounts?.find(
+          (account) => account.id === transaction.transferred_to_account_id
+        ) ?? null,
       transactionCategory:
         transactionCategories?.find(
           (category) => category.id === transaction.transaction_category_id
@@ -90,20 +104,43 @@ export async function getTransactions(): Promise<{
 
 //** CREATE A TRANSACTION
 
+function getFormValues(formData: FormData) {
+  const name = formData.get("name") as string
+  const amount = formData.get("amount") as string
+  const accountId = formData.get("accountId") as string
+  const description = formData.get("description") as string
+  const transactionCategoryId = formData.get("transactionCategoryId") as string
+  const transactionDate = formData.get("transactionDate") as string
+  const transactionType = formData.get(
+    "transactionType"
+  ) as TransactionCategoryType
+  const toAccountId = formData.get("toAccountId") as string | null
+  return {
+    name,
+    amount,
+    accountId,
+    description,
+    transactionCategoryId,
+    toAccountId,
+    transactionDate,
+    transactionType,
+  }
+}
+
 async function createNonTransferTransaction(
   _formData: FormData
 ): Promise<CreateUpdateDeleteTransactionResponse> {
   const supabase = await createActionClient()
   const user = await requireUser()
-  const name = _formData.get("name") as string
-  const amount = _formData.get("amount") as string
-  const accountId = _formData.get("accountId") as string
-  const description = _formData.get("description") as string
-  const transactionCategoryId = _formData.get("transactionCategoryId") as string
-  const transactionDate = _formData.get("transactionDate") as string
-  const transactionType = _formData.get(
-    "transactionType"
-  ) as TransactionCategoryType
+  const {
+    name,
+    amount,
+    accountId,
+    description,
+    transactionCategoryId,
+    transactionDate,
+    transactionType,
+  } = getFormValues(_formData)
 
   const { error: findAccountError, data: accountData } = await supabase
     .from("accounts")
@@ -165,7 +202,93 @@ async function createNonTransferTransaction(
 async function createTransferTransaction(
   _formData: FormData
 ): Promise<CreateUpdateDeleteTransactionResponse> {
-  return {}
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const {
+    name,
+    amount,
+    accountId,
+    toAccountId,
+    description,
+    transactionCategoryId,
+    transactionDate,
+    transactionType,
+  } = getFormValues(_formData)
+
+  const { error: findAccountsError, data: accountsData } = await supabase
+    .from("accounts")
+    .select("current_balance, id")
+    .in("id", [accountId, toAccountId])
+    .returns<Array<{ id: string; current_balance: number }>>()
+
+  if (findAccountsError) {
+    return {
+      error: findAccountsError.message,
+    }
+  }
+
+  const transferToAccountBalance =
+    accountsData?.find((account) => account.id === toAccountId)
+      ?.current_balance || 0
+  const transferFromAccountBalance =
+    accountsData?.find((account) => account.id === accountId)
+      ?.current_balance || 0
+
+  const newTransferToAccountBalance = transferToAccountBalance + Number(amount)
+  const newTransferFromAccountBalance =
+    transferFromAccountBalance - Number(amount)
+
+  const { error: updateTransferToAccountError } = await supabase
+    .from("accounts")
+    .update({
+      current_balance: newTransferToAccountBalance,
+    })
+    .eq("id", toAccountId)
+
+  if (updateTransferToAccountError) {
+    return {
+      error: updateTransferToAccountError.message,
+    }
+  }
+
+  const { error: updateTransferFromAccountError } = await supabase
+    .from("accounts")
+    .update({
+      current_balance: newTransferFromAccountBalance,
+    })
+    .eq("id", accountId)
+
+  if (updateTransferFromAccountError) {
+    return {
+      error: updateTransferFromAccountError.message,
+    }
+  }
+
+  const { error: transactionError } = await supabase
+    .from("transactions")
+    .insert({
+      user_id: user.id,
+      name,
+      amount,
+      account_id: accountId,
+      transferred_to_account_id: toAccountId,
+      description,
+      transaction_category_id: transactionCategoryId,
+      transaction_date: transactionDate,
+      transaction_type: transactionType,
+    })
+
+  if (transactionError) {
+    return {
+      error: transactionError.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
 }
 
 export async function createTransaction(
@@ -180,16 +303,10 @@ export async function createTransaction(
   }
 }
 
-//** UPDATE A TRANSACTION
-
-export async function updateTransaction(
-  _formData: FormData
-): Promise<CreateUpdateDeleteTransactionResponse> {
-  return {}
-}
-
 export async function deleteTransaction(
   _id: string
 ): Promise<CreateUpdateDeleteTransactionResponse> {
   return {}
 }
+// HJ 320
+// BANK 2000

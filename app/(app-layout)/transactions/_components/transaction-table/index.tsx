@@ -10,7 +10,6 @@ import { useTranslations } from "next-intl"
 import { Account } from "@/types/account/account-types"
 import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
 
-
 type TransactionTableProps = {
     transactions: Array<Transaction>
     accounts: Array<Account>
@@ -19,26 +18,15 @@ type TransactionTableProps = {
 
 export function TransactionTable({ transactions, accounts, transactionCategories }: TransactionTableProps) {
     const t = useTranslations("transactions.table")
-    const tForm = useTranslations("transactions.form")
     const { table, setTableColumns, setTableData } = useTable<Transaction>()
-    const [editTransaction, setEditTransaction] = useState<Transaction | undefined>(undefined)
     const [open, setOpen] = useState(false)
-
-    function handleEditTransaction(transaction: Transaction) {
-        setEditTransaction(transaction)
-        setOpen(true)
-    }
 
     useEffect(() => {
         const columns = getColumns({
-            onEdit: (transaction) => {
-                handleEditTransaction(transaction)
-            },
             t,
-            tForm,
         })
         setTableColumns(columns)
-    }, [setTableColumns, t, tForm])
+    }, [setTableColumns, t])
 
     useEffect(() => {
         setTableData(transactions)
@@ -55,7 +43,6 @@ export function TransactionTable({ transactions, accounts, transactionCategories
                 open={open}
                 accounts={accounts}
                 onOpenChange={setOpen}
-                transaction={editTransaction}
                 transactionCategories={transactionCategories}
             />
         </div>

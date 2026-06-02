@@ -9,11 +9,12 @@ import { getTransactionCategories } from "../settings/transaction-categories/act
 export default async function TransactionsPage() {
     const t = await getTranslations("transactions.page")
     const { data, error } = await getTransactions()
-    const { data: accounts, error: accountsError } = await getAccounts()
+    const { data: accounts } = await getAccounts()
     const { data: transactionCategories } = await getTransactionCategories()
 
-    if (error || accountsError) {
-        toast.error(error || t("fetchError"))
+    if (error) {
+        throw new Error(error)
+        // toast.success(error || t("fetchError"))
     }
 
     return (

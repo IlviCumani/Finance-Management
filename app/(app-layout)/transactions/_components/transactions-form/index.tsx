@@ -1,10 +1,9 @@
 "use client"
 
 import { FormSheetWrapper } from "@/app/(app-layout)/_components/form-sheet-wrapper"
-import { Transaction } from "@/types/transaction/transaction-types"
 import { useForm } from "@/hooks/use-form"
 import { FieldGroup } from "@/components/ui/field"
-import { createTransaction, updateTransaction } from "../../actions"
+import { createTransaction } from "../../actions"
 import { toast } from "sonner"
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
@@ -22,9 +21,18 @@ import { useTransactionFormSchema } from "./use-form-schema"
 type TransactionsFormProps = {
     open: boolean
     onOpenChange: (open: boolean) => void
-    transaction?: Transaction | undefined
     accounts: Array<Account>
     transactionCategories: Array<TransactionCategory>
+}
+
+const defaultValues = {
+    name: '',
+    amount: '',
+    accountId: '',
+    toAccountId: null,
+    description: '',
+    transactionCategoryId: '',
+    transactionDate: new Date(),
 }
 
 export function TransactionsForm({
@@ -32,7 +40,6 @@ export function TransactionsForm({
     onOpenChange,
     accounts,
     transactionCategories,
-    transaction,
 }: TransactionsFormProps) {
     const t = useTranslations("transactions.form")
     const formSchema = useTransactionFormSchema()
@@ -40,13 +47,7 @@ export function TransactionsForm({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: '',
-            amount: '0',
-            accountId: '',
-            toAccountId: null,
-            description: '',
-            transactionCategoryId: '',
-            transactionDate: new Date(),
+            ...defaultValues,
         },
     })
     const [error, setError] = useState<string | undefined>(undefined)
@@ -77,23 +78,11 @@ export function TransactionsForm({
             toast.success(t("createdSuccess"), {
                 position: "top-right",
             })
+            form.reset(defaultValues)
         }
     }
 
-    const { reset, watch } = form
-
-    useEffect(() => {
-        if (!open) return
-        reset({
-            name: transaction?.name ?? "",
-            amount: transaction?.amount.toString() ?? "0",
-            accountId: transaction?.account?.id ?? "",
-            transactionCategoryId: transaction?.transactionCategory?.id ?? "",
-            toAccountId: null,
-            transactionDate: new Date(transaction?.transactionDate ?? new Date()),
-            description: transaction?.description ?? "",
-        })
-    }, [transaction, reset, open])
+    const { watch } = form
 
     const transactionCategory = watch("transactionCategoryId")
     const category = transactionCategories.find((category) => category.id === transactionCategory)
@@ -104,7 +93,7 @@ export function TransactionsForm({
 
     return (
         <FormSheetWrapper
-            title={transaction ? t("editTitle") : t("addTitle")}
+            title={t("addTitle")}
             formId="transactions-form"
             open={open}
             onOpenChange={onOpenChange}

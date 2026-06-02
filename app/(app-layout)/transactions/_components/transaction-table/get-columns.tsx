@@ -7,7 +7,7 @@ import { formatDateForUI } from "@/lib/format/date-format"
 import { TransactionCategoryType } from "@/types/transaction-category/transaction-category-types"
 import { ColorBadge } from "@/components/ui/color-badge"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { HandCoinsIcon, MoneyExchange01Icon, Wallet01Icon } from "@hugeicons/core-free-icons"
+import { ArrowRightIcon, HandCoinsIcon, MoneyExchange01Icon, Wallet01Icon } from "@hugeicons/core-free-icons"
 import { Account } from "@/types/account/account-types"
 import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
 
@@ -17,13 +17,9 @@ type TransactionsTranslator = (
 ) => string
 
 export function getColumns({
-    onEdit,
     t,
-    tForm,
 }: {
-    onEdit: (transaction: Transaction) => void
     t: TransactionsTranslator
-    tForm: TransactionsTranslator
 }): ColumnDef<Transaction>[] {
     return [
         {
@@ -68,11 +64,20 @@ export function getColumns({
         {
             header: t("account"),
             accessorKey: "account",
-            cell: ({ getValue }) => {
+            cell: ({ getValue, row }) => {
                 const account = getValue() as Account
+                const transferredToAccount = row.original.transferredToAccount
 
                 if (!account) {
                     return <span className="text-muted-foreground">--</span>
+                }
+
+                if (transferredToAccount) {
+                    return <div className="flex items-center gap-2">
+                        <span>{account?.name}</span>
+                        <HugeiconsIcon icon={ArrowRightIcon} className="size-4" />
+                        <span>{transferredToAccount?.name}</span>
+                    </div>
                 }
 
                 return <div>{account?.name}</div>
@@ -110,7 +115,6 @@ export function getColumns({
 
                 return (
                     <TableActions
-                        onEdit={() => onEdit(row.original)}
                         onDelete={handleDelete}
                         deleteDescription={t("deleteDescription")}
                     />

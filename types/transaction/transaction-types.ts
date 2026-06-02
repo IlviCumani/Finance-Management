@@ -14,6 +14,7 @@ export type Transaction = {
   transactionType: TransactionCategoryType
   createdAt: string
   updatedAt: string
+  transferredToAccount?: Account | null
 }
 
 export type Transaction_Response = {
@@ -28,4 +29,5 @@ export type Transaction_Response = {
   transaction_type: TransactionCategoryType
   created_at: string
   updated_at: string
+  transferred_to_account_id: string | null
 }
