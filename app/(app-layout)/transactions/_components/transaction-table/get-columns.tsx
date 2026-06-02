@@ -8,6 +8,8 @@ import { TransactionCategoryType } from "@/types/transaction-category/transactio
 import { ColorBadge } from "@/components/ui/color-badge"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { HandCoinsIcon, MoneyExchange01Icon, Wallet01Icon } from "@hugeicons/core-free-icons"
+import { Account } from "@/types/account/account-types"
+import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
 
 type TransactionsTranslator = (
     key: string,
@@ -67,18 +69,26 @@ export function getColumns({
             header: t("account"),
             accessorKey: "account",
             cell: ({ getValue }) => {
-                const account = getValue() as string
+                const account = getValue() as Account
 
-                return <div>{account}</div>
+                if (!account) {
+                    return <span className="text-muted-foreground">--</span>
+                }
+
+                return <div>{account?.name}</div>
             },
         },
         {
             header: t("transactionCategory"),
             accessorKey: "transactionCategory",
             cell: ({ getValue }) => {
-                const transactionCategory = getValue() as string
+                const transactionCategory = getValue() as TransactionCategory
 
-                return <div>{transactionCategory}</div>
+                if (!transactionCategory) {
+                    return <span className="text-muted-foreground">--</span>
+                }
+
+                return <div>{transactionCategory?.name}</div>
             },
         },
         {

@@ -6,11 +6,10 @@ import { useForm } from "@/hooks/use-form"
 import { FieldGroup } from "@/components/ui/field"
 import { createTransaction, updateTransaction } from "../../actions"
 import { toast } from "sonner"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMemo } from "react"
 import { InputFormField, SelectFormField, TextareaFormField, DateFormField } from "@/components/form-fields"
 import { Controller } from "react-hook-form"
 import { InputGroupAddon, InputGroupText } from "@/components/ui/input-group"
@@ -18,12 +17,7 @@ import { Money03Icon, } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Account } from "@/types/account/account-types"
 import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
-
-function startOfDay(date: Date) {
-    const normalized = new Date(date)
-    normalized.setHours(0, 0, 0, 0)
-    return normalized
-}
+import { useTransactionFormSchema } from "./use-form-schema"
 
 type TransactionsFormProps = {
     open: boolean
@@ -41,40 +35,15 @@ export function TransactionsForm({
     transaction,
 }: TransactionsFormProps) {
     const t = useTranslations("transactions.form")
-    const tValidation = useTranslations("transactions.validation")
-
-    const formSchema = useMemo(
-        () =>
-            z
-                .object({
-                    name: z.string().min(1, tValidation("nameRequired")),
-                    amount: z.number().min(0, tValidation("amountRequired")),
-                    accountId: z.string().min(1, tValidation("accountRequired")),
-                    description: z.string(),
-                    transactionCategoryId: z
-                        .string()
-                        .min(1, tValidation("transactionCategoryRequired")),
-                    transactionDate: z.date({
-                        error: tValidation("transactionDateRequired"),
-                    }),
-                })
-                .refine(
-                    (data) =>
-                        startOfDay(data.transactionDate) <= startOfDay(new Date()),
-                    {
-                        path: ["transactionDate"],
-                        message: tValidation("transactionDateFuture"),
-                    }
-                ),
-        [tValidation]
-    )
+    const formSchema = useTransactionFormSchema()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
-            amount: 0,
+            amount: '0',
             accountId: '',
+            toAccountId: null,
             description: '',
             transactionCategoryId: '',
             transactionDate: new Date(),
@@ -85,36 +54,53 @@ export function TransactionsForm({
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const formData = new FormData()
         formData.append("name", values.name)
-        formData.append("amount", values.amount.toString())
+        formData.append("amount", values.amount)
         formData.append("accountId", values.accountId)
         formData.append("description", values.description)
         formData.append("transactionCategoryId", values.transactionCategoryId)
         formData.append("transactionDate", values.transactionDate.toISOString())
-
-        if (transaction) {
-            formData.append("id", transaction.id)
-            const { error } = await updateTransaction(formData)
-            if (error) {
-                setError(error)
-            } else {
-                onOpenChange(false)
-                setError(undefined)
-                toast.success(t("updatedSuccess"), {
-                    position: "top-right",
-                })
-            }
+        const transactionType = transactionCategories.find((category) => category.id === values.transactionCategoryId)!.type
+        if (!transactionType) {
+            setError(t("validation.transactionCategoryNotFound"))
+            return
+        }
+        formData.append("transactionType", transactionType)
+        if (values.toAccountId) {
+            formData.append("toAccountId", values.toAccountId)
+        }
+        const { error } = await createTransaction(formData)
+        if (error) {
+            setError(error)
         } else {
-            const { error } = await createTransaction(formData)
-            if (error) {
-                setError(error)
-            } else {
-                toast.success(t("createdSuccess"), {
-                    position: "top-right",
-                })
-                onOpenChange(false)
-            }
+            onOpenChange(false)
+            setError(undefined)
+            toast.success(t("createdSuccess"), {
+                position: "top-right",
+            })
         }
     }
+
+    const { reset, watch } = form
+
+    useEffect(() => {
+        if (!open) return
+        reset({
+            name: transaction?.name ?? "",
+            amount: transaction?.amount.toString() ?? "0",
+            accountId: transaction?.account?.id ?? "",
+            transactionCategoryId: transaction?.transactionCategory?.id ?? "",
+            toAccountId: null,
+            transactionDate: new Date(transaction?.transactionDate ?? new Date()),
+            description: transaction?.description ?? "",
+        })
+    }, [transaction, reset, open])
+
+    const transactionCategory = watch("transactionCategoryId")
+    const category = transactionCategories.find((category) => category.id === transactionCategory)
+    const isTransferCategory = category?.type === "transfer"
+
+    const selectedAccount = watch("accountId")
+    const toAccounts = accounts.filter((account) => account.id !== selectedAccount)
 
     return (
         <FormSheetWrapper
@@ -125,7 +111,7 @@ export function TransactionsForm({
             error={error}
         >
             <form onSubmit={form.handleSubmit(onSubmit)} id="transactions-form">
-                <FieldGroup>
+                <FieldGroup className="overflow-y-auto max-h-[calc(100vh-200px)]">
                     <Controller control={form.control} name="name" render={({ field, fieldState }) => (
                         <InputFormField
                             label={t("name")}
@@ -147,28 +133,42 @@ export function TransactionsForm({
                             </InputGroupAddon>
                         </InputFormField>
                     )} />
-                    <Controller control={form.control} name="accountId" render={({ field, fieldState }) => (
-                        <SelectFormField
-                            label={t("account")}
-                            field={field}
-                            fieldState={fieldState}
-                            options={accounts.map((account) => ({
-                                label: account.name,
-                                value: account.id,
-                            }))}
-                        />
-                    )} />
                     <Controller control={form.control} name="transactionCategoryId" render={({ field, fieldState }) => (
                         <SelectFormField
                             label={t("transactionCategory")}
                             field={field}
                             fieldState={fieldState}
+                            addOptionUrl="/settings/transaction-categories"
                             options={transactionCategories.map((category) => ({
                                 label: category.name,
                                 value: category.id,
                             }))}
                         />
                     )} />
+                    <Controller control={form.control} name="accountId" render={({ field, fieldState }) => (
+                        <SelectFormField
+                            label={isTransferCategory ? t("fromAccount") : t("account")}
+                            field={field}
+                            fieldState={fieldState}
+                            addOptionUrl="/accounts"
+                            options={accounts.map((account) => ({
+                                label: account.name,
+                                value: account.id,
+                            }))}
+                        />
+                    )} />
+                    {isTransferCategory && <Controller control={form.control} name="toAccountId" render={({ field, fieldState }) => (
+                        <SelectFormField
+                            label={t("toAccount")}
+                            field={field}
+                            fieldState={fieldState}
+                            options={toAccounts.map((account) => ({
+                                label: account.name,
+                                value: account.id,
+                            }))}
+                        />
+                    )} />}
+
                     <Controller control={form.control} name="transactionDate" render={({ field, fieldState }) => (
                         <DateFormField
                             label={t("transactionDate")}

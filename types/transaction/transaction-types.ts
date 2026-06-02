@@ -1,10 +1,12 @@
 import { TransactionCategoryType } from "../transaction-category/transaction-category-types"
+import { Account } from "../account/account-types"
+import { TransactionCategory } from "../transaction-category/transaction-category-types"
 
 export type Transaction = {
   id: string
   userId: string
-  accountId: string
-  transactionCategoryId: string
+  account: Account | null
+  transactionCategory: TransactionCategory | null
   name: string
   description?: string
   amount: number

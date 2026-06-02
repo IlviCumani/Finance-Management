@@ -186,8 +186,10 @@
       "editTitle": "Edit Transaction",
       "name": "Name",
       "amount": "Amount",
-      "account": "Account",
-      "transactionCategory": "Category",
+      "account": "Transaction Account",
+      "fromAccount": "From Account",
+      "toAccount": "To Account",
+      "transactionCategory": "Transaction Category",
       "transactionDate": "Transaction Date",
       "income": "Income",
       "expense": "Expense",
@@ -214,7 +216,10 @@
     "validation": {
       "nameRequired": "Name is required",
       "amountRequired": "Amount is required",
+      "amountWholeNumber": "Amount must be a whole number",
+      "amountMin": "Amount must be greater than 0",
       "accountRequired": "Account is required",
+      "toAccountRequired": "To account is required",
       "transactionCategoryRequired": "Transaction category is required",
       "transactionDateRequired": "Transaction date is required",
       "transactionDateFuture": "Transaction date cannot be in the future"
