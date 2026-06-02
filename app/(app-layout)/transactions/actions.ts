@@ -303,10 +303,113 @@ export async function createTransaction(
   }
 }
 
-export async function deleteTransaction(
-  _id: string
+async function deleteTransferTransaction(
+  transaction: Transaction
 ): Promise<CreateUpdateDeleteTransactionResponse> {
-  return {}
+  const supabase = await createActionClient()
+  const transferToAccountBalance =
+    transaction.transferredToAccount?.currentBalance || 0
+  const transferFromAccountBalance = transaction.account?.currentBalance || 0
+
+  const newTransferToAccountBalance =
+    transferToAccountBalance - transaction.amount
+  const newTransferFromAccountBalance =
+    transferFromAccountBalance + transaction.amount
+
+  const { error: updateTransferToAccountError } = await supabase
+    .from("accounts")
+    .update({
+      current_balance: newTransferToAccountBalance,
+    })
+    .eq("id", transaction.transferredToAccount?.id)
+
+  if (updateTransferToAccountError) {
+    return {
+      error: updateTransferToAccountError.message,
+    }
+  }
+
+  const { error: updateTransferFromAccountError } = await supabase
+    .from("accounts")
+    .update({
+      current_balance: newTransferFromAccountBalance,
+    })
+    .eq("id", transaction.account?.id)
+
+  if (updateTransferFromAccountError) {
+    return {
+      error: updateTransferFromAccountError.message,
+    }
+  }
+
+  const { error: deleteTransactionError } = await supabase
+    .from("transactions")
+    .delete()
+    .eq("id", transaction.id)
+
+  if (deleteTransactionError) {
+    return {
+      error: deleteTransactionError.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
 }
-// HJ 320
-// BANK 2000
+
+async function deleteNonTransferTransaction(
+  transaction: Transaction
+): Promise<CreateUpdateDeleteTransactionResponse> {
+  const supabase = await createActionClient()
+
+  const IsExpense = transaction.transactionType === "expense"
+  const currentBalance = transaction.account?.currentBalance || 0
+  const newCurrentBalance = IsExpense
+    ? currentBalance + transaction.amount
+    : currentBalance - transaction.amount
+
+  const { error: updateAccountError } = await supabase
+    .from("accounts")
+    .update({
+      current_balance: newCurrentBalance,
+    })
+    .eq("id", transaction.account?.id)
+
+  if (updateAccountError) {
+    return {
+      error: updateAccountError.message,
+    }
+  }
+
+  const { error: deleteTransactionError } = await supabase
+    .from("transactions")
+    .delete()
+    .eq("id", transaction.id)
+
+  if (deleteTransactionError) {
+    return {
+      error: deleteTransactionError.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
+}
+
+export async function deleteTransaction(
+  _transaction: Transaction
+): Promise<CreateUpdateDeleteTransactionResponse> {
+  const transactionType = _transaction.transactionType
+
+  if (transactionType === "transfer") {
+    return await deleteTransferTransaction(_transaction)
+  } else {
+    return await deleteNonTransferTransaction(_transaction)
+  }
+}

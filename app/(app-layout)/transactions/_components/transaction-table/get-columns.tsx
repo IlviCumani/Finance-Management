@@ -101,7 +101,7 @@ export function getColumns({
             accessorKey: "actions",
             cell: ({ row }) => {
                 async function handleDelete() {
-                    const { error } = await deleteTransaction(row.original.id)
+                    const { error } = await deleteTransaction(row.original)
                     if (error) {
                         toast.error(error || t("deleteError"), {
                             position: "top-right",
