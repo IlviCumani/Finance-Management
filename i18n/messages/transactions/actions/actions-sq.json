@@ -1,0 +1,6 @@
+{
+  "fetchError": "Dështoi ngarkimi i transaksioneve",
+  "createError": "Dështoi krijimi i transaksionit",
+  "updateError": "Dështoi përditësimi i transaksionit",
+  "deleteError": "Dështoi fshirja e transaksionit"
+}

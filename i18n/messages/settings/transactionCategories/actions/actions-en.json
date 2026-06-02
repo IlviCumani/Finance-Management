@@ -1,0 +1,4 @@
+{
+  "fetchError": "Failed to fetch transaction categories",
+  "deleteError": "Failed to delete transaction category"
+}

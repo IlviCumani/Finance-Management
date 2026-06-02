@@ -1,0 +1,15 @@
+{
+  "title": "App",
+  "dashboard": "Dashboard",
+  "logout": "Logout",
+  "userMenu": {
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "settings": {
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "security": "Security",
+    "notifications": "Notifications"
+  }
+}

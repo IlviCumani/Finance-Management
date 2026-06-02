@@ -1,0 +1,6 @@
+{
+  "title": "Transaction Categories",
+  "description": "Organize your transactions with custom categories.",
+  "addTransactionCategory": "Add Category",
+  "fetchError": "Failed to fetch transaction categories"
+}

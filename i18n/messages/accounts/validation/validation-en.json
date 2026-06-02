@@ -1,0 +1,8 @@
+{
+  "nameRequired": "Name is required",
+  "currentBalanceRequired": "Current balance is required",
+  "currencyRequired": "Currency is required",
+  "currencyInvalid": "Currency must be one of the following: {currencies}",
+  "currentBalanceNumber": "Current balance must be a number",
+  "currentBalanceMin": "Current balance can't be lower than 0"
+}

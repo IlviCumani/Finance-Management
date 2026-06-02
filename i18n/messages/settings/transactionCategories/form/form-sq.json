@@ -1,0 +1,9 @@
+{
+  "addTitle": "Shto kategori",
+  "editTitle": "Ndrysho kategorinë",
+  "description": "Krijoni ose përditësoni një kategori për transaksionet tuaja.",
+  "name": "Emri",
+  "type": "Lloji",
+  "createdSuccess": "Kategoria u krijua me sukses",
+  "updatedSuccess": "Kategoria u përditësua me sukses"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Emri",
+  "type": "Lloji",
+  "income": "Të ardhura",
+  "expense": "Shpenzime",
+  "transfer": "Transfer",
+  "createdAt": "Krijuar më",
+  "lastUpdated": "Përditësuar së fundmi",
+  "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë dhe do ta heqë nga transaksionet tuaja.",
+  "deleteSuccess": "Kategoria u fshi me sukses",
+  "deleteError": "Dështoi fshirja e kategorisë"
+}

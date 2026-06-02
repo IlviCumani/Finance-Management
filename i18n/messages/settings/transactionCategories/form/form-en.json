@@ -1,0 +1,9 @@
+{
+  "addTitle": "Add Category",
+  "editTitle": "Edit Category",
+  "description": "Create or update a category for your transactions.",
+  "name": "Name",
+  "type": "Type",
+  "createdSuccess": "Category created successfully",
+  "updatedSuccess": "Category updated successfully"
+}

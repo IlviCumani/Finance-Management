@@ -1,6 +1,19 @@
+import type { Metadata } from "next"
 import { Geist_Mono, Nunito_Sans, Raleway } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale, getMessages } from "next-intl/server"
+
+export const metadata: Metadata = {
+  title: "FinSanctuary",
+  icons: {
+    icon: [
+      { url: "/app-logo/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/app-logo/favicon.svg",
+  },
+}
 
 import "./globals.css"
 import { LocaleSync } from "@/components/locale-sync"

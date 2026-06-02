@@ -1,0 +1,17 @@
+{
+  "addTitle": "Add Transaction",
+  "editTitle": "Edit Transaction",
+  "name": "Name",
+  "amount": "Amount",
+  "account": "Transaction Account",
+  "fromAccount": "From Account",
+  "toAccount": "To Account",
+  "transactionCategory": "Transaction Category",
+  "transactionDate": "Transaction Date",
+  "income": "Income",
+  "expense": "Expense",
+  "transfer": "Transfer",
+  "createdSuccess": "Transaction created successfully",
+  "description": "Description",
+  "updatedSuccess": "Transaction updated successfully"
+}

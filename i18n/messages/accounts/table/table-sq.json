@@ -1,0 +1,12 @@
+{
+  "name": "Emri",
+  "currentBalance": "Bilanci aktual",
+  "currency": "Monedha",
+  "isArchived": "Arkivuar",
+  "createdAt": "Krijuar më",
+  "lastUpdated": "Përditësuar së fundmi",
+  "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë llogarinë tuaj dhe do të heqë të dhënat nga serverët tanë.",
+  "deleteSuccess": "Llogaria u fshi me sukses",
+  "updateError": "Dështoi përditësimi i llogarisë",
+  "deleteError": "Dështoi fshirja e llogarisë"
+}

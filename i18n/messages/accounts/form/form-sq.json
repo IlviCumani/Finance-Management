@@ -1,0 +1,11 @@
+{
+  "addTitle": "Shto llogari",
+  "editTitle": "Ndrysho llogarinë",
+  "name": "Emri",
+  "currentBalance": "Bilanci aktual",
+  "currency": "Monedha",
+  "archived": "Arkivuar",
+  "archivedDescription": "Arkivoni llogarinë nëse nuk e përdorni më, por doni ta mbani në databazë.",
+  "createdSuccess": "Llogaria u krijua me sukses",
+  "updatedSuccess": "Llogaria u përditësua me sukses"
+}
