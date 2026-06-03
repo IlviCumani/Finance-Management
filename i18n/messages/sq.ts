@@ -11,6 +11,7 @@ import home from "./home/home-sq.json"
 import accounts from "./accounts/accounts-sq"
 import transactions from "./transactions/transactions-sq"
 import settings from "./settings/settings-sq"
+import recurringTransactions from "./recurringTransactions/recurringTransactions-sq"
 
 const messages = {
   common,
@@ -26,6 +27,7 @@ const messages = {
   accounts,
   transactions,
   settings,
+  recurringTransactions,
 } as const
 
 export default messages

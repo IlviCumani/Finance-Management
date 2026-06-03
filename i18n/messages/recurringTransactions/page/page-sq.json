@@ -1,0 +1,6 @@
+{
+  "title": "Taksat që Kthehen",
+  "description": "Shiko ngarkesat që vijnë sërish, cikël pas cikli, mbi librin tënd.",
+  "addRecurringTransaction": "Gdhend Taksa që Kthehet",
+  "fetchError": "Ciklet e librit nuk u nxorën"
+}

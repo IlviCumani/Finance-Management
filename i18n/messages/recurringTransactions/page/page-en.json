@@ -1,0 +1,6 @@
+{
+  "title": "Returning Tolls",
+  "description": "Behold the charges that come again, cycle upon cycle, upon thy ledger.",
+  "addRecurringTransaction": "Inscribe Returning Toll",
+  "fetchError": "The ledger's cycles could not be drawn forth"
+}

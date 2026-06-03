@@ -1,7 +1,15 @@
-import UnderConstruction from "@/components/page-status/under-development";
-
+import { RecurringTransactionsHeader } from "./_components/header";
+import { RecurringTransactionsGrid } from "./_components/recurring-transactions-grid";
+import { dummyRecurringTransactions } from "./dummy-data";
 export default function SubscriptionsPage() {
+
+    
     return (
-        <UnderConstruction />
+        <div>
+            <RecurringTransactionsHeader />
+            <div className="p-4">
+                <RecurringTransactionsGrid recurringTransactions={dummyRecurringTransactions} />
+            </div>
+        </div>
     )
 }
