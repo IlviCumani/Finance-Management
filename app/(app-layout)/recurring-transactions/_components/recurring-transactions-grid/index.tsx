@@ -8,7 +8,8 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@/components/ui/button"
 import { InboxIcon, PlusSignCircleIcon } from "@hugeicons/core-free-icons"
-
+import { useState } from "react"
+import { RecurringTransactionForm } from "../recurring-transaction-form"
 type RecurringTransactionsGridProps = {
     recurringTransactions: Array<RecurringTransaction>
     accounts: Array<Account>
@@ -18,6 +19,7 @@ export function RecurringTransactionsGrid({
     recurringTransactions,
     accounts,
 }: RecurringTransactionsGridProps) {
+    const [open, setOpen] = useState(false)
 
     if (recurringTransactions.length === 0) {
         return (
@@ -32,11 +34,12 @@ export function RecurringTransactionsGrid({
                     <EmptyDescription>
                         You don&apos;t have any recurring transactions yet.
                     </EmptyDescription>
-                    <Button >
+                    <Button onClick={() => setOpen(true)}>
                         <HugeiconsIcon icon={PlusSignCircleIcon} />
                         Add Recurring Transaction
                     </Button>
                 </EmptyContent>
+                <RecurringTransactionForm open={open} onOpenChange={setOpen} accounts={accounts} />
             </Empty>
         )
     }
