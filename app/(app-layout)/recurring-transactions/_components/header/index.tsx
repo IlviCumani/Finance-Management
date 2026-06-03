@@ -7,8 +7,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { RecurringTransactionForm } from "../recurring-transaction-form";
+import { Account } from "@/types/account/account-types";
 
-export function RecurringTransactionsHeader() {
+export function RecurringTransactionsHeader({ accounts }: { accounts: Array<Account> }) {
     const [open, setOpen] = useState(false)
     const t = useTranslations("recurringTransactions.page")
 
@@ -20,7 +21,7 @@ export function RecurringTransactionsHeader() {
                     {t("addRecurringTransaction")}
                 </Button>
             </div>
-            <RecurringTransactionForm open={open} onOpenChange={setOpen} />
+            <RecurringTransactionForm open={open} onOpenChange={setOpen} accounts={accounts} />
         </PageHeader>
     )
 }

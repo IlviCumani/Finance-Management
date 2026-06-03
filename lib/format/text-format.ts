@@ -1,8 +1,13 @@
-export function getInitials(name: string | undefined = "") {
+export function getInitials(
+  name: string | undefined = "",
+  maxCharsToReturn: number = 2
+) {
   return name
     .split(" ")
-    .map((n) => n[0])
+    .map((word) => word[0])
+    .slice(0, maxCharsToReturn)
     .join("")
+    .toUpperCase()
 }
 
 export const formatCodeToText = (text: string) => {
