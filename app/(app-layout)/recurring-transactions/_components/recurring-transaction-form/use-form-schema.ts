@@ -16,7 +16,13 @@ export function useRecurringTransactionFormSchema() {
             .string()
             .min(1, tValidation("amountRequired"))
             .regex(/^\d+$/, tValidation("amountWholeNumber")),
-          frequency: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
+          frequency: z.enum([
+            "daily",
+            "weekly",
+            "monthly",
+            "quarterly",
+            "yearly",
+          ]),
           accountId: z.string().min(1, tValidation("accountRequired")),
           paymentDate: z.date(),
         })

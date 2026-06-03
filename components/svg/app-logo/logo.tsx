@@ -10,7 +10,9 @@ export function LogoSvg({ className, size, style, ...props }: LogoSvgProps) {
   return (
     <svg
       className={cn("shrink-0", className)}
-      style={size !== undefined ? { width: size, height: size, ...style } : style}
+      style={
+        size !== undefined ? { width: size, height: size, ...style } : style
+      }
       {...props}
       viewBox="0 0 40 40"
       fill="none"

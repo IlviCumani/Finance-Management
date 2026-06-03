@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
-import * as DateTimeFieldPrimitive from "@/components/ui/date-time-field-primitive";
+import { cn } from "@/lib/utils"
+import * as DateTimeFieldPrimitive from "@/components/ui/date-time-field-primitive"
 import {
   InputBase,
   InputBaseControl,
   InputBaseInput,
-} from "@/components/ui/input-base";
+} from "@/components/ui/input-base"
 
 function DateTimeField({
   children,
@@ -19,7 +19,7 @@ function DateTimeField({
     <DateTimeFieldPrimitive.Root data-slot="date-time-field" asChild {...props}>
       <InputBase className={cn("gap-0", className)}>{children}</InputBase>
     </DateTimeFieldPrimitive.Root>
-  );
+  )
 }
 
 function DateTimeFieldSeparator({
@@ -32,11 +32,11 @@ function DateTimeFieldSeparator({
       className={cn("text-muted-foreground", className)}
       {...props}
     />
-  );
+  )
 }
 
 const dateTimeFieldInputStyle =
-  "focus:bg-primary focus:text-primary-foreground focus:placeholder:text-primary-foreground box-content h-fit flex-initial rounded-sm px-0.5 tabular-nums";
+  "focus:bg-primary focus:text-primary-foreground focus:placeholder:text-primary-foreground box-content h-fit flex-initial rounded-sm px-0.5 tabular-nums"
 
 function DateTimeFieldYears({
   placeholder = "yyyy",
@@ -55,12 +55,12 @@ function DateTimeFieldYears({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(4ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Years>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldMonths({
@@ -80,12 +80,12 @@ function DateTimeFieldMonths({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Months>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldDays({
@@ -105,12 +105,12 @@ function DateTimeFieldDays({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Days>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldHours({
@@ -130,12 +130,12 @@ function DateTimeFieldHours({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Hours>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldMinutes({
@@ -155,12 +155,12 @@ function DateTimeFieldMinutes({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Minutes>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldSeconds({
@@ -180,12 +180,12 @@ function DateTimeFieldSeconds({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)]",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.Seconds>
     </InputBaseControl>
-  );
+  )
 }
 
 function DateTimeFieldAmPm({
@@ -205,12 +205,12 @@ function DateTimeFieldAmPm({
           className={cn(
             dateTimeFieldInputStyle,
             "max-w-[calc(2ch_+_0.5rem)] text-center",
-            className,
+            className
           )}
         />
       </DateTimeFieldPrimitive.AmPm>
     </InputBaseControl>
-  );
+  )
 }
 
 export {
@@ -223,4 +223,4 @@ export {
   DateTimeFieldMinutes,
   DateTimeFieldSeconds,
   DateTimeFieldAmPm,
-};
+}

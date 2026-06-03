@@ -4,4 +4,10 @@ import { TextareaFormField } from "./textarea-form-field"
 import { DateFormField } from "./date-form-field"
 import { SwitchFormField } from "./switch-form-field"
 
-export { InputFormField, SelectFormField, TextareaFormField, DateFormField, SwitchFormField }
+export {
+  InputFormField,
+  SelectFormField,
+  TextareaFormField,
+  DateFormField,
+  SwitchFormField,
+}
