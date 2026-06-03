@@ -16,7 +16,7 @@ const PROTECTED_PATH_PREFIXES = [
   "/accounts",
   "/budgets",
   "/savings",
-  "/subscriptions",
+  "/recurring-transactions",
   "/analytics",
   "/settings",
 ] as const
