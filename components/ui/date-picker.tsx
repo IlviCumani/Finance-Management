@@ -1,39 +1,39 @@
-"use client";
+"use client"
 
 // import { CalendarIcon, XIcon } from "lucide-react";
-import { CalendarIcon, Cancel01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import * as React from "react";
+import { CalendarIcon, Cancel01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import * as React from "react"
 
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { Calendar } from "@/components/ui/calendar"
 import {
   DateFieldDays,
   DateFieldMonths,
   DateFieldSeparator,
   DateFieldYears,
-} from "@/components/ui/date-field";
-import * as DatePickerPrimitive from "@/components/ui/date-picker-primitive";
+} from "@/components/ui/date-field"
+import * as DatePickerPrimitive from "@/components/ui/date-picker-primitive"
 import {
   InputBase,
   InputBaseAdornment,
   InputBaseAdornmentButton,
   InputBaseFlexWrapper,
-} from "@/components/ui/input-base";
+} from "@/components/ui/input-base"
 
 function DatePicker(
-  props: React.ComponentProps<typeof DatePickerPrimitive.Root>,
+  props: React.ComponentProps<typeof DatePickerPrimitive.Root>
 ) {
-  return <DatePickerPrimitive.Root data-slot="date-picker" {...props} />;
+  return <DatePickerPrimitive.Root data-slot="date-picker" {...props} />
 }
 
 function DatePickerAnchor(
-  props: React.ComponentProps<typeof DatePickerPrimitive.Anchor>,
+  props: React.ComponentProps<typeof DatePickerPrimitive.Anchor>
 ) {
   return (
     <DatePickerPrimitive.Anchor data-slot="date-picker-anchor" {...props} />
-  );
+  )
 }
 
 function DatePickerInputBase({
@@ -61,7 +61,7 @@ function DatePickerInputBase({
         </InputBaseAdornment>
       </InputBase>
     </DatePickerPrimitive.Anchor>
-  );
+  )
 }
 
 function DatePickerDateRangeField({
@@ -69,7 +69,7 @@ function DatePickerDateRangeField({
   className,
   ...props
 }: React.ComponentProps<typeof DatePickerPrimitive.DateRangeField>) {
-  const { disabled } = DatePickerPrimitive.useDatePicker();
+  const { disabled } = DatePickerPrimitive.useDatePicker()
 
   return (
     <DatePickerPrimitive.DateRangeField
@@ -118,7 +118,7 @@ function DatePickerDateRangeField({
         </DatePickerPrimitive.DateRangeFieldDays>
       </DatePickerPrimitive.DateRangeFieldTo>
     </DatePickerPrimitive.DateRangeField>
-  );
+  )
 }
 
 function DatePickerDateField({
@@ -126,7 +126,7 @@ function DatePickerDateField({
   className,
   ...props
 }: React.ComponentProps<typeof DatePickerPrimitive.DateField>) {
-  const { disabled } = DatePickerPrimitive.useDatePicker();
+  const { disabled } = DatePickerPrimitive.useDatePicker()
 
   return (
     <DatePickerPrimitive.DateField
@@ -151,15 +151,15 @@ function DatePickerDateField({
         <DateFieldDays />
       </DatePickerPrimitive.DateFieldDays>
     </DatePickerPrimitive.DateField>
-  );
+  )
 }
 
 function DatePickerInput(
   props: React.ComponentProps<
     typeof DatePickerDateField | typeof DatePickerDateRangeField
-  >,
+  >
 ) {
-  const { mode } = DatePickerPrimitive.useDatePicker();
+  const { mode } = DatePickerPrimitive.useDatePicker()
 
   return (
     <DatePickerInputBase>
@@ -173,7 +173,7 @@ function DatePickerInput(
         />
       )}
     </DatePickerInputBase>
-  );
+  )
 }
 
 function DatePickerTrigger({
@@ -188,7 +188,7 @@ function DatePickerTrigger({
       className={cn(
         buttonVariants({ variant: "outline" }),
         "cursor-pointer font-normal",
-        className,
+        className
       )}
     >
       <DatePickerPrimitive.Trigger {...props}>
@@ -198,7 +198,7 @@ function DatePickerTrigger({
         <InputBaseFlexWrapper>{children}</InputBaseFlexWrapper>
       </DatePickerPrimitive.Trigger>
     </InputBase>
-  );
+  )
 }
 
 function DatePickerValue({
@@ -211,7 +211,7 @@ function DatePickerValue({
       className={cn("data-placeholder:text-muted-foreground/40", className)}
       {...props}
     />
-  );
+  )
 }
 
 function DatePickerContent({
@@ -227,13 +227,13 @@ function DatePickerContent({
         align={align}
         alignOffset={alignOffset}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96 w-auto overflow-hidden rounded-md border p-0 shadow-md data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-          className,
+          "relative z-50 max-h-96 w-auto overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md data-[side=bottom]:translate-y-1 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:-translate-x-1 data-[side=left]:slide-in-from-right-2 data-[side=right]:translate-x-1 data-[side=right]:slide-in-from-left-2 data-[side=top]:-translate-y-1 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+          className
         )}
         {...props}
       />
     </DatePickerPrimitive.Portal>
-  );
+  )
 }
 
 function DatePickerCalendar(props: React.ComponentProps<typeof Calendar>) {
@@ -241,7 +241,7 @@ function DatePickerCalendar(props: React.ComponentProps<typeof Calendar>) {
     <DatePickerPrimitive.Calendar data-slot="date-picker-calendar" asChild>
       <Calendar {...props} />
     </DatePickerPrimitive.Calendar>
-  );
+  )
 }
 
 export {
@@ -252,4 +252,4 @@ export {
   DatePickerValue,
   DatePickerContent,
   DatePickerCalendar,
-};
+}

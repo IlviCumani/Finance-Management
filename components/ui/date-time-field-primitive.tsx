@@ -1,46 +1,42 @@
-"use client";
+"use client"
 
-import { useComposedRefs } from "@radix-ui/react-compose-refs";
-import { Primitive } from "@radix-ui/react-primitive";
-import * as React from "react";
+import { useComposedRefs } from "@radix-ui/react-compose-refs"
+import { Primitive } from "@radix-ui/react-primitive"
+import * as React from "react"
 
-import {
-  UseTimescapeOptions,
-  useTimescape,
-} from "@/hooks/use-timescape";
+import { UseTimescapeOptions, useTimescape } from "@/hooks/use-timescape"
 
 export type DateTimeFieldContextProps = {
-  disabled?: boolean;
-} & ReturnType<typeof useTimescape>;
+  disabled?: boolean
+} & ReturnType<typeof useTimescape>
 
 const DateTimeFieldContext = React.createContext<DateTimeFieldContextProps>({
   getInputProps: () => ({ ref: () => null }),
   getRootProps: () => ({ ref: () => null }),
   ampm: {
     value: undefined,
-    set: () => { },
-    toggle: () => { },
-    getSelectProps: () => ({ value: undefined, onChange: () => { } }),
+    set: () => {},
+    toggle: () => {},
+    getSelectProps: () => ({ value: undefined, onChange: () => {} }),
   },
   options: {},
-  disabled: false
-});
+  disabled: false,
+})
 
 export function useDateTimeField() {
-  const context = React.useContext(DateTimeFieldContext);
+  const context = React.useContext(DateTimeFieldContext)
   if (!context) {
-    throw new Error(
-      "useDateTimeField must be used within a <DateTimeField />.",
-    );
+    throw new Error("useDateTimeField must be used within a <DateTimeField />.")
   }
 
-  return context;
+  return context
 }
 
 export interface DateTimeFieldProps
-  extends UseTimescapeOptions,
-  Omit<React.ComponentProps<typeof Primitive.div>, "value" | "defaultValue"> {
-  disabled?: boolean;
+  extends
+    UseTimescapeOptions,
+    Omit<React.ComponentProps<typeof Primitive.div>, "value" | "defaultValue"> {
+  disabled?: boolean
 }
 
 export function DateTimeField({
@@ -69,10 +65,10 @@ export function DateTimeField({
     snapToStep,
     wheelControl,
     wrapAround,
-  });
+  })
 
-  const { ref: rootRef, ...rootProps } = timescape.getRootProps();
-  const composedRefs = useComposedRefs(ref, (node) => rootRef(node)!);
+  const { ref: rootRef, ...rootProps } = timescape.getRootProps()
+  const composedRefs = useComposedRefs(ref, (node) => rootRef(node)!)
 
   return (
     <DateTimeFieldContext.Provider value={{ ...timescape, disabled }}>
@@ -84,14 +80,14 @@ export function DateTimeField({
         {...props}
       />
     </DateTimeFieldContext.Provider>
-  );
+  )
 }
 
 export function DateTimeFieldSeparator({
   ref,
   ...props
 }: React.ComponentProps<typeof Primitive.span>) {
-  const { disabled } = useDateTimeField();
+  const { disabled } = useDateTimeField()
 
   return (
     <Primitive.span
@@ -101,7 +97,7 @@ export function DateTimeFieldSeparator({
       data-disabled={disabled}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldYears({
@@ -109,9 +105,9 @@ export function DateTimeFieldYears({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("years");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("years")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -121,7 +117,7 @@ export function DateTimeFieldYears({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldMonths({
@@ -129,9 +125,9 @@ export function DateTimeFieldMonths({
   ref,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("months");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("months")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -141,7 +137,7 @@ export function DateTimeFieldMonths({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldDays({
@@ -149,9 +145,9 @@ export function DateTimeFieldDays({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("days");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("days")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -161,7 +157,7 @@ export function DateTimeFieldDays({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldHours({
@@ -169,9 +165,9 @@ export function DateTimeFieldHours({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("hours");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("hours")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -181,7 +177,7 @@ export function DateTimeFieldHours({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldMinutes({
@@ -189,9 +185,9 @@ export function DateTimeFieldMinutes({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("minutes");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("minutes")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -201,7 +197,7 @@ export function DateTimeFieldMinutes({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldSeconds({
@@ -209,9 +205,9 @@ export function DateTimeFieldSeconds({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("seconds");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("seconds")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -221,7 +217,7 @@ export function DateTimeFieldSeconds({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeFieldAmPm({
@@ -229,12 +225,12 @@ export function DateTimeFieldAmPm({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled, options } = useDateTimeField();
-  const { ref: inputRef, ...inputProps } = getInputProps("am/pm");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled, options } = useDateTimeField()
+  const { ref: inputRef, ...inputProps } = getInputProps("am/pm")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   if (!options?.hour12) {
-    return null;
+    return null
   }
 
   return (
@@ -245,7 +241,7 @@ export function DateTimeFieldAmPm({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -258,4 +254,4 @@ export {
   DateTimeFieldMinutes as Minutes,
   DateTimeFieldSeconds as Seconds,
   DateTimeFieldAmPm as AmPm,
-};
+}

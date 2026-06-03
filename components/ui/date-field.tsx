@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 
 import {
   DateTimeField,
@@ -8,10 +8,10 @@ import {
   DateTimeFieldMonths,
   DateTimeFieldSeparator,
   DateTimeFieldYears,
-} from "@/components/ui/date-time-field";
+} from "@/components/ui/date-time-field"
 
 function DateField(props: React.ComponentProps<typeof DateTimeField>) {
-  return <DateTimeField data-slot="date-field" {...props} />;
+  return <DateTimeField data-slot="date-field" {...props} />
 }
 
 function DateFieldSeparator({
@@ -22,23 +22,23 @@ function DateFieldSeparator({
     <DateTimeFieldSeparator data-slot="date-field-separator" {...props}>
       {children}
     </DateTimeFieldSeparator>
-  );
+  )
 }
 
 function DateFieldYears(
-  props: React.ComponentProps<typeof DateTimeFieldYears>,
+  props: React.ComponentProps<typeof DateTimeFieldYears>
 ) {
-  return <DateTimeFieldYears data-slot="date-field-years" {...props} />;
+  return <DateTimeFieldYears data-slot="date-field-years" {...props} />
 }
 
 function DateFieldMonths(
-  props: React.ComponentProps<typeof DateTimeFieldMonths>,
+  props: React.ComponentProps<typeof DateTimeFieldMonths>
 ) {
-  return <DateTimeFieldMonths data-slot="date-field-months" {...props} />;
+  return <DateTimeFieldMonths data-slot="date-field-months" {...props} />
 }
 
 function DateFieldDays(props: React.ComponentProps<typeof DateTimeFieldDays>) {
-  return <DateTimeFieldDays data-slot="date-field-days" {...props} />;
+  return <DateTimeFieldDays data-slot="date-field-days" {...props} />
 }
 
 export {
@@ -47,4 +47,4 @@ export {
   DateFieldYears,
   DateFieldMonths,
   DateFieldDays,
-};
+}

@@ -3,7 +3,13 @@
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { CheckmarkCircle02Icon, InformationCircleIcon, Alert02Icon, MultiplicationSignCircleIcon, Loading03Icon } from "@hugeicons/core-free-icons"
+import {
+  CheckmarkCircle02Icon,
+  InformationCircleIcon,
+  Alert02Icon,
+  MultiplicationSignCircleIcon,
+  Loading03Icon,
+} from "@hugeicons/core-free-icons"
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
@@ -14,19 +20,39 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       icons={{
         success: (
-          <HugeiconsIcon icon={CheckmarkCircle02Icon} strokeWidth={2} className="size-4 text-green-500" />
+          <HugeiconsIcon
+            icon={CheckmarkCircle02Icon}
+            strokeWidth={2}
+            className="size-4 text-green-500"
+          />
         ),
         info: (
-          <HugeiconsIcon icon={InformationCircleIcon} strokeWidth={2} className="size-4 text-blue-500" />
+          <HugeiconsIcon
+            icon={InformationCircleIcon}
+            strokeWidth={2}
+            className="size-4 text-blue-500"
+          />
         ),
         warning: (
-          <HugeiconsIcon icon={Alert02Icon} strokeWidth={2} className="size-4 text-yellow-500" />
+          <HugeiconsIcon
+            icon={Alert02Icon}
+            strokeWidth={2}
+            className="size-4 text-yellow-500"
+          />
         ),
         error: (
-          <HugeiconsIcon icon={MultiplicationSignCircleIcon} strokeWidth={2} className="size-4 text-red-500" />
+          <HugeiconsIcon
+            icon={MultiplicationSignCircleIcon}
+            strokeWidth={2}
+            className="size-4 text-red-500"
+          />
         ),
         loading: (
-          <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-4 animate-spin" />
+          <HugeiconsIcon
+            icon={Loading03Icon}
+            strokeWidth={2}
+            className="size-4 animate-spin"
+          />
         ),
       }}
       style={

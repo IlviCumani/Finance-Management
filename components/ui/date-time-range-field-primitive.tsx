@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { useComposedRefs } from "@radix-ui/react-compose-refs";
-import { Primitive } from "@radix-ui/react-primitive";
-import * as React from "react";
+import { useComposedRefs } from "@radix-ui/react-compose-refs"
+import { Primitive } from "@radix-ui/react-primitive"
+import * as React from "react"
 
 import {
   UseTimescapeRangeOptions,
   useTimescapeRange,
-} from "@/hooks/use-timescape";
+} from "@/hooks/use-timescape"
 
 export type DateTimeRangeFieldContextProps = {
-  disabled?: boolean;
-} & ReturnType<typeof useTimescapeRange>;
+  disabled?: boolean
+} & ReturnType<typeof useTimescapeRange>
 
 const DateTimeRangeFieldContext =
   React.createContext<DateTimeRangeFieldContextProps>({
@@ -25,23 +25,24 @@ const DateTimeRangeFieldContext =
     },
     getRootProps: () => ({ ref: () => null }),
     disabled: false,
-  });
+  })
 
 export function useDateTimeRangeField() {
-  const context = React.useContext(DateTimeRangeFieldContext);
+  const context = React.useContext(DateTimeRangeFieldContext)
   if (!context) {
     throw new Error(
-      "useDateTimeRangeField must be used within a <DateTimeRangeField />.",
-    );
+      "useDateTimeRangeField must be used within a <DateTimeRangeField />."
+    )
   }
 
-  return context;
+  return context
 }
 
 export interface DateTimeRangeFieldProps
-  extends UseTimescapeRangeOptions,
+  extends
+    UseTimescapeRangeOptions,
     Omit<React.ComponentProps<typeof Primitive.div>, "value" | "defaultValue"> {
-  disabled?: boolean;
+  disabled?: boolean
 }
 
 export function DateTimeRangeField({
@@ -74,10 +75,10 @@ export function DateTimeRangeField({
     wrapAround,
     from,
     to,
-  });
+  })
 
-  const { ref: rootRef, ...rootProps } = timescape.getRootProps();
-  const composedRefs = useComposedRefs(ref, (node) => rootRef(node)!);
+  const { ref: rootRef, ...rootProps } = timescape.getRootProps()
+  const composedRefs = useComposedRefs(ref, (node) => rootRef(node)!)
 
   return (
     <DateTimeRangeFieldContext.Provider value={{ ...timescape, disabled }}>
@@ -89,13 +90,13 @@ export function DateTimeRangeField({
         {...props}
       />
     </DateTimeRangeFieldContext.Provider>
-  );
+  )
 }
 
 export function DateTimeRangeFieldSeparator(
-  props: React.ComponentProps<typeof Primitive.span>,
+  props: React.ComponentProps<typeof Primitive.span>
 ) {
-  const { disabled } = useDateTimeRangeField();
+  const { disabled } = useDateTimeRangeField()
 
   return (
     <Primitive.span
@@ -104,22 +105,22 @@ export function DateTimeRangeFieldSeparator(
       data-disabled={disabled}
       {...props}
     />
-  );
+  )
 }
 
-const DateTimeRangeFieldFromContext = React.createContext(false);
+const DateTimeRangeFieldFromContext = React.createContext(false)
 
 export function DateTimeRangeFieldFrom(
-  props: React.ComponentProps<typeof Primitive.div>,
+  props: React.ComponentProps<typeof Primitive.div>
 ) {
   return (
     <DateTimeRangeFieldFromContext.Provider value={true}>
       <Primitive.div data-slot="date-time-range-field-from" {...props} />
     </DateTimeRangeFieldFromContext.Provider>
-  );
+  )
 }
 
-const DateTimeRangeFieldToContext = React.createContext(false);
+const DateTimeRangeFieldToContext = React.createContext(false)
 
 export function DateTimeRangeFieldTo({
   ref,
@@ -133,24 +134,24 @@ export function DateTimeRangeFieldTo({
         {...props}
       />
     </DateTimeRangeFieldToContext.Provider>
-  );
+  )
 }
 
 function useDateTimeFieldSegment() {
-  const isFrom = React.useContext(DateTimeRangeFieldFromContext);
-  const isTo = React.useContext(DateTimeRangeFieldToContext);
-  const { disabled, from, to } = useDateTimeRangeField();
+  const isFrom = React.useContext(DateTimeRangeFieldFromContext)
+  const isTo = React.useContext(DateTimeRangeFieldToContext)
+  const { disabled, from, to } = useDateTimeRangeField()
 
   if (!isFrom && !isTo) {
     throw new Error(
-      "useDateTimeFieldSegment should be used within <DateTimeRangeFieldFrom /> or <DateTimeRangeFieldTo /> components",
-    );
+      "useDateTimeFieldSegment should be used within <DateTimeRangeFieldFrom /> or <DateTimeRangeFieldTo /> components"
+    )
   }
 
   return {
     ...(isFrom ? from : to),
     disabled,
-  };
+  }
 }
 
 export function DateTimeRangeFieldYears({
@@ -158,9 +159,9 @@ export function DateTimeRangeFieldYears({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("years");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("years")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -170,7 +171,7 @@ export function DateTimeRangeFieldYears({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldMonths({
@@ -178,9 +179,9 @@ export function DateTimeRangeFieldMonths({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("months");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("months")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -190,7 +191,7 @@ export function DateTimeRangeFieldMonths({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldDays({
@@ -198,9 +199,9 @@ export function DateTimeRangeFieldDays({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("days");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("days")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -210,7 +211,7 @@ export function DateTimeRangeFieldDays({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldHours({
@@ -218,9 +219,9 @@ export function DateTimeRangeFieldHours({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("hours");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("hours")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -230,7 +231,7 @@ export function DateTimeRangeFieldHours({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldMinutes({
@@ -238,9 +239,9 @@ export function DateTimeRangeFieldMinutes({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("minutes");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("minutes")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -250,7 +251,7 @@ export function DateTimeRangeFieldMinutes({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldSeconds({
@@ -258,9 +259,9 @@ export function DateTimeRangeFieldSeconds({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("seconds");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("seconds")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   return (
     <Primitive.input
@@ -270,7 +271,7 @@ export function DateTimeRangeFieldSeconds({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export function DateTimeRangeFieldAmPm({
@@ -278,12 +279,12 @@ export function DateTimeRangeFieldAmPm({
   disabled: disabledProp,
   ...props
 }: React.ComponentProps<typeof Primitive.input>) {
-  const { getInputProps, options, disabled } = useDateTimeFieldSegment();
-  const { ref: inputRef, ...inputProps } = getInputProps("am/pm");
-  const composedRefs = useComposedRefs(ref, inputRef);
+  const { getInputProps, options, disabled } = useDateTimeFieldSegment()
+  const { ref: inputRef, ...inputProps } = getInputProps("am/pm")
+  const composedRefs = useComposedRefs(ref, inputRef)
 
   if (!options?.hour12) {
-    return null;
+    return null
   }
 
   return (
@@ -294,7 +295,7 @@ export function DateTimeRangeFieldAmPm({
       disabled={disabled || disabledProp}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -309,4 +310,4 @@ export {
   DateTimeRangeFieldMinutes as Minutes,
   DateTimeRangeFieldSeconds as Seconds,
   DateTimeRangeFieldAmPm as AmPm,
-};
+}

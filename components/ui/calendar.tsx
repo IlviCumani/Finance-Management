@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 // import {
 //   ChevronDown,
@@ -6,20 +6,25 @@
 //   ChevronRight,
 //   ChevronUp,
 // } from "lucide-react";
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import * as React from "react";
-import { DayPicker, UI, useDayPicker } from "react-day-picker";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import * as React from "react"
+import { DayPicker, UI, useDayPicker } from "react-day-picker"
 
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
 function Calendar({
   captionLayout = "label",
@@ -37,16 +42,16 @@ function Calendar({
       classNames={{
         button_next: cn(
           buttonVariants({ variant: "outline", size: "icon" }),
-          "size-7 opacity-50 hover:opacity-100",
+          "size-7 opacity-50 hover:opacity-100"
         ),
         button_previous: cn(
           buttonVariants({ variant: "outline", size: "icon" }),
-          "size-7 opacity-50 hover:opacity-100",
+          "size-7 opacity-50 hover:opacity-100"
         ),
         caption_label: "text-sm font-medium aria-hidden:hidden",
         day_button: cn(
           buttonVariants({ variant: "ghost" }),
-          "size-8 font-normal",
+          "size-8 font-normal"
         ),
         day: "p-0 text-center text-sm",
         disabled: "*:text-muted-foreground *:opacity-50",
@@ -57,7 +62,7 @@ function Calendar({
         month_grid: "w-full border-collapse space-y-1",
         month: cn(
           "space-y-4",
-          captionLayout !== "label" && !props.hideNavigation && "mt-9",
+          captionLayout !== "label" && !props.hideNavigation && "mt-9"
         ),
         months:
           "relative flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0",
@@ -68,15 +73,15 @@ function Calendar({
           "before:bg-accent relative isolate before:absolute before:inset-0 before:rounded-r-md after:hidden [&>button]:relative [&>button]:z-10",
         range_middle: cn(
           "relative isolate",
-          "before:bg-accent relative before:absolute before:inset-0 before:rounded-r-md first:before:rounded-l-md [&>button]:relative [&>button]:z-10",
-          "after:bg-accent relative after:absolute after:inset-0 after:rounded-l-md last:after:rounded-r-md [&>button]:relative [&>button]:z-10",
-          "aria-selected:[&>button]:bg-accent aria-selected:[&>button]:text-accent-foreground",
+          "relative before:absolute before:inset-0 before:rounded-r-md before:bg-accent first:before:rounded-l-md [&>button]:relative [&>button]:z-10",
+          "relative after:absolute after:inset-0 after:rounded-l-md after:bg-accent last:after:rounded-r-md [&>button]:relative [&>button]:z-10",
+          "aria-selected:[&>button]:bg-accent aria-selected:[&>button]:text-accent-foreground"
         ),
         // Join end cell.
         range_start:
           "after:bg-accent relative isolate before:hidden after:absolute after:inset-0 after:rounded-l-md [&>button]:relative [&>button]:z-10",
         selected: cn(
-          "[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground",
+          "[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground"
         ),
         today:
           "[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground",
@@ -89,14 +94,16 @@ function Calendar({
         Chevron: ({ orientation }) => {
           switch (orientation) {
             case "up":
-              return <HugeiconsIcon icon={ChevronUpIcon} className="size-4" />;
+              return <HugeiconsIcon icon={ChevronUpIcon} className="size-4" />
             case "down":
-              return <HugeiconsIcon icon={ChevronDownIcon} className="size-4" />;
+              return <HugeiconsIcon icon={ChevronDownIcon} className="size-4" />
             case "left":
-              return <HugeiconsIcon icon={ChevronLeftIcon} className="size-4" />;
+              return <HugeiconsIcon icon={ChevronLeftIcon} className="size-4" />
             case "right":
             default:
-              return <HugeiconsIcon icon={ChevronRightIcon} className="size-4" />;
+              return (
+                <HugeiconsIcon icon={ChevronRightIcon} className="size-4" />
+              )
           }
         },
         Dropdown: ({
@@ -107,7 +114,7 @@ function Calendar({
           options,
           className,
         }) => {
-          const { classNames } = useDayPicker();
+          const { classNames } = useDayPicker()
 
           return (
             <Select
@@ -137,13 +144,13 @@ function Calendar({
                 ))}
               </SelectContent>
             </Select>
-          );
+          )
         },
         ...components,
       }}
       {...props}
     />
-  );
+  )
 }
 
-export { Calendar };
+export { Calendar }

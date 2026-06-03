@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
+import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
 import {
   type EmojiPickerListCategoryHeaderProps,
   type EmojiPickerListEmojiProps,
@@ -9,18 +9,18 @@ import {
   SkinTone,
   useActiveEmoji,
   useSkinTone,
-} from "frimousse";
-import { Loading03Icon, SearchIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import * as React from "react";
+} from "frimousse"
+import { Loading03Icon, SearchIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import * as React from "react"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 
 function EmojiPicker({
   className,
@@ -30,12 +30,12 @@ function EmojiPicker({
     <EmojiPickerPrimitive.Root
       data-slot="emoji-picker"
       className={cn(
-        "bg-popover text-popover-foreground isolate flex h-full w-fit flex-col overflow-hidden rounded-md",
-        className,
+        "isolate flex h-full w-fit flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
+        className
       )}
       {...props}
     />
-  );
+  )
 }
 
 function EmojiPickerSearch({
@@ -50,11 +50,11 @@ function EmojiPickerSearch({
       <HugeiconsIcon icon={SearchIcon} className="size-4 shrink-0 opacity-50" />
       <EmojiPickerPrimitive.Search
         data-slot="emoji-picker-search"
-        className="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function EmojiPickerRow({ children, ...props }: EmojiPickerListRowProps) {
@@ -62,7 +62,7 @@ function EmojiPickerRow({ children, ...props }: EmojiPickerListRowProps) {
     <div data-slot="emoji-picker-row" className="scroll-my-1 px-1" {...props}>
       {children}
     </div>
-  );
+  )
 }
 
 function EmojiPickerEmoji({
@@ -74,14 +74,14 @@ function EmojiPickerEmoji({
     <button
       data-slot="emoji-picker-emoji"
       className={cn(
-        "data-[active]:bg-accent flex size-7 items-center justify-center rounded-sm text-base",
-        className,
+        "flex size-7 items-center justify-center rounded-sm text-base data-[active]:bg-accent",
+        className
       )}
       {...props}
     >
       {emoji.emoji}
     </button>
-  );
+  )
 }
 
 function EmojiPickerCategoryHeader({
@@ -91,12 +91,12 @@ function EmojiPickerCategoryHeader({
   return (
     <div
       data-slot="emoji-picker-category-header"
-      className="bg-popover text-muted-foreground px-3 pt-3.5 pb-2 text-xs leading-none"
+      className="bg-popover px-3 pt-3.5 pb-2 text-xs leading-none text-muted-foreground"
       {...props}
     >
       {category.label}
     </div>
-  );
+  )
 }
 
 function EmojiPickerContent({
@@ -111,13 +111,13 @@ function EmojiPickerContent({
     >
       <EmojiPickerPrimitive.Loading
         data-slot="emoji-picker-loading"
-        className="text-muted-foreground absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center text-muted-foreground"
       >
         <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
       </EmojiPickerPrimitive.Loading>
       <EmojiPickerPrimitive.Empty
         data-slot="emoji-picker-empty"
-        className="text-muted-foreground absolute inset-0 flex items-center justify-center text-sm"
+        className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground"
       >
         No emoji found.
       </EmojiPickerPrimitive.Empty>
@@ -131,7 +131,7 @@ function EmojiPickerContent({
         }}
       />
     </EmojiPickerPrimitive.Viewport>
-  );
+  )
 }
 
 function EmojiPickerFooter({
@@ -143,31 +143,31 @@ function EmojiPickerFooter({
       data-slot="emoji-picker-footer"
       className={cn(
         "flex w-full max-w-(--frimousse-viewport-width) min-w-0 items-center justify-between gap-1 border-t p-2",
-        className,
+        className
       )}
       {...props}
     >
       <EmojiPickerActiveEmojiPreview />
       <EmojiPickerSkinToneSelector />
     </div>
-  );
+  )
 }
 
 function EmojiPickerActiveEmojiPreview({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const emoji = useActiveEmoji();
+  const emoji = useActiveEmoji()
 
   if (!emoji) {
     return (
       <div
-        className="text-muted-foreground ml-1.5 flex h-7 items-center truncate text-xs"
+        className="ml-1.5 flex h-7 items-center truncate text-xs text-muted-foreground"
         {...props}
       >
         Select an emoji…
       </div>
-    );
+    )
   }
 
   return (
@@ -176,16 +176,16 @@ function EmojiPickerActiveEmojiPreview({
         <div className="flex size-7 flex-none items-center justify-center text-lg">
           {emoji.emoji}
         </div>
-        <span className="text-secondary-foreground truncate text-xs">
+        <span className="truncate text-xs text-secondary-foreground">
           {emoji.label}
         </span>
       </div>
     </div>
-  );
+  )
 }
 
 function EmojiPickerSkinToneSelector() {
-  const [skinTone, setSkinTone, skinToneVariations] = useSkinTone();
+  const [skinTone, setSkinTone, skinToneVariations] = useSkinTone()
 
   return (
     <Popover>
@@ -193,7 +193,7 @@ function EmojiPickerSkinToneSelector() {
         <Button variant="outline" size="icon" className="size-7">
           {
             skinToneVariations.find(
-              (variation) => variation.skinTone === skinTone,
+              (variation) => variation.skinTone === skinTone
             )?.emoji
           }
         </Button>
@@ -215,7 +215,7 @@ function EmojiPickerSkinToneSelector() {
               key={variation.skinTone}
               aria-label={`${variation.skinTone} skin tone`}
               value={variation.skinTone}
-              className="data-[state=on]:bg-accent data-[state=on]:text-accent-foreground hover:bg-muted focus-visible:ring-ring size-7"
+              className="size-7 hover:bg-muted focus-visible:ring-ring data-[state=on]:bg-accent data-[state=on]:text-accent-foreground"
             >
               {variation.emoji}
             </ToggleGroupPrimitive.Item>
@@ -223,12 +223,7 @@ function EmojiPickerSkinToneSelector() {
         </ToggleGroupPrimitive.Root>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
 
-export {
-  EmojiPicker,
-  EmojiPickerSearch,
-  EmojiPickerContent,
-  EmojiPickerFooter,
-};
+export { EmojiPicker, EmojiPickerSearch, EmojiPickerContent, EmojiPickerFooter }
