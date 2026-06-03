@@ -19,7 +19,11 @@ export async function getAccounts(): Promise<{
     data,
     error,
   }: { data: Array<Account_Response> | null; error: Error | null } =
-    await supabase.from("accounts").select("*").eq("user_id", user.id)
+    await supabase
+      .from("accounts")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
 
   if (error) {
     const t = await getTranslations("accounts.actions")

@@ -27,7 +27,8 @@ export async function getTransactionCategories(): Promise<{
       .from("transaction_categories")
       .select("*")
       .eq("user_id", user.id)
-
+      .order("created_at", { ascending: false })
+      
   if (error) {
     const t = await getTranslations("settings.transactionCategories.actions")
     return {
