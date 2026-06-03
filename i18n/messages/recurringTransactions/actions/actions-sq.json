@@ -1,0 +1,7 @@
+{
+  "fetchError": "Dështoi marrja e transaksioneve të përsëritura",
+  "createError": "Dështoi krijimi i transaksionit të përsëritur",
+  "updateError": "Dështoi përditësimi i transaksionit të përsëritur",
+  "deleteError": "Dështoi fshirja e transaksionit të përsëritur",
+  "paymentDateFuture": "Data e pagesës duhet të jetë në të ardhmen"
+}

@@ -28,6 +28,7 @@ import { toast } from "sonner"
 import { updateRecurringTransaction, deleteRecurringTransaction } from "../../actions"
 import { Button } from "@/components/ui/button"
 import { confirm } from "@/components/ui/confirmer"
+import { useTranslations } from "next-intl"
 
 type RecurringTransactionCardProps = {
     transaction: RecurringTransaction
@@ -38,6 +39,8 @@ export function RecurringTransactionCardOutlined({
     transaction,
     accounts,
 }: RecurringTransactionCardProps) {
+    const t = useTranslations("recurringTransactions.card")
+    const tFrequency = useTranslations("recurringTransactions.frequency")
     const daysUntil = formatDistanceToNow(new Date(transaction.nextRunAt), {
         addSuffix: true,
     })
@@ -72,7 +75,7 @@ export function RecurringTransactionCardOutlined({
         formData.append("paymentDate", transaction.nextRunAt)
         const { error } = await updateRecurringTransaction(formData)
         if (error) {
-            toast.error(error || "Failed to update recurring transaction", {
+            toast.error(error || t("updateError"), {
                 position: "top-right",
             })
             setChecked(transaction.isActive)
@@ -82,11 +85,11 @@ export function RecurringTransactionCardOutlined({
     async function handleDelete() {
         const { error } = await deleteRecurringTransaction(transaction.id)
         if (error) {
-            toast.error(error || "Failed to delete recurring transaction", {
+            toast.error(error || t("deleteError"), {
                 position: "top-right",
             })
         } else {
-            toast.success("Recurring transaction deleted successfully", {
+            toast.success(t("deleteSuccess"), {
                 position: "top-right",
             })
         }
@@ -109,7 +112,7 @@ export function RecurringTransactionCardOutlined({
                                 setChecked(checked)
                                 handleToggleActive(checked)
                             }}
-                            aria-label={`Toggle ${transaction.name} active status`}
+                            aria-label={t("toggleActive", { name: transaction.name })}
                         />
                     </CardAction>
 
@@ -130,13 +133,13 @@ export function RecurringTransactionCardOutlined({
 
                 <CardContent className="flex-1">
                     <p className="text-sm text-muted-foreground">
-                        Payed: {transaction.frequency}
+                        {t("paid")}: {tFrequency(transaction.frequency)}
                     </p>
                     <p className="text-3xl font-bold tracking-tight">
                         {formatCurrency(transaction.amount)}
                     </p>
                     <p className="mt-4 text-sm text-muted-foreground">
-                        Account:
+                        {t("account")}:
                         <span className="font-semibold ml-1 text-foreground">{transaction.account?.name}</span>
                     </p>
                 </CardContent>
@@ -158,15 +161,15 @@ export function RecurringTransactionCardOutlined({
                         onClick={(event) => {
                             event.stopPropagation()
                             confirm({
-                                title: "Delete Recurring Transaction",
-                                description: "Are you sure you want to delete this recurring transaction?",
+                                title: t("deleteTitle"),
+                                description: t("deleteDescription"),
                             }).then((confirmed) => {
                                 if (confirmed) {
                                     handleDelete()
                                 }
                             })
                         }}
-                        aria-label={`Delete ${transaction.name}`}
+                        aria-label={t("delete", { name: transaction.name })}
                         className="shrink-0 opacity-0 scale-75 translate-y-2 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto"
 
                     >

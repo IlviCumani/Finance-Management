@@ -14,10 +14,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getLogoDevUrl } from "@/lib/utils";
 import { getInitials } from "@/lib/format/text-format";
 import { Account } from "@/types/account/account-types";
-import { startOfDay } from "date-fns";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createRecurringTransaction, updateRecurringTransaction } from "../../actions";
+import { useTranslations } from "next-intl";
+import { useRecurringTransactionFormSchema } from "./use-form-schema";
 
 
 type RecurringTransactionFormProps = {
@@ -27,22 +28,10 @@ type RecurringTransactionFormProps = {
     accounts: Array<Account>
 }
 
-const formSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
-    amount: z.string().min(1, "Amount is required").regex(/^\d+$/, "Amount must be a number"),
-    frequency: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
-    accountId: z.string().min(1, "Account is required"),
-    paymentDate: z.date(),
-}).refine((data) => startOfDay(data.paymentDate) >= startOfDay(new Date()), {
-    path: ["paymentDate"],
-    message: "Payment date must be in the future",
-}).refine((data) => Number(data.amount) > 0, {
-    path: ["amount"],
-    message: "Amount must be greater than 0",
-})
-
 export function RecurringTransactionForm({ open, onOpenChange, recurringTransaction, accounts }: RecurringTransactionFormProps) {
+    const t = useTranslations("recurringTransactions.form")
+    const tFrequency = useTranslations("recurringTransactions.frequency")
+    const formSchema = useRecurringTransactionFormSchema()
     const [error, setError] = useState<string | undefined>(undefined)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -59,6 +48,14 @@ export function RecurringTransactionForm({ open, onOpenChange, recurringTransact
     const { watch, reset } = form
     const name = watch("name")
 
+    const frequencyOptions = [
+        { label: tFrequency("daily"), value: "daily" },
+        { label: tFrequency("weekly"), value: "weekly" },
+        { label: tFrequency("monthly"), value: "monthly" },
+        { label: tFrequency("quarterly"), value: "quarterly" },
+        { label: tFrequency("yearly"), value: "yearly" },
+    ] as const
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const formData = new FormData()
         formData.append("name", values.name)
@@ -74,14 +71,14 @@ export function RecurringTransactionForm({ open, onOpenChange, recurringTransact
             const { error } = await updateRecurringTransaction(formData)
             if (error) {
                 setError(error)
-                toast.error("Failed to update recurring transaction", {
+                toast.error(error || t("updateError"), {
                     position: "top-right",
                 })
             }
             else {
                 onOpenChange(false)
                 setError(undefined)
-                toast.success("Recurring transaction updated successfully", {
+                toast.success(t("updatedSuccess"), {
                     position: "top-right",
                 })
             }
@@ -89,13 +86,13 @@ export function RecurringTransactionForm({ open, onOpenChange, recurringTransact
             const { error } = await createRecurringTransaction(formData)
             if (error) {
                 setError(error)
-                toast.error("Failed to create recurring transaction", {
+                toast.error(error || t("createError"), {
                     position: "top-right",
                 })
             } else {
                 onOpenChange(false)
                 setError(undefined)
-                toast.success("Recurring transaction created successfully", {
+                toast.success(t("createdSuccess"), {
                     position: "top-right",
                 })
             }
@@ -121,13 +118,13 @@ export function RecurringTransactionForm({ open, onOpenChange, recurringTransact
             open={open}
             error={error}
             onOpenChange={onOpenChange}
-            title="Recurring Transaction Form"
+            title={recurringTransaction ? t("editTitle") : t("addTitle")}
             formId="recurring-transaction-form"
         >
             <form onSubmit={form.handleSubmit(onSubmit)} id="recurring-transaction-form">
                 <FieldGroup className="overflow-y-auto max-h-[calc(100vh-200px)]">
                     <Controller control={form.control} name="name" render={({ field, fieldState }) => (
-                        <InputFormField field={field} fieldState={fieldState} label="Name" >
+                        <InputFormField field={field} fieldState={fieldState} label={t("name")} >
                             <InputGroupAddon align="inline-end">
                                 <InputGroupText hidden={!name}>
                                     <Avatar size="sm">
@@ -139,29 +136,23 @@ export function RecurringTransactionForm({ open, onOpenChange, recurringTransact
                         </InputFormField>
                     )} />
                     <Controller control={form.control} name="amount" render={({ field, fieldState }) => (
-                        <InputFormField field={field} fieldState={fieldState} label="Amount" />
+                        <InputFormField field={field} fieldState={fieldState} label={t("amount")} />
                     )} />
                     <Controller control={form.control} name="frequency" render={({ field, fieldState }) => (
-                        <SelectFormField field={field} fieldState={fieldState} label="Frequency" options={[
-                            { label: "Daily", value: "daily" },
-                            { label: "Weekly", value: "weekly" },
-                            { label: "Monthly", value: "monthly" },
-                            { label: "Quarterly", value: "quarterly" },
-                            { label: "Yearly", value: "yearly" },
-                        ]} />
+                        <SelectFormField field={field} fieldState={fieldState} label={t("frequency")} options={[...frequencyOptions]} />
                     )} />
                     <Controller control={form.control} name="accountId" render={({ field, fieldState }) => (
-                        <SelectFormField field={field} fieldState={fieldState} label="Account" options={accounts.map((account) => ({
+                        <SelectFormField field={field} fieldState={fieldState} label={t("account")} options={accounts.map((account) => ({
                             label: account.name,
                             value: account.id,
                         }))} />
                     )} />
                     <Controller control={form.control} name="paymentDate" render={({ field, fieldState }) => (
-                        <DateFormField field={field} fieldState={fieldState} label="Payment Date" description="The next date the transaction will be processed." />
+                        <DateFormField field={field} fieldState={fieldState} label={t("paymentDate")} description={t("paymentDateDescription")} />
                     )} />
 
                     <Controller control={form.control} name="description" render={({ field, fieldState }) => (
-                        <TextareaFormField field={field} fieldState={fieldState} label="Description" />
+                        <TextareaFormField field={field} fieldState={fieldState} label={t("description")} />
                     )} />
                 </FieldGroup>
             </form>

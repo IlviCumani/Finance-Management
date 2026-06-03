@@ -10,6 +10,7 @@ import { requireUser } from "@/lib/require-user"
 import { revalidatePath } from "next/cache"
 import { startOfDay } from "date-fns"
 import { getAccountsByIds } from "@/lib/supabase/queries/account"
+import { getTranslations } from "next-intl/server"
 
 const PATH = "/recurring-transactions"
 
@@ -33,8 +34,9 @@ export async function getRecurringTransactions(): Promise<{
     .order("created_at", { ascending: false })
 
   if (error) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
-      error: error.message,
+      error: error.message || t("fetchError"),
     }
   }
   const allAccountIds = data?.map(
@@ -96,9 +98,10 @@ export async function createRecurringTransaction(formData: FormData): Promise<{
   const paymentDate = formData.get("paymentDate") as string
 
   if (!validateTimeIsInTheFuture(paymentDate)) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
       success: false,
-      error: "Payment date must be in the future",
+      error: t("paymentDateFuture"),
     }
   }
 
@@ -116,9 +119,10 @@ export async function createRecurringTransaction(formData: FormData): Promise<{
   })
 
   if (error) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
       success: false,
-      error: error.message,
+      error: error.message || t("createError"),
     }
   }
 
@@ -145,9 +149,10 @@ export async function updateRecurringTransaction(formData: FormData): Promise<{
   const isActive = formData.get("isActive") === "true"
 
   if (!validateTimeIsInTheFuture(paymentDate)) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
       success: false,
-      error: "Payment date must be in the future",
+      error: t("paymentDateFuture"),
     }
   }
 
@@ -165,9 +170,10 @@ export async function updateRecurringTransaction(formData: FormData): Promise<{
     .eq("id", id)
 
   if (error) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
       success: false,
-      error: error.message,
+      error: error.message || t("updateError"),
     }
   }
 
@@ -190,9 +196,10 @@ export async function deleteRecurringTransaction(id: string): Promise<{
     .eq("id", id)
 
   if (error) {
+    const t = await getTranslations("recurringTransactions.actions")
     return {
       success: false,
-      error: error.message,
+      error: error.message || t("deleteError"),
     }
   }
 

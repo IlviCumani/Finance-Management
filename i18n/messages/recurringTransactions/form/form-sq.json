@@ -1,0 +1,15 @@
+{
+  "addTitle": "Shto Transaksion të Përsëritur",
+  "editTitle": "Ndrysho Transaksionin e Përsëritur",
+  "name": "Emri",
+  "description": "Përshkrimi",
+  "amount": "Shuma",
+  "frequency": "Frekuenca",
+  "account": "Llogaria",
+  "paymentDate": "Data e Pagesës",
+  "paymentDateDescription": "Data e ardhshme kur do të përpunohet transaksioni.",
+  "createdSuccess": "Transaksioni i përsëritur u krijua me sukses",
+  "updatedSuccess": "Transaksioni i përsëritur u përditësua me sukses",
+  "createError": "Dështoi krijimi i transaksionit të përsëritur",
+  "updateError": "Dështoi përditësimi i transaksionit të përsëritur"
+}

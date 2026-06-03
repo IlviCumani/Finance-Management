@@ -1,7 +1,7 @@
 {
-  "daily": "Çdo agim",
-  "weekly": "Çdo shtatë ditësh",
-  "monthly": "Çdo kalim hëne",
-  "quarterly": "Çdo stinë",
-  "yearly": "Çdo vit që kalon"
+  "daily": "Ditore",
+  "weekly": "Javore",
+  "monthly": "Mujore",
+  "quarterly": "Tremujore",
+  "yearly": "Vjetore"
 }

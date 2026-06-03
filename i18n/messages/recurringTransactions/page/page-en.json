@@ -1,6 +1,8 @@
 {
-  "title": "Returning Tolls",
-  "description": "Behold the charges that come again, cycle upon cycle, upon thy ledger.",
-  "addRecurringTransaction": "Inscribe Returning Toll",
-  "fetchError": "The ledger's cycles could not be drawn forth"
+  "title": "Recurring Transactions",
+  "description": "Track and manage transactions that repeat on a schedule.",
+  "addRecurringTransaction": "Add Recurring Transaction",
+  "fetchError": "Failed to fetch recurring transactions",
+  "emptyTitle": "No recurring transactions found",
+  "emptyDescription": "You don't have any recurring transactions yet."
 }

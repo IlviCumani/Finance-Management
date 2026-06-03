@@ -1,0 +1,7 @@
+{
+  "fetchError": "Failed to fetch recurring transactions",
+  "createError": "Failed to create recurring transaction",
+  "updateError": "Failed to update recurring transaction",
+  "deleteError": "Failed to delete recurring transaction",
+  "paymentDateFuture": "Payment date must be in the future"
+}

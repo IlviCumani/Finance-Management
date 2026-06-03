@@ -1,0 +1,9 @@
+{
+  "nameRequired": "Name is required",
+  "descriptionRequired": "Description is required",
+  "amountRequired": "Amount is required",
+  "amountWholeNumber": "Amount must be a number",
+  "amountMin": "Amount must be greater than 0",
+  "accountRequired": "Account is required",
+  "paymentDateFuture": "Payment date must be in the future"
+}
