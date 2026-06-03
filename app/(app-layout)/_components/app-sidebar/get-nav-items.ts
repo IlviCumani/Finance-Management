@@ -50,8 +50,8 @@ export function getNavItems(): NavItem[] {
       icon: PiggyBankIcon,
     },
     {
-      titleKey: "nav.subscriptions",
-      url: "/subscriptions",
+      titleKey: "nav.recurringTransactions",
+      url: "/recurring-transactions",
       icon: LaptopVideoIcon,
     },
     {

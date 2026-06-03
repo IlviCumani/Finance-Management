@@ -1,0 +1,8 @@
+{
+  "title": "Recurring Transactions",
+  "description": "Track and manage transactions that repeat on a schedule.",
+  "addRecurringTransaction": "Add Recurring Transaction",
+  "fetchError": "Failed to fetch recurring transactions",
+  "emptyTitle": "No recurring transactions found",
+  "emptyDescription": "You don't have any recurring transactions yet."
+}

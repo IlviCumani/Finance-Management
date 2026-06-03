@@ -1,0 +1,8 @@
+{
+  "title": "Transaksionet e Përsëritura",
+  "description": "Ndiq dhe menaxho transaksionet që përsëriten sipas një orari.",
+  "addRecurringTransaction": "Shto Transaksion të Përsëritur",
+  "fetchError": "Dështoi marrja e transaksioneve të përsëritura",
+  "emptyTitle": "Asnjë transaksion i përsëritur nuk u gjet",
+  "emptyDescription": "Ende nuk ke asnjë transaksion të përsëritur."
+}

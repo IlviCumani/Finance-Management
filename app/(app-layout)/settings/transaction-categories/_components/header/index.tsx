@@ -12,7 +12,18 @@ export function TransactionCategoriesHeader() {
     const t = useTranslations("settings.transactionCategories.page")
     const [open, setOpen] = useState(false);
     return (
-        <PageHeader title={t("title")} description={t("description")}>
+        <PageHeader title={t("title")} description={t("description")} links={
+            [
+                {
+                    label: "Home",
+                    href: '/'
+                },
+                {
+                    label: "Settings",
+                    href: '#'
+                },
+            ]
+        }>
             <TransactionCategoryForm open={open} onOpenChange={setOpen} />
             <div>
                 <Button onClick={() => setOpen(true)}>

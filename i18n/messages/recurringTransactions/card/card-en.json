@@ -1,0 +1,11 @@
+{
+  "paid": "Paid",
+  "account": "Account",
+  "toggleActive": "Toggle {name} active status",
+  "delete": "Delete {name}",
+  "deleteTitle": "Delete Recurring Transaction",
+  "deleteDescription": "Are you sure you want to delete this recurring transaction?",
+  "deleteSuccess": "Recurring transaction deleted successfully",
+  "updateError": "Failed to update recurring transaction",
+  "deleteError": "Failed to delete recurring transaction"
+}

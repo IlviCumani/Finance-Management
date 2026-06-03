@@ -1,0 +1,15 @@
+{
+  "addTitle": "Add Recurring Transaction",
+  "editTitle": "Edit Recurring Transaction",
+  "name": "Name",
+  "description": "Description",
+  "amount": "Amount",
+  "frequency": "Frequency",
+  "account": "Account",
+  "paymentDate": "Payment Date",
+  "paymentDateDescription": "The next date the transaction will be processed.",
+  "createdSuccess": "Recurring transaction created successfully",
+  "updatedSuccess": "Recurring transaction updated successfully",
+  "createError": "Failed to create recurring transaction",
+  "updateError": "Failed to update recurring transaction"
+}
