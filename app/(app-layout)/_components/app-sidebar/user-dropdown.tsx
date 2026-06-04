@@ -86,10 +86,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive" onClick={() => logout()}>
               <HugeiconsIcon icon={LogoutIcon} />
-              <span className="text-destructive!">
-                Test
-                {t("logout")}
-              </span>
+              <span className="text-destructive!">{t("logout")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
