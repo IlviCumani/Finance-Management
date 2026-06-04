@@ -65,11 +65,16 @@ function InputBase({
         data-slot="input-base"
         // Based on MUI's <InputBase /> implementation.
         // https://github.com/mui/material-ui/blob/master/packages/mui-material/src/InputBase/InputBase.js#L458~L460
-        onClick={composeEventHandlers(onClick, (event) => {
-          if (controlRef.current && event.currentTarget === event.target) {
+        onClick={(event) => {
+          onClick?.(event)
+          if (
+            !event.defaultPrevented &&
+            controlRef.current &&
+            event.currentTarget === event.target
+          ) {
             controlRef.current.focus()
           }
-        })}
+        }}
         className={cn(
           "flex min-h-9 cursor-text items-center gap-2 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground md:text-sm dark:bg-input/30",
           disabled && "pointer-events-none cursor-not-allowed opacity-50",
