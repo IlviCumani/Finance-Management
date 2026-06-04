@@ -1,0 +1,3 @@
+node scripts/update-npm-before.mjs
+git add .npmrc
+npx lint-staged
