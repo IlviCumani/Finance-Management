@@ -1,0 +1,12 @@
+{
+  "name": "Name",
+  "type": "Type",
+  "income": "Income",
+  "expense": "Expense",
+  "transfer": "Transfer",
+  "createdAt": "Created At",
+  "lastUpdated": "Last Updated",
+  "deleteDescription": "This action cannot be undone. This will permanently delete the category and remove it from your transactions.",
+  "deleteSuccess": "Category deleted successfully",
+  "deleteError": "Failed to delete category"
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Transactions",
+  "description": "Track and manage all your financial transactions.",
+  "addTransaction": "Add Transaction",
+  "fetchError": "Failed to fetch transactions"
+}

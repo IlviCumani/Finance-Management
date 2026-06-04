@@ -1,0 +1,15 @@
+{
+  "dashboard": "Paneli",
+  "transactions": "Transaksionet",
+  "accounts": "Llogaritë",
+  "budgets": "Buxhetet",
+  "savings": "Kursimet",
+  "recurringTransactions": "Transaksionet e Përsëritura",
+  "analytics": "Analitika",
+  "settings": "Cilësimet",
+  "profile": "Profili",
+  "preferences": "Parapëlqimet",
+  "security": "Siguria",
+  "notifications": "Njoftimet",
+  "transactionCategories": "Kategoritë e Transaksioneve"
+}

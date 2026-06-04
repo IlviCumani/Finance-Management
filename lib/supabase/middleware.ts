@@ -10,8 +10,21 @@ function isGuestOnlyPath(pathname: string): boolean {
   )
 }
 
+const PROTECTED_PATH_PREFIXES = [
+  "/dashboard",
+  "/transactions",
+  "/accounts",
+  "/budgets",
+  "/savings",
+  "/recurring-transactions",
+  "/analytics",
+  "/settings",
+] as const
+
 function isProtectedPath(pathname: string): boolean {
-  return pathname.startsWith("/dashboard")
+  return PROTECTED_PATH_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  )
 }
 
 function withSessionCookies(

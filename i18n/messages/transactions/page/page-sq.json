@@ -1,0 +1,6 @@
+{
+  "title": "Transaksionet",
+  "description": "Ndiqni dhe menaxhoni të gjitha transaksionet tuaja financiare.",
+  "addTransaction": "Shto transaksion",
+  "fetchError": "Dështoi ngarkimi i transaksioneve"
+}

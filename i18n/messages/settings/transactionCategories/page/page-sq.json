@@ -1,0 +1,6 @@
+{
+  "title": "Kategoritë e Transaksioneve",
+  "description": "Organizoni transaksionet tuaja me kategori të personalizuara.",
+  "addTransactionCategory": "Shto kategori",
+  "fetchError": "Dështoi ngarkimi i kategorive të transaksioneve"
+}

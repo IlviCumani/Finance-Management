@@ -1,0 +1,4 @@
+{
+  "nameRequired": "Name is required",
+  "typeInvalid": "Type must be one of the following: {types}"
+}

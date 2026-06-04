@@ -1,0 +1,15 @@
+{
+  "name": "Emri",
+  "amount": "Shuma",
+  "transactionDate": "Data e transaksionit",
+  "transactionType": "Lloji",
+  "income": "Të ardhura",
+  "expense": "Shpenzime",
+  "transfer": "Transfer",
+  "account": "Llogaria",
+  "transactionCategory": "Kategoria",
+  "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë transaksionin tuaj dhe do të heqë të dhënat nga serverët tanë.",
+  "deleteSuccess": "Transaksioni u fshi me sukses",
+  "deleteError": "Dështoi fshirja e transaksionit",
+  "description": "Përshkrim"
+}

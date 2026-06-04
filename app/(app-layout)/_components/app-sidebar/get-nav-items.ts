@@ -3,7 +3,6 @@ import {
   HomeIcon,
   PiggyBankIcon,
   Wallet01Icon,
-  NoteIcon,
   ChartAnalysisIcon,
   LandmarkIcon,
   Settings02Icon,
@@ -12,6 +11,8 @@ import {
   LaptopVideoIcon,
   Settings05Icon,
   SecurityLockIcon,
+  Invoice04Icon,
+  ListXIcon,
 } from "@hugeicons/core-free-icons"
 
 export type NavItem = {
@@ -31,7 +32,7 @@ export function getNavItems(): NavItem[] {
     {
       titleKey: "nav.transactions",
       url: "/transactions",
-      icon: NoteIcon,
+      icon: Invoice04Icon,
     },
     {
       titleKey: "nav.accounts",
@@ -49,8 +50,8 @@ export function getNavItems(): NavItem[] {
       icon: PiggyBankIcon,
     },
     {
-      titleKey: "nav.subscriptions",
-      url: "/subscriptions",
+      titleKey: "nav.recurringTransactions",
+      url: "/recurring-transactions",
       icon: LaptopVideoIcon,
     },
     {
@@ -67,6 +68,11 @@ export function getNavItems(): NavItem[] {
           titleKey: "nav.profile",
           url: "/settings/profile",
           icon: User03Icon,
+        },
+        {
+          titleKey: "nav.transactionCategories",
+          url: "/settings/transaction-categories",
+          icon: ListXIcon,
         },
         {
           titleKey: "nav.preferences",

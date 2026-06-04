@@ -1,0 +1,17 @@
+{
+  "addTitle": "Shto transaksion",
+  "editTitle": "Ndrysho transaksionin",
+  "name": "Emri",
+  "amount": "Shuma",
+  "account": "Llogaria e transaksionit",
+  "fromAccount": "Nga llogaria",
+  "toAccount": "Në llogarinë",
+  "transactionCategory": "Kategoria e transaksionit",
+  "transactionDate": "Data e transaksionit",
+  "income": "Të ardhura",
+  "expense": "Shpenzime",
+  "transfer": "Transfer",
+  "createdSuccess": "Transaksioni u krijua me sukses",
+  "description": "Përshkrimi",
+  "updatedSuccess": "Transaksioni u përditësua me sukses"
+}

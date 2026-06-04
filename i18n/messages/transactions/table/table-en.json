@@ -1,0 +1,15 @@
+{
+  "name": "Name",
+  "amount": "Amount",
+  "transactionDate": "Transaction Date",
+  "transactionType": "Type",
+  "income": "Income",
+  "expense": "Expense",
+  "transfer": "Transfer",
+  "account": "Account",
+  "transactionCategory": "Category",
+  "description": "Description",
+  "deleteDescription": "This action cannot be undone. This will permanently delete your transaction and remove your data from our servers.",
+  "deleteSuccess": "Transaction deleted successfully",
+  "deleteError": "Failed to delete transaction"
+}

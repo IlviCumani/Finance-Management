@@ -1,0 +1,9 @@
+{
+  "nameRequired": "Emri është i detyrueshëm",
+  "descriptionRequired": "Përshkrimi është i detyrueshëm",
+  "amountRequired": "Shuma është e detyrueshme",
+  "amountWholeNumber": "Shuma duhet të jetë numër",
+  "amountMin": "Shuma duhet të jetë më e madhe se 0",
+  "accountRequired": "Llogaria është e detyrueshme",
+  "paymentDateFuture": "Data e pagesës duhet të jetë në të ardhmen"
+}

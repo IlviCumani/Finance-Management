@@ -1,0 +1,11 @@
+{
+  "nameRequired": "Name is required",
+  "amountRequired": "Amount is required",
+  "amountWholeNumber": "Amount must be a whole number",
+  "amountMin": "Amount must be greater than 0",
+  "accountRequired": "Account is required",
+  "toAccountRequired": "To account is required",
+  "transactionCategoryRequired": "Transaction category is required",
+  "transactionDateRequired": "Transaction date is required",
+  "transactionDateFuture": "Transaction date cannot be in the future"
+}

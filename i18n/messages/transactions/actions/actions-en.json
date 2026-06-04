@@ -1,0 +1,6 @@
+{
+  "fetchError": "Failed to fetch transactions",
+  "createError": "Failed to create transaction",
+  "updateError": "Failed to update transaction",
+  "deleteError": "Failed to delete transaction"
+}

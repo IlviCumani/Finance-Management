@@ -1,0 +1,11 @@
+{
+  "paid": "Paguhet",
+  "account": "Llogaria",
+  "toggleActive": "Ndrysho statusin aktiv të {name}",
+  "delete": "Fshi {name}",
+  "deleteTitle": "Fshi Transaksionin e Përsëritur",
+  "deleteDescription": "Je i sigurt që dëshiron ta fshish këtë transaksion të përsëritur?",
+  "deleteSuccess": "Transaksioni i përsëritur u fshi me sukses",
+  "updateError": "Dështoi përditësimi i transaksionit të përsëritur",
+  "deleteError": "Dështoi fshirja e transaksionit të përsëritur"
+}

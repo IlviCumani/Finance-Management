@@ -1,0 +1,8 @@
+{
+  "nameRequired": "Emri është i detyrueshëm",
+  "currentBalanceRequired": "Bilanci aktual është i detyrueshëm",
+  "currencyRequired": "Monedha është e detyrueshme",
+  "currencyInvalid": "Monedha duhet të jetë një nga këto: {currencies}",
+  "currentBalanceNumber": "Bilanci aktual duhet të jetë numër",
+  "currentBalanceMin": "Bilanci aktual nuk mund të jetë më i vogël se 0"
+}

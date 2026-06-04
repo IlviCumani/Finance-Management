@@ -1,0 +1,17 @@
+{
+  "emailInvalid": "Emaili është i pavlefshëm",
+  "passwordMinLength": "Fjalëkalimi duhet të jetë i pakërkuar se 8 karaktere",
+  "passwordUppercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të madhe",
+  "passwordNumber": "Fjalëkalimi duhet të përmbajë të pakërkuar një numër",
+  "passwordLowercase": "Fjalëkalimi duhet të përmbajë të pakërkuar një shkronjë të vogël",
+  "passwordSpecial": "Fjalëkalimi duhet të përmbajë të pakërkuar një karakter special",
+  "fullNameRequired": "Emri i plotë është i detyrueshëm",
+  "passwordsDoNotMatch": "Fjalëkalimet nuk përputhen",
+  "confirmPasswordRequired": "Konfirmimi i fjalëkalimit është i detyrueshëm",
+  "confirmPasswordMinLength": "Konfirmimi i fjalëkalimit duhet të jetë i pakërkuar se 8 karaktere",
+  "confirmPasswordUppercase": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një shkronjë të madhe",
+  "confirmPasswordNumber": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një numër",
+  "confirmPasswordLowercase": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një shkronjë të vogël",
+  "confirmPasswordSpecial": "Konfirmimi i fjalëkalimit duhet të përmbajë të pakërkuar një karakter special",
+  "confirmPasswordMatch": "Konfirmimi i fjalëkalimit duhet të përputhet me fjalëkalimin"
+}

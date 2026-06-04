@@ -1,0 +1,19 @@
+{
+  "title": "Register",
+  "description": "Register a new account",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "Enter your full name",
+  "fullNameDescription": "Enter your full name",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordPlaceholder": "Confirm your password",
+  "confirmPasswordDescription": "Confirm your password",
+  "email": "Email",
+  "emailPlaceholder": "Enter your email",
+  "emailDescription": "Enter your email address",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "passwordDescription": "Enter your password",
+  "submit": "Register",
+  "hasAccount": "Already have an account?",
+  "signIn": "Sign in"
+}

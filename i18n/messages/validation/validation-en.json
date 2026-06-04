@@ -1,0 +1,17 @@
+{
+  "emailInvalid": "Invalid email address",
+  "passwordMinLength": "Password must be at least 8 characters long",
+  "passwordUppercase": "Password must contain at least one uppercase letter",
+  "passwordNumber": "Password must contain at least one number",
+  "passwordLowercase": "Password must contain at least one lowercase letter",
+  "passwordSpecial": "Password must contain at least one special character",
+  "fullNameRequired": "Full name is required",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "confirmPasswordRequired": "Confirm password is required",
+  "confirmPasswordMinLength": "Confirm password must be at least 8 characters long",
+  "confirmPasswordUppercase": "Confirm password must contain at least one uppercase letter",
+  "confirmPasswordNumber": "Confirm password must contain at least one number",
+  "confirmPasswordLowercase": "Confirm password must contain at least one lowercase letter",
+  "confirmPasswordSpecial": "Confirm password must contain at least one special character",
+  "confirmPasswordMatch": "Confirm password must match password"
+}
