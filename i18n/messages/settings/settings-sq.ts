@@ -1,4 +1,4 @@
-import transactionCategories from "./transactionCategories/transactionCategories-sq.ts"
+import transactionCategories from "./transactionCategories/transactionCategories-sq"
 
 export default {
   transactionCategories: transactionCategories,
