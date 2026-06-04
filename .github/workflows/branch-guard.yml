@@ -1,5 +1,6 @@
 name: Branch Guard
 
+# Only PRs whose base branch is main (not develop or feature branches).
 on:
   pull_request:
     branches: [main]
@@ -8,14 +9,15 @@ jobs:
   check-source-branch:
     name: Verify source branch is develop
     runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main'
 
     steps:
       - name: Block non-develop branches from merging into main
-        if: github.head_ref != 'develop'
+        if: github.event.pull_request.head.ref != 'develop'
         run: |
-          echo "::error::Only the 'develop' branch can be merged into main. Current source branch: '${{ github.head_ref }}'"
+          echo "::error::Only the 'develop' branch can be merged into main. Current source branch: '${{ github.event.pull_request.head.ref }}'"
           exit 1
 
       - name: Source branch verified
-        if: github.head_ref == 'develop'
+        if: github.event.pull_request.head.ref == 'develop'
         run: echo "Source branch is 'develop' — merge permitted."
