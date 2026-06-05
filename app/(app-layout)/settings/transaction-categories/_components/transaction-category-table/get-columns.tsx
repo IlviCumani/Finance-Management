@@ -13,8 +13,10 @@ import {
   Wallet01Icon,
   MoneyExchange01Icon,
   HandCoinsIcon,
+  CircleOffIcon,
   CreditCardPosIcon,
 } from "@hugeicons/core-free-icons"
+import { Button } from "@/components/ui/button"
 
 type TransactionCategoriesTranslator = (
   key: string,
@@ -126,7 +128,11 @@ export function getColumns({
 
         const isSystem = row.original.isSystem
         if (isSystem) {
-          return null
+          return (
+            <Button variant="outline" size="icon" disabled>
+              <HugeiconsIcon icon={CircleOffIcon} />
+            </Button>
+          )
         }
 
         return (
