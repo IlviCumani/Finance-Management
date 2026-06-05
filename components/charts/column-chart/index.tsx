@@ -1,3 +1,5 @@
+"use client"
+
 import { Bar, BarChart as BC, CartesianGrid, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,

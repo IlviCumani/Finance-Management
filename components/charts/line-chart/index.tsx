@@ -1,3 +1,5 @@
+"use client"
+
 import { CartesianGrid, Line, LineChart as LC, XAxis, YAxis } from "recharts"
 import type { CurveType } from "recharts/types/shape/Curve"
 import {
@@ -104,7 +106,11 @@ export function LineChart({
           content={<ChartTooltipContent indicator="line" />}
         />
         {showLegend && allUniqueKeysInData.length > 1 && (
-          <ChartLegend content={<ChartLegendContent />} />
+          <ChartLegend
+            content={
+              <ChartLegendContent className="flex-wrap gap-2 *:basis-1/4 *:justify-center" />
+            }
+          />
         )}
         {allUniqueKeysInData.map((key: string) => (
           <Line

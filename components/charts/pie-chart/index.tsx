@@ -1,3 +1,5 @@
+"use client"
+
 import { Pie, PieChart as PC } from "recharts"
 import {
   type ChartConfig,

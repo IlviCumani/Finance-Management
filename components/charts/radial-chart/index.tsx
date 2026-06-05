@@ -1,3 +1,5 @@
+"use client"
+
 import { RadialBar, RadialBarChart, PolarGrid } from "recharts"
 import {
   type ChartConfig,

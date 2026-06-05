@@ -1,3 +1,5 @@
+"use client"
+
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart as RC } from "recharts"
 import {
   type ChartConfig,
