@@ -11,6 +11,7 @@ import {
   ArrowRightIcon,
   HandCoinsIcon,
   MoneyExchange01Icon,
+  CreditCardPosIcon,
   Wallet01Icon,
 } from "@hugeicons/core-free-icons"
 import { Account } from "@/types/account/account-types"
@@ -102,7 +103,9 @@ export function getColumns({
                 ? "green"
                 : transactionType === "expense"
                   ? "red"
-                  : "blue"
+                  : transactionType === "transfer"
+                    ? "blue"
+                    : "pink"
             }
           >
             <HugeiconsIcon
@@ -111,7 +114,9 @@ export function getColumns({
                   ? Wallet01Icon
                   : transactionType === "expense"
                     ? HandCoinsIcon
-                    : MoneyExchange01Icon
+                    : transactionType === "transfer"
+                      ? MoneyExchange01Icon
+                      : CreditCardPosIcon
               }
               className="size-8"
             />

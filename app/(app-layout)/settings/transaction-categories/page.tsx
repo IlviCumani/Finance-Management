@@ -12,6 +12,8 @@ export default async function TransactionCategoriesPage() {
     toast.error(error || t("fetchError"))
   }
 
+  console.log(data)
+
   return (
     <div>
       <TransactionCategoriesHeader />
