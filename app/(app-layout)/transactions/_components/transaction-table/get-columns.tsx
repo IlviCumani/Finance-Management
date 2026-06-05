@@ -180,6 +180,11 @@ export function getColumns({
           }
         }
 
+        const transactionType = row.original.transactionType
+        if (transactionType === "subscription") {
+          return null
+        }
+
         return (
           <TableActions
             onDelete={handleDelete}
