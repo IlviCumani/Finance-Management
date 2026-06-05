@@ -11,5 +11,6 @@
   "deleteDescription": "Ky veprim nuk mund të zhbëhet. Kjo do të fshijë përgjithmonë transaksionin tuaj dhe do të heqë të dhënat nga serverët tanë.",
   "deleteSuccess": "Transaksioni u fshi me sukses",
   "deleteError": "Dështoi fshirja e transaksionit",
-  "description": "Përshkrim"
+  "description": "Përshkrim",
+  "subscription": "Abonim"
 }

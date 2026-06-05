@@ -5,9 +5,14 @@ export type TransactionCategory = {
   type: TransactionCategoryType
   createdAt: string
   updatedAt: string
+  isSystem: boolean
 }
 
-export type TransactionCategoryType = "income" | "expense" | "transfer"
+export type TransactionCategoryType =
+  | "income"
+  | "expense"
+  | "transfer"
+  | "subscription"
 
 export type TransactionCategory_Response = {
   id: string
@@ -16,4 +21,5 @@ export type TransactionCategory_Response = {
   type: TransactionCategoryType
   created_at: string
   updated_at: string
+  is_system: boolean
 }

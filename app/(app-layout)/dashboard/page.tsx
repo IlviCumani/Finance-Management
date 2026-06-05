@@ -1,5 +1,11 @@
 import UnderConstruction from "@/components/page-status/under-development"
+import { DashboardHeader } from "./_components/header"
 
 export default function DashboardPage() {
-  return <UnderConstruction />
+  return (
+    <div>
+      <DashboardHeader />
+      <UnderConstruction />
+    </div>
+  )
 }
