@@ -24,11 +24,11 @@ const categoryTypes = [
   "income",
   "expense",
   "transfer",
-] as const satisfies readonly TransactionCategoryType[]
+] as const satisfies readonly Exclude<TransactionCategoryType, "subscription">[]
 
 type FormValues = {
   name: string
-  type: TransactionCategoryType
+  type: (typeof categoryTypes)[number]
 }
 
 type TransactionCategoryFormProps = {
@@ -66,7 +66,7 @@ export function TransactionCategoryForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: category?.name || "",
-      type: category?.type || "income",
+      type: (category?.type as FormValues["type"]) || "income",
     },
   })
 
@@ -76,7 +76,7 @@ export function TransactionCategoryForm({
     if (open) {
       reset({
         name: category?.name || "",
-        type: category?.type || "income",
+        type: (category?.type as FormValues["type"]) || "income",
       })
     }
   }, [category, reset, open])

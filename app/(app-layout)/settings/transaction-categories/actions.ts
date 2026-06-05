@@ -44,6 +44,7 @@ export async function getTransactionCategories(): Promise<{
       type: category.type,
       createdAt: category.created_at,
       updatedAt: category.updated_at,
+      isSystem: category.is_system,
     })) ?? []
 
   return {

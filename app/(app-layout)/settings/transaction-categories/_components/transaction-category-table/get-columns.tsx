@@ -13,6 +13,7 @@ import {
   Wallet01Icon,
   MoneyExchange01Icon,
   HandCoinsIcon,
+  CreditCardPosIcon,
 } from "@hugeicons/core-free-icons"
 
 type TransactionCategoriesTranslator = (
@@ -52,7 +53,13 @@ export function getColumns({
         }
 
         const color =
-          type === "income" ? "green" : type === "expense" ? "red" : "blue"
+          type === "income"
+            ? "green"
+            : type === "expense"
+              ? "red"
+              : type === "transfer"
+                ? "blue"
+                : "pink"
 
         return (
           <ColorBadge color={color}>
@@ -62,7 +69,9 @@ export function getColumns({
                   ? Wallet01Icon
                   : type === "expense"
                     ? HandCoinsIcon
-                    : MoneyExchange01Icon
+                    : type === "transfer"
+                      ? MoneyExchange01Icon
+                      : CreditCardPosIcon
               }
               className="size-8"
             />
@@ -100,6 +109,7 @@ export function getColumns({
     {
       header: "",
       accessorKey: "actions",
+      size: 10,
       cell: ({ row }) => {
         async function handleDelete() {
           const { error } = await deleteTransactionCategory(row.original.id)
@@ -112,6 +122,11 @@ export function getColumns({
               position: "top-right",
             })
           }
+        }
+
+        const isSystem = row.original.isSystem
+        if (isSystem) {
+          return null
         }
 
         return (

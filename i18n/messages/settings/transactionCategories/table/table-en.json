@@ -3,6 +3,7 @@
   "type": "Type",
   "income": "Income",
   "expense": "Expense",
+  "subscription": "Subscription",
   "transfer": "Transfer",
   "createdAt": "Created At",
   "lastUpdated": "Last Updated",

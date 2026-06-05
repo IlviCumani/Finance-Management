@@ -8,6 +8,7 @@
   "transfer": "Transfer",
   "account": "Account",
   "transactionCategory": "Category",
+  "subscription": "Subscription",
   "description": "Description",
   "deleteDescription": "This action cannot be undone. This will permanently delete your transaction and remove your data from our servers.",
   "deleteSuccess": "Transaction deleted successfully",
