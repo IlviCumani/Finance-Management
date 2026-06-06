@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card"
-import { AreaChart, LineChart } from "@/components/charts"
+import { LineChart } from "@/components/charts"
 
 export function BalanceTrend() {
   const data = [

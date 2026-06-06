@@ -1,6 +1,8 @@
 import { InformationCards } from "./information-cards"
 import { BalanceTrend } from "./balance-trend"
 import { ExpenseBreakdown } from "./expense-breakdown"
+import { MonthlyComparison } from "./monthly-comparison"
+import { RecurringSubscriptions } from "./recurring-subscriptions"
 
 export function DashboardLayout() {
   return (
@@ -9,6 +11,10 @@ export function DashboardLayout() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <BalanceTrend />
         <ExpenseBreakdown />
+      </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <MonthlyComparison />
+        <RecurringSubscriptions />
       </div>
     </div>
   )
