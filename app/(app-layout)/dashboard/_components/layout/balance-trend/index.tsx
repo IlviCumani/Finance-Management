@@ -66,7 +66,7 @@ export function BalanceTrend() {
   ]
 
   return (
-    <Card>
+    <Card className="col-span-1 lg:col-span-2">
       <CardHeader>
         <CardTitle>Balance Trend</CardTitle>
         <CardDescription>Balance trend over the last 30 days</CardDescription>

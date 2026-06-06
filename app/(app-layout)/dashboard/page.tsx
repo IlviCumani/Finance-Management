@@ -7,7 +7,6 @@ export default function DashboardPage() {
     <div>
       <DashboardHeader />
       <div className="p-4">
-        {/* <UnderConstruction /> */}
         <DashboardLayout />
       </div>
     </div>
