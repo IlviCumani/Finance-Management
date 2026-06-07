@@ -1,7 +1,8 @@
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import { getAccounts } from "@/lib/supabase/queries/account"
-import { startOfMonth, endOfMonth, subMonths } from "date-fns"
+import { format, startOfMonth, endOfMonth, subMonths } from "date-fns"
 import { Transaction } from "@/types/transaction/transaction-types"
+import { formatDateForUI } from "@/lib/format/date-format"
 
 export async function getDashboardData() {
   const accountsData = await getAccountsData()
@@ -73,6 +74,11 @@ export async function getDashboardData() {
     lastMonthTotalBalance
   )
 
+  const monthlyComparison = await getLast3MonthsTransactionsData()
+  const thisMonthSubscriptions = getThisMonthSubscriptionsData(
+    transactionsData.data
+  )
+
   return {
     accountsData: {
       totalBalance: accountsData.totalBalance,
@@ -88,6 +94,8 @@ export async function getDashboardData() {
       percentageDifferenceInExpenses,
     },
     expenseBreakdown,
+    monthlyComparison,
+    thisMonthSubscriptions,
   }
 }
 
@@ -147,6 +155,88 @@ function getPercentageDifference(
   const difference = (((current ?? 0) - previousValue) / previousValue) * 100
 
   return Number.isFinite(difference) ? difference : undefined
+}
+
+async function getLast3MonthsTransactionsData(): Promise<
+  Array<{
+    label: string
+    income: number
+    expenses: number
+  }>
+> {
+  const now = new Date()
+  const monthsAgoRange = [2, 1, 0] as const
+
+  const monthBuckets = new Map<
+    string,
+    { label: string; income: number; expenses: number }
+  >()
+
+  for (const monthsAgo of monthsAgoRange) {
+    const monthDate = subMonths(now, monthsAgo)
+    const monthKey = format(startOfMonth(monthDate), "yyyy-MM")
+    monthBuckets.set(monthKey, {
+      label: formatDateForUI(monthDate, "MMMM"),
+      income: 0,
+      expenses: 0,
+    })
+  }
+
+  const { data: transactions } = await getTransactionsData(
+    startOfMonth(subMonths(now, 2)).toISOString(),
+    endOfMonth(now).toISOString()
+  )
+
+  for (const transaction of transactions ?? []) {
+    const monthKey = format(
+      startOfMonth(new Date(transaction.transactionDate)),
+      "yyyy-MM"
+    )
+    const bucket = monthBuckets.get(monthKey)
+    if (!bucket) continue
+
+    if (transaction.transactionType === "income") {
+      bucket.income += transaction.amount
+    } else if (
+      transaction.transactionType === "expense" ||
+      transaction.transactionType === "subscription"
+    ) {
+      bucket.expenses += transaction.amount
+    }
+  }
+
+  return monthsAgoRange.map((monthsAgo) => {
+    const monthKey = format(startOfMonth(subMonths(now, monthsAgo)), "yyyy-MM")
+    const bucket = monthBuckets.get(monthKey)!
+    return {
+      label: bucket.label,
+      income: bucket.income,
+      expenses: bucket.expenses,
+    }
+  })
+}
+
+function getThisMonthSubscriptionsData(
+  transactions: Array<Transaction> | null | undefined
+): {
+  subscriptions: Array<{ name: string; amount: number }>
+  totalCost: number
+} {
+  const subscriptions =
+    transactions?.filter(
+      (transaction) => transaction.transactionType === "subscription"
+    ) ?? []
+
+  return {
+    subscriptions: subscriptions.map((transaction) => ({
+      name: transaction.name,
+      amount: transaction.amount,
+    })),
+    totalCost: subscriptions.reduce(
+      (acc, transaction) => acc + transaction.amount,
+      0
+    ),
+  }
 }
 
 async function getTransactionsData(startDate: string, endDate: string) {

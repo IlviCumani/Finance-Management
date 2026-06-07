@@ -9,13 +9,11 @@ import {
 import { ColumnChart } from "@/components/charts"
 import { formatCurrency } from "@/lib/format/number-format"
 
-export function MonthlyComparison() {
-  const data = [
-    { label: "April", income: 400, expenses: 500 },
-    { label: "May", income: 500, expenses: 600 },
-    { label: "June", income: 600, expenses: 700 },
-  ]
+type MonthlyComparisonProps = {
+  data: Array<{ label: string; income: number; expenses: number }>
+}
 
+export function MonthlyComparison({ data }: MonthlyComparisonProps) {
   return (
     <Card>
       <CardHeader>

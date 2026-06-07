@@ -17,17 +17,15 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { getLogoDevUrl } from "@/lib/utils"
 import { getInitials } from "@/lib/format/text-format"
 import { formatCurrency } from "@/lib/format/number-format"
-export function RecurringSubscriptions() {
-  const data = [
-    { name: "Netflix", amount: 100 },
-    { name: "Spotify", amount: 200 },
-    { name: "Amazon Prime", amount: 300 },
-    { name: "Disney+", amount: 400 },
-    { name: "Hulu", amount: 500 },
-    { name: "Cursor", amount: 600 },
-    { name: "Google Workspace", amount: 700 },
-  ]
+type RecurringSubscriptionsProps = {
+  subscriptions: Array<{ name: string; amount: number }>
+  totalCost: number
+}
 
+export function RecurringSubscriptions({
+  subscriptions,
+  totalCost,
+}: RecurringSubscriptionsProps) {
   return (
     <Card>
       <CardHeader>
@@ -37,7 +35,7 @@ export function RecurringSubscriptions() {
         </CardDescription>
       </CardHeader>
       <CardContent className="h-full max-h-[450px] space-y-2 overflow-y-auto">
-        {data.map((item) => (
+        {subscriptions.map((item) => (
           <Item key={item.name} variant={"muted"}>
             <ItemMedia>
               <Avatar className="size-10">
@@ -57,9 +55,7 @@ export function RecurringSubscriptions() {
       </CardContent>
       <CardFooter className="mt-auto items-center justify-between border-t">
         <span className="text-sm text-muted-foreground">Total: Monthly</span>
-        <span className="text-lg font-medium">
-          {formatCurrency(data.reduce((acc, item) => acc + item.amount, 0))}
-        </span>
+        <span className="text-lg font-medium">{formatCurrency(totalCost)}</span>
       </CardFooter>
     </Card>
   )
