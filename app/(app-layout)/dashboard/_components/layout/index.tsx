@@ -6,13 +6,23 @@ import { RecurringSubscriptions } from "./recurring-subscriptions"
 import { getDashboardData } from "../../actions"
 
 export async function DashboardLayout() {
-  const { expenseBreakdown, monthlyComparison, thisMonthSubscriptions } =
-    await getDashboardData()
+  const {
+    accountsData,
+    transactionsData,
+    expenseBreakdown,
+    monthlyComparison,
+    thisMonthSubscriptions,
+    trendBalanceData,
+  } = await getDashboardData()
+
   return (
     <div className="space-y-4">
-      <InformationCards />
+      <InformationCards
+        accountsData={accountsData ?? {}}
+        transactionsData={transactionsData ?? {}}
+      />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <BalanceTrend />
+        <BalanceTrend data={trendBalanceData?.data ?? []} />
         <ExpenseBreakdown data={expenseBreakdown ?? {}} />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

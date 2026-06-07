@@ -1,11 +1,25 @@
 import { ChartDownIcon } from "@hugeicons/core-free-icons"
 import { InformationCard } from "./information-card"
-import { getDashboardData } from "../../../actions"
 import { formatCurrency, formatNumberForUI } from "@/lib/format/number-format"
 
-export async function InformationCards() {
-  const { accountsData, transactionsData } = await getDashboardData()
+type InformationCardsProps = {
+  accountsData: {
+    totalBalance?: number
+    totalBalanceChange?: number
+    accountsDistribution?: { value: number; label: string }[]
+  }
+  transactionsData: {
+    thisMonthIncome?: number
+    percentageDifferenceInIncome?: number
+    thisMonthExpenses?: number
+    percentageDifferenceInExpenses?: number
+  }
+}
 
+export async function InformationCards({
+  accountsData,
+  transactionsData,
+}: InformationCardsProps) {
   const accountsDistribution =
     accountsData.accountsDistribution?.map((account) => ({
       value: formatNumberForUI(account.value * 100),

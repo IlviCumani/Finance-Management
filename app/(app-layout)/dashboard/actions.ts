@@ -1,5 +1,5 @@
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
-import { getAccounts } from "@/lib/supabase/queries/account"
+import { getActiveAndInactiveAccounts } from "@/lib/supabase/queries/account"
 import { format, startOfMonth, endOfMonth, subMonths } from "date-fns"
 import { Transaction } from "@/types/transaction/transaction-types"
 import { formatDateForUI } from "@/lib/format/date-format"
@@ -79,6 +79,8 @@ export async function getDashboardData() {
     transactionsData.data
   )
 
+  const trendBalanceData = await getTrendBalanceData()
+
   return {
     accountsData: {
       totalBalance: accountsData.totalBalance,
@@ -96,11 +98,13 @@ export async function getDashboardData() {
     expenseBreakdown,
     monthlyComparison,
     thisMonthSubscriptions,
+    trendBalanceData,
   }
 }
 
 async function getAccountsData() {
-  const { data: accounts, error: accountsError } = await getAccounts()
+  const { data: accounts, error: accountsError } =
+    await getActiveAndInactiveAccounts()
 
   if (accountsError) {
     return {
@@ -244,4 +248,86 @@ async function getTransactionsData(startDate: string, endDate: string) {
     await getTransactionsByDateRange(startDate, endDate)
   if (transactionsError) return { error: transactionsError }
   return { data: transactions }
+}
+
+async function getTrendBalanceData(): Promise<{
+  data?: Array<Record<string, string | number | undefined>> | null
+  error?: string | null
+}> {
+  const now = new Date()
+  const MONTHS_BACK = 5
+  const { data: accounts } = await getActiveAndInactiveAccounts()
+  if (!accounts?.length) return { data: [], error: null }
+
+  const { data: transactions, error } = await getTransactionsData(
+    startOfMonth(subMonths(now, MONTHS_BACK)).toISOString(),
+    endOfMonth(now).toISOString()
+  )
+  if (error) return { error }
+
+  const transactionsByMonth = new Map<string, Array<Transaction>>()
+  for (const transaction of transactions ?? []) {
+    const monthKey = format(
+      startOfMonth(new Date(transaction.transactionDate)),
+      "yyyy-MM"
+    )
+    const bucket = transactionsByMonth.get(monthKey) ?? []
+    bucket.push(transaction)
+    transactionsByMonth.set(monthKey, bucket)
+  }
+
+  const balances = new Map<string, number>()
+  for (const account of accounts) {
+    balances.set(account.id, account.currentBalance)
+  }
+
+  const result: Array<Record<string, string | number | undefined>> = []
+
+  for (let i = 0; i <= MONTHS_BACK; i++) {
+    const monthDate = subMonths(now, i)
+    const monthKey = format(startOfMonth(monthDate), "yyyy-MM")
+
+    const point: Record<string, string | number | undefined> = {
+      label: formatDateForUI(monthDate, "MMMM"),
+    }
+    for (const account of accounts) {
+      point[account.name] = balances.get(account.id) ?? 0
+    }
+    result.push(point)
+
+    const monthTransactions = transactionsByMonth.get(monthKey) ?? []
+    for (const transaction of monthTransactions) {
+      const accountId = transaction.account?.id
+      if (!accountId) continue
+
+      if (transaction.transactionType === "income") {
+        balances.set(
+          accountId,
+          (balances.get(accountId) ?? 0) - transaction.amount
+        )
+      } else if (
+        transaction.transactionType === "expense" ||
+        transaction.transactionType === "subscription"
+      ) {
+        balances.set(
+          accountId,
+          (balances.get(accountId) ?? 0) + transaction.amount
+        )
+      } else if (transaction.transactionType === "transfer") {
+        balances.set(
+          accountId,
+          (balances.get(accountId) ?? 0) + transaction.amount
+        )
+        const targetId = transaction.transferredToAccount?.id
+        if (targetId) {
+          balances.set(
+            targetId,
+            (balances.get(targetId) ?? 0) - transaction.amount
+          )
+        }
+      }
+    }
+  }
+
+  return { data: result.reverse(), error: null }
 }
