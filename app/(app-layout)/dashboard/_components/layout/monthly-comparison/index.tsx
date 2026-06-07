@@ -6,7 +6,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card"
-import { ColumnChart } from "@/components/charts"
+import { BarChart } from "@/components/charts"
 import { formatCurrency } from "@/lib/format/number-format"
 
 type MonthlyComparisonProps = {
@@ -23,7 +23,7 @@ export function MonthlyComparison({ data }: MonthlyComparisonProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex h-full items-center justify-center pl-0">
-        <ColumnChart data={data} showYAxis height={450} />
+        <BarChart data={data} showLegend height={450} />
       </CardContent>
       <CardFooter className="mt-auto items-center justify-between border-t">
         <span className="text-sm text-muted-foreground">Total: Savings</span>
