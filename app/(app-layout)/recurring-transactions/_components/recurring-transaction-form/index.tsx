@@ -40,6 +40,7 @@ export function RecurringTransactionForm({
   const tFrequency = useTranslations("recurringTransactions.frequency")
   const formSchema = useRecurringTransactionFormSchema()
   const [error, setError] = useState<string | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,6 +67,7 @@ export function RecurringTransactionForm({
   ] as const
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("description", values.description)
@@ -105,6 +107,7 @@ export function RecurringTransactionForm({
         })
       }
     }
+    setIsLoading(() => false)
   }
 
   useEffect(() => {
@@ -129,6 +132,7 @@ export function RecurringTransactionForm({
       onOpenChange={onOpenChange}
       title={recurringTransaction ? t("editTitle") : t("addTitle")}
       formId="recurring-transaction-form"
+      isLoading={isLoading}
     >
       <form
         onSubmit={form.handleSubmit(onSubmit)}

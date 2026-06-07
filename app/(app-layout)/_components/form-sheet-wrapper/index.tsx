@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet"
 import { PropsWithChildren } from "react"
 import { useTranslations } from "next-intl"
+import { Spinner } from "@/components/ui/spinner"
 
 type FormSheetWrapperProps = {
   open: boolean
@@ -19,6 +20,7 @@ type FormSheetWrapperProps = {
   description?: string
   formId: string
   error?: string | null
+  isLoading?: boolean
 }
 
 export function FormSheetWrapper({
@@ -29,6 +31,7 @@ export function FormSheetWrapper({
   description,
   formId,
   error,
+  isLoading,
 }: PropsWithChildren<FormSheetWrapperProps>) {
   const t = useTranslations("common")
 
@@ -46,7 +49,11 @@ export function FormSheetWrapper({
           <p className="text-center text-destructive" hidden={!error}>
             {error}
           </p>
-          <Button type="submit" form={formId}>
+          <Button type="submit" form={formId} disabled={isLoading}>
+            <Spinner
+              data-hidden={!isLoading}
+              className="data-[hidden=true]:hidden"
+            />
             {t("save")}
           </Button>
         </SheetFooter>

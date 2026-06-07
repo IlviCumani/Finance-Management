@@ -15,11 +15,13 @@ import { InputFormField } from "@/components/form-fields/input-form-field"
 import { useMemo, useState } from "react"
 import { useTranslations } from "next-intl"
 import { useForm } from "@/hooks/use-form"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function LoginPage() {
   const t = useTranslations("auth.login")
   const tValidation = useTranslations("validation")
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const formSchema = useMemo(
     () =>
@@ -53,12 +55,16 @@ export default function LoginPage() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("email", values.email)
     formData.append("password", values.password)
     const { error } = await login(formData)
     if (error) {
       setError(error)
+      setIsLoading(() => false)
+    } else {
+      setIsLoading(() => false)
     }
   }
 
@@ -110,7 +116,16 @@ export default function LoginPage() {
           <p hidden={!error} className="text-destructive">
             {error}
           </p>
-          <Button type="submit" form="login-form" className="w-full">
+          <Button
+            type="submit"
+            form="login-form"
+            className="w-full"
+            disabled={isLoading}
+          >
+            <Spinner
+              data-hidden={!isLoading}
+              className="data-[hidden=true]:hidden"
+            />
             {t("submit")}
           </Button>
           <p className="text-center text-sm text-foreground/70">
