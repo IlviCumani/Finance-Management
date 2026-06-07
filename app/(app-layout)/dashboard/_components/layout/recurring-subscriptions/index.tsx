@@ -33,7 +33,7 @@ export function RecurringSubscriptions() {
       <CardHeader>
         <CardTitle>Recurring Subscriptions</CardTitle>
         <CardDescription>
-          Recurring subscriptions over the last 3 months
+          Recurring subscriptions cost this month
         </CardDescription>
       </CardHeader>
       <CardContent className="h-full max-h-[450px] space-y-2 overflow-y-auto">

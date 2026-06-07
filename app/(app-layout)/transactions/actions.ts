@@ -32,7 +32,11 @@ export async function getTransactions(): Promise<{
     data,
     error,
   }: { data: Array<Transaction_Response> | null; error: Error | null } =
-    await supabase.from("transactions").select("*").eq("user_id", user.id)
+    await supabase
+      .from("transactions")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
 
   if (error) {
     return {

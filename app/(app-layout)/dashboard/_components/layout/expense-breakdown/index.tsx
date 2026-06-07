@@ -7,14 +7,12 @@ import {
 } from "@/components/ui/card"
 import { PieChart } from "@/components/charts"
 
-export function ExpenseBreakdown() {
-  const data = [
-    { label: "Food", value: 100 },
-    { label: "Transport", value: 200 },
-    { label: "Housing", value: 300 },
-    { label: "Utilities", value: 400 },
-    { label: "Entertainment", value: 500 },
-  ]
+export function ExpenseBreakdown({ data }: { data: Record<string, number> }) {
+  const pieChartData = Object.entries(data).map(([label, value]) => ({
+    label,
+    value,
+  }))
+  console.log(pieChartData)
 
   return (
     <Card className="flex-1">
@@ -25,7 +23,7 @@ export function ExpenseBreakdown() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <PieChart data={data} showLegend baseOuterRadius={100} />
+        <PieChart data={pieChartData} showLegend baseOuterRadius={100} />
       </CardContent>
     </Card>
   )

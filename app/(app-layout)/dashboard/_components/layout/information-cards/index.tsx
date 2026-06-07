@@ -16,7 +16,7 @@ export async function InformationCards() {
       <InformationCard
         title="Total Balance"
         value={formatCurrency(accountsData.totalBalance ?? 0)}
-        change={10}
+        change={accountsData.totalBalanceChange}
         description="Total balance in the system"
         icon={ChartDownIcon}
       />

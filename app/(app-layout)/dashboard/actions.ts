@@ -1,6 +1,7 @@
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import { getAccounts } from "@/lib/supabase/queries/account"
 import { startOfMonth, endOfMonth, subMonths } from "date-fns"
+import { Transaction } from "@/types/transaction/transaction-types"
 
 export async function getDashboardData() {
   const accountsData = await getAccountsData()
@@ -50,8 +51,34 @@ export async function getDashboardData() {
     lastMonthExpenses
   )
 
+  const expenseBreakdown = transactionsData.data
+    ?.filter((transaction) => transaction.transactionType === "expense")
+    .reduce(
+      (acc, transaction) => {
+        acc[transaction.transactionCategory?.name ?? "Unknown"] =
+          acc[transaction.transactionCategory?.name ?? "Unknown"] ??
+          0 + transaction.amount
+        return acc
+      },
+      {} as Record<string, number>
+    )
+
+  const thisMonthNetBalanceChange = getNetBalanceChangeFromTransactions(
+    transactionsData.data
+  )
+  const lastMonthTotalBalance =
+    (accountsData.totalBalance ?? 0) - thisMonthNetBalanceChange
+  const totalBalanceChange = getPercentageDifference(
+    accountsData.totalBalance,
+    lastMonthTotalBalance
+  )
+
   return {
-    accountsData,
+    accountsData: {
+      totalBalance: accountsData.totalBalance,
+      accountsDistribution: accountsData.accountsDistribution,
+      totalBalanceChange,
+    },
     transactionsData: {
       thisMonthIncome,
       lastMonthIncome,
@@ -60,6 +87,7 @@ export async function getDashboardData() {
       percentageDifferenceInIncome,
       percentageDifferenceInExpenses,
     },
+    expenseBreakdown,
   }
 }
 
@@ -86,6 +114,25 @@ async function getAccountsData() {
     totalBalance,
     accountsDistribution,
   }
+}
+
+function getNetBalanceChangeFromTransactions(
+  transactions: Array<Transaction> | null | undefined
+): number {
+  return (
+    transactions?.reduce((acc, transaction) => {
+      if (transaction.transactionType === "income") {
+        return acc + transaction.amount
+      }
+      if (
+        transaction.transactionType === "expense" ||
+        transaction.transactionType === "subscription"
+      ) {
+        return acc - transaction.amount
+      }
+      return acc
+    }, 0) ?? 0
+  )
 }
 
 function getPercentageDifference(
