@@ -1,12 +1,13 @@
 import { ChartDownIcon } from "@hugeicons/core-free-icons"
 import { InformationCard } from "./information-card"
 import { formatCurrency, formatNumberForUI } from "@/lib/format/number-format"
+import { getTranslations } from "next-intl/server"
 
 type InformationCardsProps = {
   accountsData: {
     totalBalance?: number
     totalBalanceChange?: number
-    accountsDistribution?: { value: number; label: string }[]
+    accountsDistribution?: Array<{ value: number; label: string }>
   }
   transactionsData: {
     thisMonthIncome?: number
@@ -20,39 +21,42 @@ export async function InformationCards({
   accountsData,
   transactionsData,
 }: InformationCardsProps) {
+  const t = await getTranslations("dashboard.informationCards")
+
   const accountsDistribution =
     accountsData.accountsDistribution?.map((account) => ({
       value: formatNumberForUI(account.value * 100),
       label: account.label,
     })) ?? []
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <InformationCard
-        title="Total Balance"
+        title={t("totalBalance")}
         value={formatCurrency(accountsData.totalBalance ?? 0)}
         change={accountsData.totalBalanceChange}
-        description="Total balance in the system"
+        description={t("totalBalanceDescription")}
         icon={ChartDownIcon}
       />
       <InformationCard
-        title="Monthly Income"
+        title={t("monthlyIncome")}
         value={formatCurrency(transactionsData.thisMonthIncome ?? 0)}
         change={transactionsData.percentageDifferenceInIncome}
-        description="Money made this month"
+        description={t("monthlyIncomeDescription")}
         icon={ChartDownIcon}
       />
       <InformationCard
-        title="Monthly Expenses"
+        title={t("monthlyExpenses")}
         value={formatCurrency(transactionsData.thisMonthExpenses ?? 0)}
         change={transactionsData.percentageDifferenceInExpenses}
-        description="Money spent this month"
+        description={t("monthlyExpensesDescription")}
         icon={ChartDownIcon}
       />
       <InformationCard
-        title="Accounts Distribution"
+        title={t("accountsDistribution")}
         value={accountsDistribution}
         type="multiProgress"
-        description="Money Distributed in Each Account"
+        description={t("accountsDistributionDescription")}
         icon={ChartDownIcon}
       />
     </div>

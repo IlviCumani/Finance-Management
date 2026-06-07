@@ -15,6 +15,7 @@ import { CalendarIcon, ArrowUp, ArrowDown } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react"
 import { cn } from "@/lib/utils"
 import { Progress, MultiProgress } from "@/components/ui/progress"
+import { useTranslations } from "next-intl"
 
 type InformationCardProps = {
   title: string
@@ -33,6 +34,7 @@ export function InformationCard({
   description,
   icon,
 }: InformationCardProps) {
+  const t = useTranslations("dashboard.informationCards")
   const isChange = change !== undefined && change !== null
   const isPositive = isChange && change > 0
   const isNegative = isChange && change < 0
@@ -57,9 +59,12 @@ export function InformationCard({
                 className="col-span-2 h-2 w-full"
                 renderTooltip={(segment) => {
                   if (!segment.label) {
-                    return `${segment.value}%`
+                    return t("tooltipPercentage", { value: segment.value })
                   }
-                  return `${segment.label}: ${segment.value}%`
+                  return t("tooltipLabelPercentage", {
+                    label: segment.label,
+                    value: segment.value,
+                  })
                 }}
               />
             </div>
@@ -99,7 +104,9 @@ export function InformationCard({
           icon={isPositive ? ArrowUp : isNegative ? ArrowDown : CalendarIcon}
           className={cn("size-4", !isPositive && !isNegative && "hidden")}
         />
-        {formatNumberForUI(change ?? 0)}% from last month
+        {t("trendFromLastMonth", {
+          value: formatNumberForUI(change ?? 0),
+        })}
       </StatTrend>
       <StatDescription>{description}</StatDescription>
     </Stat>

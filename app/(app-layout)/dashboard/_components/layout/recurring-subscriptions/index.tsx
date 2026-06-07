@@ -29,22 +29,24 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { InboxIcon, LinkSquare01Icon } from "@hugeicons/core-free-icons"
 import Link from "next/link"
+import { getTranslations } from "next-intl/server"
+
 type RecurringSubscriptionsProps = {
   subscriptions: Array<{ name: string; amount: number }>
   totalCost: number
 }
 
-export function RecurringSubscriptions({
+export async function RecurringSubscriptions({
   subscriptions,
   totalCost,
 }: RecurringSubscriptionsProps) {
+  const t = await getTranslations("dashboard.recurringSubscriptions")
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recurring Subscriptions</CardTitle>
-        <CardDescription>
-          Recurring subscriptions cost this month
-        </CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="h-full max-h-[450px] space-y-2 overflow-y-auto">
         {subscriptions.length === 0 ? (
@@ -53,16 +55,14 @@ export function RecurringSubscriptions({
               <EmptyMedia variant={"icon"}>
                 <HugeiconsIcon icon={InboxIcon} className="size-4" />
               </EmptyMedia>
-              <EmptyTitle>No recurring subscriptions</EmptyTitle>
+              <EmptyTitle>{t("emptyTitle")}</EmptyTitle>
             </EmptyHeader>
             <EmptyContent>
-              <EmptyDescription>
-                No recurring subscriptions have been paid this month.
-              </EmptyDescription>
+              <EmptyDescription>{t("emptyDescription")}</EmptyDescription>
               <Button asChild>
                 <Link href="/recurring-transactions">
                   <HugeiconsIcon icon={LinkSquare01Icon} />
-                  Go to recurring subscriptions
+                  {t("goToRecurring")}
                 </Link>
               </Button>
             </EmptyContent>
@@ -80,7 +80,8 @@ export function RecurringSubscriptions({
 
               <ItemContent className="items-end justify-end text-right">
                 <ItemDescription>
-                  {formatCurrency(item.amount)}/mo
+                  {formatCurrency(item.amount)}
+                  {t("perMonth")}
                 </ItemDescription>
               </ItemContent>
             </Item>
@@ -88,7 +89,9 @@ export function RecurringSubscriptions({
         )}
       </CardContent>
       <CardFooter className="mt-auto items-center justify-between border-t">
-        <span className="text-sm text-muted-foreground">Total: Monthly</span>
+        <span className="text-sm text-muted-foreground">
+          {t("totalMonthly")}
+        </span>
         <span className="text-lg font-medium">{formatCurrency(totalCost)}</span>
       </CardFooter>
     </Card>

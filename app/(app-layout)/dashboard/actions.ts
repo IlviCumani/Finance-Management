@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server"
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import { getActiveAndInactiveAccounts } from "@/lib/supabase/queries/account"
 import { startOfMonth, endOfMonth, subMonths } from "date-fns"
@@ -54,7 +55,7 @@ export async function getDashboardData() {
       thisMonthTransactions,
       lastMonthTransactions
     ),
-    expenseBreakdown: buildExpenseBreakdown(thisMonthTransactions),
+    expenseBreakdown: await buildExpenseBreakdown(thisMonthTransactions),
     monthlyComparison: buildMonthlyComparison(now, safeTransactions),
     thisMonthSubscriptions: buildSubscriptionsData(thisMonthTransactions),
     trendBalanceData: buildTrendBalanceData(
@@ -119,14 +120,17 @@ function buildTransactionsData(
   }
 }
 
-function buildExpenseBreakdown(
+async function buildExpenseBreakdown(
   transactions: Array<Transaction>
-): Record<string, number> {
+): Promise<Record<string, number>> {
+  const t = await getTranslations("dashboard.actions")
+
   return transactions
-    .filter((t) => t.transactionType === "expense")
-    .reduce<Record<string, number>>((acc, t) => {
-      const category = t.transactionCategory?.name ?? "Unknown"
-      acc[category] = (acc[category] ?? 0) + t.amount
+    .filter((transaction) => transaction.transactionType === "expense")
+    .reduce<Record<string, number>>((acc, transaction) => {
+      const category =
+        transaction.transactionCategory?.name ?? t("unknownCategory")
+      acc[category] = (acc[category] ?? 0) + transaction.amount
       return acc
     }, {})
 }
