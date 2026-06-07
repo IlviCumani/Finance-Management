@@ -1,291 +1,199 @@
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import { getActiveAndInactiveAccounts } from "@/lib/supabase/queries/account"
-import { format, startOfMonth, endOfMonth, subMonths } from "date-fns"
+import { startOfMonth, endOfMonth, subMonths } from "date-fns"
 import { Transaction } from "@/types/transaction/transaction-types"
+import { Account } from "@/types/account/account-types"
 import { formatDateForUI } from "@/lib/format/date-format"
+import {
+  isIncome,
+  isExpense,
+  sumBy,
+  toMonthKey,
+  filterByMonth,
+  getPercentageDifference,
+} from "./utils"
+
+const TREND_MONTHS_BACK = 5
 
 export async function getDashboardData() {
-  const accountsData = await getAccountsData()
-  const startOfThisMonth = startOfMonth(new Date()).toISOString()
-  const endOfThisMonth = endOfMonth(new Date()).toISOString()
-  const transactionsData = await getTransactionsData(
-    startOfThisMonth,
-    endOfThisMonth
-  )
-  const startOfLastMonth = startOfMonth(subMonths(new Date(), 1)).toISOString()
-  const endOfLastMonth = endOfMonth(subMonths(new Date(), 1)).toISOString()
-  const lastMonthTransactionsData = await getTransactionsData(
-    startOfLastMonth,
-    endOfLastMonth
-  )
-
-  const thisMonthIncome = transactionsData.data
-    ?.filter((transaction) => transaction.transactionType === "income")
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-
-  const lastMonthIncome = lastMonthTransactionsData.data
-    ?.filter((transaction) => transaction.transactionType === "income")
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-
-  const thisMonthExpenses = transactionsData.data
-    ?.filter(
-      (transaction) =>
-        transaction.transactionType === "expense" ||
-        transaction.transactionType === "subscription"
-    )
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-
-  const lastMonthExpenses = lastMonthTransactionsData.data
-    ?.filter(
-      (transaction) =>
-        transaction.transactionType === "expense" ||
-        transaction.transactionType === "subscription"
-    )
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-
-  const percentageDifferenceInIncome = getPercentageDifference(
-    thisMonthIncome,
-    lastMonthIncome
-  )
-  const percentageDifferenceInExpenses = getPercentageDifference(
-    thisMonthExpenses,
-    lastMonthExpenses
-  )
-
-  const expenseBreakdown = transactionsData.data
-    ?.filter((transaction) => transaction.transactionType === "expense")
-    .reduce(
-      (acc, transaction) => {
-        acc[transaction.transactionCategory?.name ?? "Unknown"] =
-          acc[transaction.transactionCategory?.name ?? "Unknown"] ??
-          0 + transaction.amount
-        return acc
-      },
-      {} as Record<string, number>
-    )
-
-  const thisMonthNetBalanceChange = getNetBalanceChangeFromTransactions(
-    transactionsData.data
-  )
-  const lastMonthTotalBalance =
-    (accountsData.totalBalance ?? 0) - thisMonthNetBalanceChange
-  const totalBalanceChange = getPercentageDifference(
-    accountsData.totalBalance,
-    lastMonthTotalBalance
-  )
-
-  const monthlyComparison = await getLast3MonthsTransactionsData()
-  const thisMonthSubscriptions = getThisMonthSubscriptionsData(
-    transactionsData.data
-  )
-
-  const trendBalanceData = await getTrendBalanceData()
-
-  return {
-    accountsData: {
-      totalBalance: accountsData.totalBalance,
-      accountsDistribution: accountsData.accountsDistribution,
-      totalBalanceChange,
-    },
-    transactionsData: {
-      thisMonthIncome,
-      lastMonthIncome,
-      thisMonthExpenses,
-      lastMonthExpenses,
-      percentageDifferenceInIncome,
-      percentageDifferenceInExpenses,
-    },
-    expenseBreakdown,
-    monthlyComparison,
-    thisMonthSubscriptions,
-    trendBalanceData,
-  }
-}
-
-async function getAccountsData() {
-  const { data: accounts, error: accountsError } =
-    await getActiveAndInactiveAccounts()
-
-  if (accountsError) {
-    return {
-      error: accountsError,
-    }
-  }
-
-  const totalBalance = accounts?.reduce(
-    (acc, account) => acc + (account?.currentBalance ?? 0),
-    0
-  )
-
-  const accountsDistribution = accounts?.map((account) => ({
-    value: account.currentBalance / (totalBalance ?? 1),
-    label: account.name,
-  }))
-
-  return {
-    totalBalance,
-    accountsDistribution,
-  }
-}
-
-function getNetBalanceChangeFromTransactions(
-  transactions: Array<Transaction> | null | undefined
-): number {
-  return (
-    transactions?.reduce((acc, transaction) => {
-      if (transaction.transactionType === "income") {
-        return acc + transaction.amount
-      }
-      if (
-        transaction.transactionType === "expense" ||
-        transaction.transactionType === "subscription"
-      ) {
-        return acc - transaction.amount
-      }
-      return acc
-    }, 0) ?? 0
-  )
-}
-
-function getPercentageDifference(
-  current: number | undefined,
-  previous: number | undefined
-): number | undefined {
-  const previousValue = previous ?? 0
-  if (previousValue === 0) {
-    return undefined
-  }
-
-  const difference = (((current ?? 0) - previousValue) / previousValue) * 100
-
-  return Number.isFinite(difference) ? difference : undefined
-}
-
-async function getLast3MonthsTransactionsData(): Promise<
-  Array<{
-    label: string
-    income: number
-    expenses: number
-  }>
-> {
   const now = new Date()
-  const monthsAgoRange = [2, 1, 0] as const
+  const thisMonthKey = toMonthKey(now)
+  const lastMonthKey = toMonthKey(subMonths(now, 1))
 
-  const monthBuckets = new Map<
-    string,
-    { label: string; income: number; expenses: number }
-  >()
+  const [
+    { data: accounts, error: accountsError },
+    { data: allTransactions, error: transactionsError },
+  ] = await Promise.all([
+    getActiveAndInactiveAccounts(),
+    getTransactionsByDateRange(
+      startOfMonth(subMonths(now, TREND_MONTHS_BACK)).toISOString(),
+      endOfMonth(now).toISOString()
+    ),
+  ])
 
-  for (const monthsAgo of monthsAgoRange) {
-    const monthDate = subMonths(now, monthsAgo)
-    const monthKey = format(startOfMonth(monthDate), "yyyy-MM")
-    monthBuckets.set(monthKey, {
-      label: formatDateForUI(monthDate, "MMMM"),
-      income: 0,
-      expenses: 0,
-    })
-  }
-
-  const { data: transactions } = await getTransactionsData(
-    startOfMonth(subMonths(now, 2)).toISOString(),
-    endOfMonth(now).toISOString()
-  )
-
-  for (const transaction of transactions ?? []) {
-    const monthKey = format(
-      startOfMonth(new Date(transaction.transactionDate)),
-      "yyyy-MM"
-    )
-    const bucket = monthBuckets.get(monthKey)
-    if (!bucket) continue
-
-    if (transaction.transactionType === "income") {
-      bucket.income += transaction.amount
-    } else if (
-      transaction.transactionType === "expense" ||
-      transaction.transactionType === "subscription"
-    ) {
-      bucket.expenses += transaction.amount
-    }
-  }
-
-  return monthsAgoRange.map((monthsAgo) => {
-    const monthKey = format(startOfMonth(subMonths(now, monthsAgo)), "yyyy-MM")
-    const bucket = monthBuckets.get(monthKey)!
+  if (accountsError || transactionsError) {
     return {
-      label: bucket.label,
-      income: bucket.income,
-      expenses: bucket.expenses,
+      accountsData: {},
+      transactionsData: {},
+      expenseBreakdown: {},
+      monthlyComparison: [],
+      thisMonthSubscriptions: { subscriptions: [], totalCost: 0 },
+      trendBalanceData: { data: [], error: accountsError ?? transactionsError },
     }
-  })
-}
+  }
 
-function getThisMonthSubscriptionsData(
-  transactions: Array<Transaction> | null | undefined
-): {
-  subscriptions: Array<{ name: string; amount: number }>
-  totalCost: number
-} {
-  const subscriptions =
-    transactions?.filter(
-      (transaction) => transaction.transactionType === "subscription"
-    ) ?? []
+  const safeAccounts = accounts ?? []
+  const safeTransactions = allTransactions ?? []
+
+  const thisMonthTransactions = filterByMonth(safeTransactions, thisMonthKey)
+  const lastMonthTransactions = filterByMonth(safeTransactions, lastMonthKey)
 
   return {
-    subscriptions: subscriptions.map((transaction) => ({
-      name: transaction.name,
-      amount: transaction.amount,
-    })),
-    totalCost: subscriptions.reduce(
-      (acc, transaction) => acc + transaction.amount,
-      0
+    accountsData: buildAccountsData(safeAccounts, thisMonthTransactions),
+    transactionsData: buildTransactionsData(
+      thisMonthTransactions,
+      lastMonthTransactions
+    ),
+    expenseBreakdown: buildExpenseBreakdown(thisMonthTransactions),
+    monthlyComparison: buildMonthlyComparison(now, safeTransactions),
+    thisMonthSubscriptions: buildSubscriptionsData(thisMonthTransactions),
+    trendBalanceData: buildTrendBalanceData(
+      now,
+      safeAccounts,
+      safeTransactions
     ),
   }
 }
 
-async function getTransactionsData(startDate: string, endDate: string) {
-  const { data: transactions, error: transactionsError } =
-    await getTransactionsByDateRange(startDate, endDate)
-  if (transactionsError) return { error: transactionsError }
-  return { data: transactions }
+function buildAccountsData(
+  accounts: Array<Account>,
+  thisMonthTransactions: Array<Transaction>
+) {
+  const totalBalance = accounts.reduce(
+    (acc, account) => acc + (account.currentBalance ?? 0),
+    0
+  )
+
+  const accountsDistribution = accounts.map((account) => ({
+    value: account.currentBalance / (totalBalance || 1),
+    label: account.name,
+  }))
+
+  const thisMonthNet = thisMonthTransactions.reduce((acc, t) => {
+    if (isIncome(t)) return acc + t.amount
+    if (isExpense(t)) return acc - t.amount
+    return acc
+  }, 0)
+
+  const lastMonthTotalBalance = totalBalance - thisMonthNet
+  const totalBalanceChange = getPercentageDifference(
+    totalBalance,
+    lastMonthTotalBalance
+  )
+
+  return { totalBalance, accountsDistribution, totalBalanceChange }
 }
 
-async function getTrendBalanceData(): Promise<{
-  data?: Array<Record<string, string | number | undefined>> | null
-  error?: string | null
-}> {
-  const now = new Date()
-  const MONTHS_BACK = 5
-  const { data: accounts } = await getActiveAndInactiveAccounts()
-  if (!accounts?.length) return { data: [], error: null }
+function buildTransactionsData(
+  thisMonth: Array<Transaction>,
+  lastMonth: Array<Transaction>
+) {
+  const thisMonthIncome = sumBy(thisMonth, isIncome)
+  const lastMonthIncome = sumBy(lastMonth, isIncome)
+  const thisMonthExpenses = sumBy(thisMonth, isExpense)
+  const lastMonthExpenses = sumBy(lastMonth, isExpense)
 
-  const { data: transactions, error } = await getTransactionsData(
-    startOfMonth(subMonths(now, MONTHS_BACK)).toISOString(),
-    endOfMonth(now).toISOString()
+  return {
+    thisMonthIncome,
+    lastMonthIncome,
+    thisMonthExpenses,
+    lastMonthExpenses,
+    percentageDifferenceInIncome: getPercentageDifference(
+      thisMonthIncome,
+      lastMonthIncome
+    ),
+    percentageDifferenceInExpenses: getPercentageDifference(
+      thisMonthExpenses,
+      lastMonthExpenses
+    ),
+  }
+}
+
+function buildExpenseBreakdown(
+  transactions: Array<Transaction>
+): Record<string, number> {
+  return transactions
+    .filter((t) => t.transactionType === "expense")
+    .reduce<Record<string, number>>((acc, t) => {
+      const category = t.transactionCategory?.name ?? "Unknown"
+      acc[category] = (acc[category] ?? 0) + t.amount
+      return acc
+    }, {})
+}
+
+function buildMonthlyComparison(
+  now: Date,
+  transactions: Array<Transaction>
+): Array<{ label: string; income: number; expenses: number }> {
+  const monthsAgoRange = [2, 1, 0] as const
+
+  return monthsAgoRange.map((monthsAgo) => {
+    const monthDate = subMonths(now, monthsAgo)
+    const monthKey = toMonthKey(monthDate)
+    const monthTransactions = filterByMonth(transactions, monthKey)
+
+    return {
+      label: formatDateForUI(monthDate, "MMMM"),
+      income: sumBy(monthTransactions, isIncome),
+      expenses: sumBy(monthTransactions, isExpense),
+    }
+  })
+}
+
+function buildSubscriptionsData(transactions: Array<Transaction>): {
+  subscriptions: Array<{ name: string; amount: number }>
+  totalCost: number
+} {
+  const subscriptions = transactions.filter(
+    (t) => t.transactionType === "subscription"
   )
-  if (error) return { error }
+
+  return {
+    subscriptions: subscriptions.map((t) => ({
+      name: t.name,
+      amount: t.amount,
+    })),
+    totalCost: subscriptions.reduce((acc, t) => acc + t.amount, 0),
+  }
+}
+
+function buildTrendBalanceData(
+  now: Date,
+  accounts: Array<Account>,
+  transactions: Array<Transaction>
+): {
+  data: Array<Record<string, string | number | undefined>>
+  error: string | null
+} {
+  if (!accounts.length) return { data: [], error: null }
 
   const transactionsByMonth = new Map<string, Array<Transaction>>()
-  for (const transaction of transactions ?? []) {
-    const monthKey = format(
-      startOfMonth(new Date(transaction.transactionDate)),
-      "yyyy-MM"
-    )
-    const bucket = transactionsByMonth.get(monthKey) ?? []
-    bucket.push(transaction)
-    transactionsByMonth.set(monthKey, bucket)
+  for (const t of transactions) {
+    const key = toMonthKey(new Date(t.transactionDate))
+    const bucket = transactionsByMonth.get(key) ?? []
+    bucket.push(t)
+    transactionsByMonth.set(key, bucket)
   }
 
-  const balances = new Map<string, number>()
-  for (const account of accounts) {
-    balances.set(account.id, account.currentBalance)
-  }
+  const balances = new Map<string, number>(
+    accounts.map((a) => [a.id, a.currentBalance])
+  )
 
   const result: Array<Record<string, string | number | undefined>> = []
 
-  for (let i = 0; i <= MONTHS_BACK; i++) {
+  for (let i = 0; i <= TREND_MONTHS_BACK; i++) {
     const monthDate = subMonths(now, i)
-    const monthKey = format(startOfMonth(monthDate), "yyyy-MM")
+    const monthKey = toMonthKey(monthDate)
 
     const point: Record<string, string | number | undefined> = {
       label: formatDateForUI(monthDate, "MMMM"),
@@ -295,35 +203,21 @@ async function getTrendBalanceData(): Promise<{
     }
     result.push(point)
 
-    const monthTransactions = transactionsByMonth.get(monthKey) ?? []
-    for (const transaction of monthTransactions) {
-      const accountId = transaction.account?.id
+    for (const t of transactionsByMonth.get(monthKey) ?? []) {
+      const accountId = t.account?.id
       if (!accountId) continue
 
-      if (transaction.transactionType === "income") {
-        balances.set(
-          accountId,
-          (balances.get(accountId) ?? 0) - transaction.amount
-        )
-      } else if (
-        transaction.transactionType === "expense" ||
-        transaction.transactionType === "subscription"
-      ) {
-        balances.set(
-          accountId,
-          (balances.get(accountId) ?? 0) + transaction.amount
-        )
-      } else if (transaction.transactionType === "transfer") {
-        balances.set(
-          accountId,
-          (balances.get(accountId) ?? 0) + transaction.amount
-        )
-        const targetId = transaction.transferredToAccount?.id
+      const current = balances.get(accountId) ?? 0
+
+      if (isIncome(t)) {
+        balances.set(accountId, current - t.amount)
+      } else if (isExpense(t)) {
+        balances.set(accountId, current + t.amount)
+      } else if (t.transactionType === "transfer") {
+        balances.set(accountId, current + t.amount)
+        const targetId = t.transferredToAccount?.id
         if (targetId) {
-          balances.set(
-            targetId,
-            (balances.get(targetId) ?? 0) - transaction.amount
-          )
+          balances.set(targetId, (balances.get(targetId) ?? 0) - t.amount)
         }
       }
     }
