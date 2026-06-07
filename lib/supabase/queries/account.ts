@@ -90,7 +90,6 @@ export async function getAccountsByIds(ids: string[]): Promise<{
     .select("*")
     .in("id", ids ?? [])
     .eq("user_id", user.id)
-    .eq("is_archived", false)
 
   if (accountsError) {
     return {
