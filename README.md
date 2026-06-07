@@ -1,455 +1,440 @@
-# Finance Management App
+<div align="center">
 
-A modern personal finance management application built to help users track income, expenses, subscriptions, savings, budgets, and financial growth.
+# 🏦 FinSanctuary
 
-The goal of this application is to provide a clean and powerful dashboard that helps users understand where their money goes and improve their financial habits.
+### Your Personal Finance Command Center
 
----
+[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 
-# Features
+A modern, full-featured personal finance management application built with the latest web technologies. Track income, expenses, transfers, subscriptions, savings goals, and budgets — all from a single, beautiful dashboard.
 
-## Authentication
-
-- User authentication
-- Secure sessions
-- Protected routes
-- Profile management
-
----
-
-# Accounts Management
-
-Manage all money sources in one place.
-
-## Features
-
-- Bank accounts
-- Cash wallet
-- Savings accounts
-- Multiple account support
-- Money transfers between accounts
-- Account balance tracking
-
-## Example Accounts
-
-- Main Bank
-- Cash Wallet
-- Emergency Savings
-- Business Account
+[Getting Started](#-getting-started) · [Features](#-features) · [Tech Stack](#-tech-stack) · [Architecture](#-architecture) · [Documentation](#-documentation)
 
 ---
 
-# Transactions
+</div>
 
-Track every income and expense.
+## ✨ Features
 
-## Features
+<table>
+<tr>
+<td width="50%">
 
-- Add transactions
-- Edit transactions
-- Delete transactions
-- Income tracking
-- Expense tracking
-- Transfer tracking
-- Transaction history
-- Search and filtering
-- Notes and descriptions
+### 📊 Dashboard
+Real-time financial overview with KPI cards, balance trend charts, and at-a-glance spending summaries. Powered by Recharts with custom Line, Area, Bar, Pie, Radar, Radial, Column, and Matrix chart components.
 
-## Transaction Types
+</td>
+<td width="50%">
 
-- Income
-- Expense
-- Transfer
+### 💸 Transactions
+Full CRUD for income, expenses, and inter-account transfers. Each transaction auto-updates account balances. Filterable data tables built with TanStack Table.
 
-## Example Categories
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-### Essentials
+### 🏛️ Accounts
+Manage multiple financial accounts (bank, cash wallet, savings). Track real-time balances, archive old accounts, and transfer money between them.
 
-- Rent
-- Electricity
-- Water
-- Internet
-- Transport
-- Groceries
+</td>
+<td width="50%">
 
-### Lifestyle
+### 🔁 Recurring Transactions
+Automate subscription tracking with configurable frequencies: daily, weekly, monthly, quarterly, or yearly. A CRON API endpoint processes due subscriptions automatically.
 
-- Coffee
-- Shopping
-- Gaming
-- Gym
-- Entertainment
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-### Work
+### 📁 Transaction Categories
+Organize spending with custom categories (income, expense, transfer, subscription). System-provided defaults plus user-created categories.
 
-- Hosting
-- Domains
-- SaaS
-- AI Tools
+</td>
+<td width="50%">
 
----
+### 🌍 Internationalization
+Full i18n support for **English** and **Albanian** (sq) via `next-intl`. Every label, validation message, and UI string is translatable with locale persistence.
 
-# Budget Management
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-Create budgets to control spending.
+### 🎨 Theming
+Light and dark mode with `next-themes`. Three custom Google Fonts — Raleway (headings), Nunito Sans (body), and Geist Mono (code).
 
-## Features
+</td>
+<td width="50%">
 
-- Monthly budgets
-- Category budgets
-- Budget progress tracking
-- Overspending warnings
-- Remaining budget calculations
+### 🔐 Authentication
+Email/password auth powered by Supabase Auth. Middleware-enforced route protection, session refresh, and user profile management.
 
-## Example
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-- Food Budget: €300
-- Entertainment Budget: €100
+### 💰 Budgets
+Create monthly and category-level budgets with progress tracking and overspending warnings.
 
----
+</td>
+<td width="50%">
 
-# Subscription Management
+### 🐷 Savings Goals
+Set financial targets with deadlines and track progress toward each goal.
 
-Track recurring payments and subscriptions.
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-## Features
+### 📈 Analytics
+Visualize spending habits across categories, time periods, and accounts with rich interactive charts.
 
-- Monthly subscriptions
-- Yearly subscriptions
-- Renewal tracking
-- Upcoming payments
-- Subscription reminders
-- Monthly recurring cost calculations
+</td>
+<td width="50%">
 
-## Example Subscriptions
+### ⚙️ Settings
+Profile management, notification preferences, security options, and app-wide preference controls.
 
-- Netflix
-- Spotify
-- ChatGPT
-- Adobe
-- VPS Hosting
-
----
-
-# Savings Management
-
-Track savings goals and financial progress.
-
-## Features
-
-- Savings goals
-- Progress tracking
-- Goal deadlines
-- Savings history
-- Emergency fund tracking
-
-## Example Goals
-
-- New Laptop
-- Vacation
-- Emergency Fund
-- Car
+</td>
+</tr>
+</table>
 
 ---
 
-# Dashboard
+## 🛠 Tech Stack
 
-A central overview of financial information.
+### Core Framework
 
-## Dashboard Widgets
+| Technology | Version | Purpose |
+|:---|:---|:---|
+| <img src="https://cdn.simpleicons.org/next.js/000/fff" width="16" height="16" /> **Next.js** | `16.2.6` | App Router, Server Components, Server Actions, Middleware |
+| <img src="https://cdn.simpleicons.org/react/61DAFB" width="16" height="16" /> **React** | `19.2.4` | UI rendering with latest concurrent features |
+| <img src="https://cdn.simpleicons.org/typescript/3178C6" width="16" height="16" /> **TypeScript** | `5.x` | End-to-end type safety |
 
-- Total balance
-- Total income
-- Total expenses
-- Savings total
-- Cash available
-- Upcoming subscriptions
-- Monthly spending
-- Budget progress
-- Largest expense
-- Financial insights
+### Backend & Database
 
----
+| Technology | Purpose |
+|:---|:---|
+| <img src="https://cdn.simpleicons.org/supabase/3FCF8E" width="16" height="16" /> **Supabase** | PostgreSQL database, Auth, Row Level Security, Admin client |
+| <img src="https://cdn.simpleicons.org/supabase/3FCF8E" width="16" height="16" /> **@supabase/ssr** | Server-side cookie-based session management |
 
-# Analytics & Reports
+### UI & Styling
 
-Visualize financial habits and trends.
+| Technology | Purpose |
+|:---|:---|
+| <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" width="16" height="16" /> **Tailwind CSS v4** | Utility-first styling with CSS-native configuration |
+| <img src="https://cdn.simpleicons.org/shadcnui/000/fff" width="16" height="16" /> **shadcn/ui** | 67+ accessible UI components (Radix UI primitives) |
+| <img src="https://cdn.simpleicons.org/radixui/161618/fff" width="16" height="16" /> **Radix UI** | Headless, accessible component primitives |
+| 🎨 **class-variance-authority** | Type-safe component variant management |
+| 🖼️ **Hugeicons** | Premium icon library with React bindings |
 
-## Charts
+### Data & Forms
 
-- Spending by category
-- Monthly income vs expenses
-- Savings growth
-- Subscription costs
-- Spending trends
+| Technology | Purpose |
+|:---|:---|
+| 📊 **Recharts** | 8 chart types: Line, Area, Bar, Pie, Radar, Radial, Column, Matrix |
+| 📋 **TanStack Table** | Headless, type-safe data tables with sorting & filtering |
+| 📝 **React Hook Form** | Performant forms with minimal re-renders |
+| ✅ **Zod** | Schema-based validation with i18n error messages |
 
-## Reports
+### Internationalization
 
-- Weekly reports
-- Monthly reports
-- Yearly reports
+| Technology | Purpose |
+|:---|:---|
+| 🌐 **next-intl** | Server & client i18n with nested message catalogs |
+| 🇬🇧 🇦🇱 **2 Locales** | English (`en`) and Albanian (`sq`) |
 
----
+### Developer Experience
 
-# Notifications & Reminders
+| Technology | Purpose |
+|:---|:---|
+| <img src="https://cdn.simpleicons.org/vitest/6E9F18" width="16" height="16" /> **Vitest** | Unit & integration testing |
+| <img src="https://cdn.simpleicons.org/testinglibrary/E33332" width="16" height="16" /> **Testing Library** | DOM testing utilities for React |
+| <img src="https://cdn.simpleicons.org/eslint/4B32C3" width="16" height="16" /> **ESLint** | Linting with Next.js config |
+| <img src="https://cdn.simpleicons.org/prettier/F7B93E" width="16" height="16" /> **Prettier** | Code formatting with Tailwind plugin |
+| 🐶 **Husky** | Git hooks for pre-commit quality checks |
+| 📋 **lint-staged** | Run formatters only on staged files |
 
-Stay informed about important financial events.
+### Additional Libraries
 
-## Notifications
-
-- Subscription renewal reminders
-- Budget exceeded alerts
-- Savings goal progress
-- Upcoming bills
-- Payment reminders
-
----
-
-# Search & Filters
-
-Quickly find financial records.
-
-## Filters
-
-- Date range
-- Category
-- Amount
-- Account
-- Transaction type
-- Tags
-
----
-
-# Export & Backup
-
-Keep your financial data secure.
-
-## Features
-
-- Export CSV
-- Export PDF
-- Data backups
-- Transaction imports
+| Library | Purpose |
+|:---|:---|
+| `date-fns` | Lightweight date manipulation |
+| `sonner` | Toast notifications |
+| `vaul` | Drawer component |
+| `cmdk` | Command palette (⌘K) |
+| `embla-carousel-react` | Carousel/slider component |
+| `react-resizable-panels` | Resizable split panes |
+| `react-day-picker` | Date picker component |
+| `timescape` | Time input field |
+| `input-otp` | OTP input for verification |
+| `frimousse` | Emoji picker |
+| `react-call` | Programmatic dialog/confirm calls |
+| `tw-animate-css` | Tailwind animation utilities |
 
 ---
 
-# Future Features
+## 🏗 Architecture
 
-Planned advanced functionality.
-
-## Planned Features
-
-- OCR receipt scanning
-- AI financial insights
-- Bank API integration
-- Investment tracking
-- Debt management
-- Loan tracking
-- Shared budgets
-- Currency conversion
-- Mobile application
-
----
-
-# Tech Stack
-
-## Frontend
-
-- React
-- Next.js
-- TypeScript
-- ShadCN UI
-- Tailwind CSS
-
-## Backend
-
-- Supabase
-
-## State Management
-
-- Zustand
-
-## Data Fetching
-
-- TanStack Query
-
-## Validation
-
-- Zod
-
-## Charts
-
-- Recharts
-
----
-
-# Folder Structure
-
-```txt
-src/
-├── app/
+```
+finance-management/
+├── app/                              # Next.js App Router
+│   ├── (app-layout)/                 # Authenticated layout group
+│   │   ├── dashboard/                # Dashboard with charts & KPIs
+│   │   ├── transactions/             # Transaction CRUD + data table
+│   │   ├── accounts/                 # Account management
+│   │   ├── recurring-transactions/   # Subscription/recurring payments
+│   │   ├── budgets/                  # Budget tracking
+│   │   ├── savings/                  # Savings goals
+│   │   ├── analytics/                # Charts & reports
+│   │   ├── settings/                 # User settings
+│   │   │   ├── profile/
+│   │   │   ├── preferences/
+│   │   │   ├── security/
+│   │   │   ├── notifications/
+│   │   │   └── transaction-categories/
+│   │   └── _components/              # Shared layout components
+│   │       ├── app-sidebar/          # Navigation sidebar
+│   │       ├── app-header/           # Top bar with theme/language
+│   │       ├── page-header/          # Breadcrumb page headers
+│   │       └── form-sheet-wrapper/   # Slide-over form panels
+│   ├── auth/                         # Authentication pages
+│   │   ├── login/
+│   │   └── register/
+│   ├── api/
+│   │   └── cron/                     # CRON job endpoints
+│   │       └── process-recurring-transactions/
+│   └── page.tsx                      # Landing / redirect
 ├── components/
-│   ├── dashboard/
-│   ├── transactions/
-│   ├── subscriptions/
-│   ├── savings/
-│   ├── budgets/
-│   └── charts/
-├── features/
-├── hooks/
-├── services/
-├── store/
+│   ├── ui/                           # 67 shadcn/ui components
+│   ├── charts/                       # 8 Recharts wrapper components
+│   └── form-fields/                  # Reusable form field components
+├── hooks/                            # Custom React hooks
+├── i18n/                             # Internationalization
+│   ├── config.ts                     # Locale configuration
+│   ├── request.ts                    # Server-side message loading
+│   └── messages/                     # 86 translation files (en/sq)
 ├── lib/
-├── utils/
-├── validations/
-└── types/
+│   ├── supabase/                     # Supabase client utilities
+│   │   ├── server.ts                 # Server Component client
+│   │   ├── client.ts                 # Browser client
+│   │   ├── actions.ts                # Server Action client
+│   │   ├── admin.ts                  # Service-role admin client
+│   │   ├── middleware.ts             # Session refresh middleware
+│   │   └── queries/                  # Reusable query functions
+│   ├── format/                       # Number, date, text formatters
+│   ├── require-user.ts              # Auth guard utility
+│   └── utils.ts                      # General utilities (cn, etc.)
+├── types/                            # TypeScript type definitions
+│   ├── account/
+│   ├── transaction/
+│   ├── transaction-category/
+│   └── recurring-transactions/
+├── __tests__/                        # Test suite
+│   ├── accounts/
+│   ├── transactions/
+│   ├── recurring-transactions/
+│   ├── transaction-categories/
+│   ├── api/cron/
+│   ├── lib/
+│   └── i18n/
+└── docs/                             # Detailed documentation
+    ├── architecture.md
+    ├── database.md
+    ├── authentication.md
+    ├── transactions.md
+    ├── subscriptions.md
+    ├── deployment.md
+    └── api.md
 ```
 
 ---
 
+## 🚀 Getting Started
 
-## Transaction Types
+### Prerequisites
 
-- income
-- expense
-- transfer
+- **Node.js** 18.17 or later
+- **npm** (or pnpm / yarn)
+- A **Supabase** project ([create one free](https://supabase.com/dashboard))
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/finance-management.git
+cd finance-management
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Copy the example environment file and fill in your Supabase credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+```env
+# Public (exposed to the browser)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_STORAGE_URL=https://your-project.supabase.co/storage/v1
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_LOGO_DEV_KEY=your-logo-dev-key
+NEXT_PUBLIC_LOGDEV_URL=https://img.logo.dev
+
+# Server-only (never prefix with NEXT_PUBLIC_)
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+CRON_SECRET=your-cron-secret
+```
+
+### 4. Set Up the Database
+
+Set up your Supabase database tables and Row Level Security policies. See [docs/database.md](docs/database.md) for the full schema.
+
+### 5. Run the Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) — the app redirects authenticated users to `/dashboard` automatically.
 
 ---
 
-# Dashboard Metrics
+## 📜 Available Scripts
 
-## Monthly Metrics
-
-- Total income
-- Total expenses
-- Savings rate
-- Subscription costs
-- Largest expense category
-
-## Yearly Metrics
-
-- Net worth growth
-- Spending trends
-- Savings trends
-
----
-
-# Financial Insights
-
-The application can provide useful financial insights.
-
-## Examples
-
-- "You spent 20% more on food this month."
-- "Subscriptions increased by €15."
-- "Savings improved compared to last month."
-- "Entertainment spending exceeded your budget."
+| Command | Description |
+|:---|:---|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Auto-fix lint issues |
+| `npm run format` | Format all files with Prettier |
+| `npm run format:check` | Check formatting without writing |
+| `npm run typecheck` | TypeScript type checking |
+| `npm run test` | Run tests in watch mode (Vitest) |
+| `npm run test:ci` | Run tests once (CI mode) |
+| `npm run quality` | Run lint + typecheck + format check + tests |
 
 ---
 
-# Security
+## 📚 Documentation
 
-Financial applications require strong security.
+Detailed documentation for each major subsystem lives in the [`docs/`](docs/) directory:
 
-## Security Features
-
-- Row Level Security (RLS)
-- Protected API routes
-- Secure authentication
-- Encrypted sensitive data
-- Secure session handling
+| Document | Description |
+|:---|:---|
+| [**architecture.md**](docs/architecture.md) | System architecture, design patterns, and project conventions |
+| [**database.md**](docs/database.md) | Supabase schema, tables, relationships, and RLS policies |
+| [**authentication.md**](docs/authentication.md) | Auth flows, middleware, session handling, and route protection |
+| [**transactions.md**](docs/transactions.md) | Transaction types, balance logic, and transfer mechanics |
+| [**subscriptions.md**](docs/subscriptions.md) | Recurring transactions, CRON processing, and frequency scheduling |
+| [**deployment.md**](docs/deployment.md) | Production deployment, environment setup, and CI/CD |
+| [**api.md**](docs/api.md) | Server Actions, API routes, and data layer reference |
 
 ---
 
-# Recommended Development Phases
+## 🗺 Roadmap
 
-## Phase 1
+<table>
+<tr>
+<td>
 
+**Phase 1** ✅
 - Authentication
 - Accounts
 - Transactions
 - Categories
 - Dashboard
 
-## Phase 2
+</td>
+<td>
 
+**Phase 2** 🚧
 - Budgets
 - Subscriptions
 - Savings goals
 - Charts
 
-## Phase 3
+</td>
+<td>
 
+**Phase 3** 📋
 - Analytics
 - Notifications
 - Reports
-- Exports
+- CSV/PDF export
 
-## Phase 4
+</td>
+<td>
 
-- AI insights
-- OCR receipts
-- Bank integrations
+**Phase 4** 🔮
+- AI financial insights
+- OCR receipt scanning
+- Bank API integration
 - Mobile app
 
----
-
-# UX Goals
-
-The application should focus on:
-
-- Simplicity
-- Fast data entry
-- Clear financial overview
-- Minimal distractions
-- Powerful analytics
-- Mobile responsiveness
+</td>
+</tr>
+</table>
 
 ---
 
-# Design Inspiration
+## 🧪 Testing
 
-Inspired by modern finance applications such as:
+The project uses **Vitest** with **Testing Library** for unit and integration tests:
 
-- YNAB
-- Mint
-- Monarch Money
-- Wallet
+```bash
+# Watch mode
+npm run test
 
----
-
-# Recommended Improvements
-
-## Smart Monthly Snapshot System
-
-Save monthly financial summaries automatically:
-
-- Total income
-- Total expenses
-- Savings
-- Net worth
-- Largest expense category
-
-This allows advanced historical analysis later.
-
----
-
-# Net Worth Tracking
-
-Track financial growth over time.
-
-```txt
-Net Worth = Total Assets - Total Liabilities
+# Single run (CI)
+npm run test:ci
 ```
 
+Test coverage includes:
+- Server Actions (accounts, transactions, recurring transactions, categories)
+- CRON job logic (recurring transaction processing, next-run-at computation)
+- Utility functions (date formatting, number formatting, text formatting)
+- i18n configuration validation
+- Type definitions
+
 ---
 
-# License
+## 🤝 Contributing
 
-MIT License
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes (the `quality` script runs lint, typecheck, format check, and tests)
+4. Push to the branch: `git push origin feature/my-feature`
+5. Open a Pull Request
 
 ---
 
-# Author
+## 📄 License
 
-Created by Mister godly tost
+This project is licensed under the **MIT License**.
+
+---
+
+<div align="center">
+
+**Built with** ❤️ **using Next.js, React, Supabase, and shadcn/ui**
+
+</div>

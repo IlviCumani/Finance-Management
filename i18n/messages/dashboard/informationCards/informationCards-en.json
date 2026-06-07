@@ -1,0 +1,13 @@
+{
+  "totalBalance": "Total Balance",
+  "totalBalanceDescription": "Total balance in the system",
+  "monthlyIncome": "Monthly Income",
+  "monthlyIncomeDescription": "Money made this month",
+  "monthlyExpenses": "Monthly Expenses",
+  "monthlyExpensesDescription": "Money spent this month",
+  "accountsDistribution": "Accounts Distribution",
+  "accountsDistributionDescription": "Money distributed in each account",
+  "trendFromLastMonth": "{value}% from last month",
+  "tooltipPercentage": "{value}%",
+  "tooltipLabelPercentage": "{label}: {value}%"
+}

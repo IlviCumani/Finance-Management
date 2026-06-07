@@ -13,6 +13,7 @@ import {
   MoneyExchange01Icon,
   CreditCardPosIcon,
   Wallet01Icon,
+  CircleOffIcon,
 } from "@hugeicons/core-free-icons"
 import { Account } from "@/types/account/account-types"
 import { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
@@ -21,6 +22,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Button } from "@/components/ui/button"
 
 type TransactionsTranslator = (
   key: string,
@@ -182,7 +184,11 @@ export function getColumns({
 
         const transactionType = row.original.transactionType
         if (transactionType === "subscription") {
-          return null
+          return (
+            <Button variant="outline" size="icon" disabled>
+              <HugeiconsIcon icon={CircleOffIcon} />
+            </Button>
+          )
         }
 
         return (
