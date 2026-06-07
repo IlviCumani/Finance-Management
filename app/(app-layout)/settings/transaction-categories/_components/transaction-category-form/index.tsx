@@ -13,7 +13,10 @@ import { Controller } from "react-hook-form"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { SelectFormField } from "@/components/form-fields/select-form-field"
 import { useMemo } from "react"
-import { TransactionCategoryType } from "@/types/transaction-category/transaction-category-types"
+import {
+  TransactionCategoryType,
+  TransactionCategoryTypeEnum,
+} from "@/types/transaction-category/transaction-category-types"
 import {
   createTransactionCategory,
   updateTransactionCategory,
@@ -21,9 +24,9 @@ import {
 import { toast } from "sonner"
 
 const categoryTypes = [
-  "income",
-  "expense",
-  "transfer",
+  TransactionCategoryTypeEnum.INCOME,
+  TransactionCategoryTypeEnum.EXPENSE,
+  TransactionCategoryTypeEnum.TRANSFER,
 ] as const satisfies readonly Exclude<TransactionCategoryType, "subscription">[]
 
 type FormValues = {

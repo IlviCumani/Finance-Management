@@ -44,6 +44,7 @@ import {
   deleteNonTransferTransaction,
   deleteTransferTransaction,
 } from "@/app/(app-layout)/transactions/util/delete-helpers"
+import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 
 describe("deleteNonTransferTransaction", () => {
   beforeEach(() => {
@@ -68,7 +69,7 @@ describe("deleteNonTransferTransaction", () => {
     name: "Groceries",
     amount: 50,
     transactionDate: "2026-06-01",
-    transactionType: "expense",
+    transactionType: TransactionCategoryTypeEnum.EXPENSE,
     createdAt: "2026-06-01",
     updatedAt: "2026-06-01",
   }
@@ -78,7 +79,7 @@ describe("deleteNonTransferTransaction", () => {
     id: "txn-2",
     name: "Salary",
     amount: 3000,
-    transactionType: "income",
+    transactionType: TransactionCategoryTypeEnum.INCOME,
     account: {
       ...expenseTransaction.account!,
       currentBalance: 3500,
@@ -146,7 +147,7 @@ describe("deleteTransferTransaction", () => {
     name: "Transfer to Savings",
     amount: 100,
     transactionDate: "2026-06-01",
-    transactionType: "transfer",
+    transactionType: TransactionCategoryTypeEnum.TRANSFER,
     createdAt: "2026-06-01",
     updatedAt: "2026-06-01",
   }
