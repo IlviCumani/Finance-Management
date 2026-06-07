@@ -13,7 +13,6 @@ export default async function TransactionsPage() {
   )
 
   if (error) {
-    console.error(error)
     return (
       <div>
         <h1>Error</h1>
