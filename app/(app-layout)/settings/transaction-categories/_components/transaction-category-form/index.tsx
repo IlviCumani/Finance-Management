@@ -13,7 +13,10 @@ import { Controller } from "react-hook-form"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { SelectFormField } from "@/components/form-fields/select-form-field"
 import { useMemo } from "react"
-import { TransactionCategoryType } from "@/types/transaction-category/transaction-category-types"
+import {
+  TransactionCategoryType,
+  TransactionCategoryTypeEnum,
+} from "@/types/transaction-category/transaction-category-types"
 import {
   createTransactionCategory,
   updateTransactionCategory,
@@ -21,9 +24,9 @@ import {
 import { toast } from "sonner"
 
 const categoryTypes = [
-  "income",
-  "expense",
-  "transfer",
+  TransactionCategoryTypeEnum.INCOME,
+  TransactionCategoryTypeEnum.EXPENSE,
+  TransactionCategoryTypeEnum.TRANSFER,
 ] as const satisfies readonly Exclude<TransactionCategoryType, "subscription">[]
 
 type FormValues = {
@@ -48,7 +51,7 @@ export function TransactionCategoryForm({
     "settings.transactionCategories.validation"
   )
   const [error, setError] = useState<string | undefined>(undefined)
-
+  const [isLoading, setIsLoading] = useState(false)
   const formSchema = useMemo(
     () =>
       z.object({
@@ -82,6 +85,7 @@ export function TransactionCategoryForm({
   }, [category, reset, open])
 
   async function onSubmit(values: FormValues) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("type", values.type)
@@ -110,6 +114,7 @@ export function TransactionCategoryForm({
         })
       }
     }
+    setIsLoading(() => false)
   }
 
   return (
@@ -120,6 +125,7 @@ export function TransactionCategoryForm({
       onOpenChange={onOpenChange}
       error={error}
       description={t("description")}
+      isLoading={isLoading}
     >
       <form
         onSubmit={form.handleSubmit(onSubmit)}

@@ -1,0 +1,13 @@
+{
+  "totalBalance": "Bilanci Total",
+  "totalBalanceDescription": "Bilanci total në sistem",
+  "monthlyIncome": "Të Ardhurat Mujore",
+  "monthlyIncomeDescription": "Paratë e fituara këtë muaj",
+  "monthlyExpenses": "Shpenzimet Mujore",
+  "monthlyExpensesDescription": "Paratë e shpenzuara këtë muaj",
+  "accountsDistribution": "Shpërndarja e Llogarive",
+  "accountsDistributionDescription": "Paratë e shpërndara në çdo llogari",
+  "trendFromLastMonth": "{value}% nga muaji i kaluar",
+  "tooltipPercentage": "{value}%",
+  "tooltipLabelPercentage": "{label}: {value}%"
+}

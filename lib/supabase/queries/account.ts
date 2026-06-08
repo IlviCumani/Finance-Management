@@ -90,7 +90,41 @@ export async function getAccountsByIds(ids: string[]): Promise<{
     .select("*")
     .in("id", ids ?? [])
     .eq("user_id", user.id)
-    .eq("is_archived", false)
+
+  if (accountsError) {
+    return {
+      error: accountsError.message,
+    }
+  }
+
+  const mappedData: Array<Account> =
+    accounts?.map((account) => ({
+      id: account.id,
+      userId: account.user_id,
+      name: account.name,
+      currentBalance: account.current_balance,
+      currency: account.currency,
+      isArchived: account.is_archived,
+      createdAt: account.created_at,
+      updatedAt: account.updated_at,
+    })) ?? []
+
+  return {
+    data: mappedData,
+  }
+}
+
+export async function getActiveAndInactiveAccounts(): Promise<{
+  data?: Array<Account> | null
+  error?: string
+}> {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+
+  const { data: accounts, error: accountsError } = await supabase
+    .from("accounts")
+    .select("*")
+    .eq("user_id", user.id)
 
   if (accountsError) {
     return {

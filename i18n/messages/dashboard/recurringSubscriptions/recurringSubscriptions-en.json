@@ -1,0 +1,9 @@
+{
+  "title": "Recurring Subscriptions",
+  "description": "Recurring subscriptions cost this month",
+  "emptyTitle": "No recurring subscriptions",
+  "emptyDescription": "No recurring subscriptions have been paid this month.",
+  "goToRecurring": "Go to recurring subscriptions",
+  "perMonth": "/mo",
+  "totalMonthly": "Total: Monthly"
+}

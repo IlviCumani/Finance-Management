@@ -6,8 +6,7 @@ import {
 } from "@/types/transaction/transaction-types"
 import { createActionClient } from "@/lib/supabase/actions"
 import { requireUser } from "@/lib/require-user"
-import { getAccountsByIds } from "@/lib/supabase/queries/account"
-import { getTransactionCategoriesByIds } from "@/lib/supabase/queries/transaction"
+import { mapTransactions } from "@/lib/supabase/queries/transaction"
 
 import {
   createNonTransferTransaction,
@@ -33,7 +32,11 @@ export async function getTransactions(): Promise<{
     data,
     error,
   }: { data: Array<Transaction_Response> | null; error: Error | null } =
-    await supabase.from("transactions").select("*").eq("user_id", user.id)
+    await supabase
+      .from("transactions")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
 
   if (error) {
     return {
@@ -41,67 +44,18 @@ export async function getTransactions(): Promise<{
     }
   }
 
-  const allAccountIds = data?.map((transaction) => transaction.account_id)
-  const allTransferredToAccountIds = data
-    ?.map((transaction) => transaction.transferred_to_account_id)
-    .filter((id) => id !== null)
-
-  const allUniqueAccountIds = [
-    ...new Set([
-      ...(allAccountIds ?? []),
-      ...(allTransferredToAccountIds ?? []),
-    ]),
-  ]
-
-  const { data: accounts, error: accountsError } = await getAccountsByIds(
-    allUniqueAccountIds as string[]
+  const { data: mappedData, error: mappedDataError } = await mapTransactions(
+    data ?? []
   )
 
-  if (accountsError) {
+  if (mappedDataError) {
     return {
-      error: accountsError,
+      error: mappedDataError,
     }
   }
-
-  const allTransactionCategoryIds = data?.map(
-    (transaction) => transaction.transaction_category_id
-  )
-
-  const { data: transactionCategories, error: transactionCategoriesError } =
-    await getTransactionCategoriesByIds(allTransactionCategoryIds ?? [])
-
-  if (transactionCategoriesError) {
-    return {
-      error: transactionCategoriesError,
-    }
-  }
-
-  const mappedData: Array<Transaction> =
-    data?.map((transaction) => ({
-      id: transaction.id,
-      userId: transaction.user_id,
-      account:
-        accounts?.find((account) => account.id === transaction.account_id) ??
-        null,
-      transferredToAccount:
-        accounts?.find(
-          (account) => account.id === transaction.transferred_to_account_id
-        ) ?? null,
-      transactionCategory:
-        transactionCategories?.find(
-          (category) => category.id === transaction.transaction_category_id
-        ) ?? null,
-      name: transaction.name,
-      description: transaction.description,
-      amount: transaction.amount,
-      transactionDate: transaction.transaction_date,
-      transactionType: transaction.transaction_type,
-      createdAt: transaction.created_at,
-      updatedAt: transaction.updated_at,
-    })) ?? []
 
   return {
-    data: mappedData,
+    data: mappedData ?? [],
   }
 }
 

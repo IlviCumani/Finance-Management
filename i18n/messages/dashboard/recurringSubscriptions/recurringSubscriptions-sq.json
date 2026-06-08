@@ -1,0 +1,9 @@
+{
+  "title": "Abonimet e Përsëritura",
+  "description": "Kostoja e abonimeve të përsëritura këtë muaj",
+  "emptyTitle": "Asnjë abonim i përsëritur",
+  "emptyDescription": "Asnjë abonim i përsëritur nuk është paguar këtë muaj.",
+  "goToRecurring": "Shko te abonimet e përsëritura",
+  "perMonth": "/muaj",
+  "totalMonthly": "Totali: Mujor"
+}

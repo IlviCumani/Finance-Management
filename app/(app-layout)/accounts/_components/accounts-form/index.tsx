@@ -37,6 +37,7 @@ export function AccountsForm({
 }: AccountsFormProps) {
   const t = useTranslations("accounts.form")
   const tValidation = useTranslations("accounts.validation")
+  const [isLoading, setIsLoading] = useState(false)
 
   const formSchema = useMemo(
     () =>
@@ -81,6 +82,7 @@ export function AccountsForm({
   const [error, setError] = useState<string | undefined>(undefined)
 
   async function onSubmit(values: FormValues) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("currentBalance", values.currentBalance)
@@ -110,6 +112,7 @@ export function AccountsForm({
         onOpenChange(false)
       }
     }
+    setIsLoading(() => false)
   }
 
   useEffect(() => {
@@ -129,6 +132,7 @@ export function AccountsForm({
       open={open}
       onOpenChange={onOpenChange}
       error={error}
+      isLoading={isLoading}
     >
       <form onSubmit={form.handleSubmit(onSubmit)} id="accounts-form">
         <FieldGroup>

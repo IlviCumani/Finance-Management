@@ -1,0 +1,6 @@
+{
+  "title": "Expense Breakdown",
+  "description": "Expense breakdown over the last 30 days",
+  "emptyTitle": "No expenses recorded",
+  "emptyDescription": "No expense breakdown has been recorded this month."
+}

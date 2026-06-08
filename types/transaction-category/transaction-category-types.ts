@@ -8,11 +8,15 @@ export type TransactionCategory = {
   isSystem: boolean
 }
 
+export enum TransactionCategoryTypeEnum {
+  INCOME = "income",
+  EXPENSE = "expense",
+  TRANSFER = "transfer",
+  SUBSCRIPTION = "subscription",
+}
+
 export type TransactionCategoryType =
-  | "income"
-  | "expense"
-  | "transfer"
-  | "subscription"
+  (typeof TransactionCategoryTypeEnum)[keyof typeof TransactionCategoryTypeEnum]
 
 export type TransactionCategory_Response = {
   id: string
