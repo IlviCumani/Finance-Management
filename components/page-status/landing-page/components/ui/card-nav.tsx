@@ -26,6 +26,7 @@ export interface CardNavProps {
   menuColor?: string
   buttonBgColor?: string
   buttonTextColor?: string
+  onGetStartedClick?: () => void
 }
 
 const CardNav: React.FC<CardNavProps> = ({
@@ -38,6 +39,7 @@ const CardNav: React.FC<CardNavProps> = ({
   menuColor,
   buttonBgColor,
   buttonTextColor,
+  onGetStartedClick,
 }) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -227,6 +229,7 @@ const CardNav: React.FC<CardNavProps> = ({
             type="button"
             className="card-nav-cta-button hidden h-full cursor-pointer items-center rounded-[calc(0.75rem-0.2rem)] border-0 px-4 font-medium transition-colors duration-300 md:inline-flex"
             style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            onClick={onGetStartedClick}
           >
             Get Started
           </button>

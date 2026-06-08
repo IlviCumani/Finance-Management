@@ -3,10 +3,11 @@
 import CardNav, {
   CardNavItem,
 } from "@/components/page-status/landing-page/components/ui/card-nav"
-
+import { useRouter } from "next/navigation"
 const LOGO_URL = "/app-logo/favicon.svg"
 
 export function Header() {
+  const router = useRouter()
   const items: CardNavItem[] = [
     {
       label: "Features",
@@ -73,6 +74,7 @@ export function Header() {
       buttonBgColor="var(--primary)"
       buttonTextColor="var(--primary-foreground)"
       ease="power3.out"
+      onGetStartedClick={() => router.push("/auth/register")}
     />
   )
 }
