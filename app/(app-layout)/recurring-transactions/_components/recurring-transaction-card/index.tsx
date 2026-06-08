@@ -175,7 +175,7 @@ export function RecurringTransactionCardOutlined({
               })
             }}
             aria-label={t("delete", { name: transaction.name })}
-            className="pointer-events-none shrink-0 translate-y-2 scale-75 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100"
+            className="pointer-events-none shrink-0 translate-y-2 scale-75 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 max-md:pointer-events-auto max-md:translate-y-0 max-md:scale-100 max-md:opacity-100"
           >
             <HugeiconsIcon icon={Trash} className="size-4" />
           </Button>
