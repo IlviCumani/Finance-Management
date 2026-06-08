@@ -1,6 +1,6 @@
 export default function AboutSection() {
   return (
-    <section id="about" className="px-6 py-24 md:px-12 lg:px-24">
+    <section id="about" className="bg-muted/40 px-6 py-24 md:px-12 lg:px-24">
       <div className="mx-auto max-w-4xl text-center">
         <span className="text-sm font-semibold tracking-widest text-primary uppercase">
           About
@@ -9,9 +9,10 @@ export default function AboutSection() {
           Built for people, not accountants
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          Most finance tools assume you already know what you're doing. This one
-          doesn't. We built it for the person who checks their bank app three
-          times a day and still can't tell where the money went.
+          Most finance tools assume you already know what you&apos;re doing.
+          This one doesn&apos;t. We built it for the person who checks their
+          bank app three times a day and still can&apos;t tell where the money
+          went.
         </p>
 
         <div className="mt-16 grid gap-10 text-left md:grid-cols-3">
@@ -90,8 +91,8 @@ export default function AboutSection() {
             </h3>
             <p className="text-muted-foreground">
               No premium tiers, no paywalled charts. The full experience is
-              available to everyone — because managing money shouldn't cost more
-              money.
+              available to everyone — because managing money shouldn&apos;t cost
+              more money.
             </p>
           </div>
         </div>
