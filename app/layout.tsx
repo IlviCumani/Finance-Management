@@ -16,6 +16,8 @@ export const metadata: Metadata = {
 }
 
 import "./globals.css"
+import "devices.css/dist/devices.min.css"
+
 import { LocaleSync } from "@/components/locale-sync"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
