@@ -138,7 +138,7 @@ export function RecurringTransactionForm({
         onSubmit={form.handleSubmit(onSubmit)}
         id="recurring-transaction-form"
       >
-        <FieldGroup className="max-h-[calc(100vh-200px)] overflow-y-auto">
+        <FieldGroup className="max-h-[calc(100dvh-200px)] overflow-y-auto">
           <Controller
             control={form.control}
             name="name"

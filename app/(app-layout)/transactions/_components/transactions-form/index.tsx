@@ -114,7 +114,7 @@ export function TransactionsForm({
       isLoading={isLoading}
     >
       <form onSubmit={form.handleSubmit(onSubmit)} id="transactions-form">
-        <FieldGroup className="max-h-[calc(100vh-200px)] overflow-y-auto">
+        <FieldGroup className="max-h-[calc(100dvh-200px)] overflow-y-auto">
           <Controller
             control={form.control}
             name="name"
