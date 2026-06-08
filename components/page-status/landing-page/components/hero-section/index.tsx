@@ -12,7 +12,7 @@ export default function HeroSection() {
   const colors = ["#bbf7d0", "#6ee7b7", "#86efac"]
 
   return (
-    <div className="relative h-[600px] w-full overflow-hidden">
+    <div className="relative h-[800px] w-full overflow-hidden">
       <LiquidEther
         colors={colors}
         mouseForce={20}
@@ -70,7 +70,7 @@ export default function HeroSection() {
         verticalDistance={65}
         delay={7000}
         width={700}
-        height={400}
+        height={500}
         pauseOnHover={false}
         easing="linear"
       >

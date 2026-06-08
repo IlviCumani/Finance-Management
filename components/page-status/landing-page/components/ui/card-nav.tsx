@@ -10,10 +10,10 @@ type CardNavLink = {
 }
 
 export type CardNavItem = {
-  label: string
-  bgColor: string
-  textColor: string
-  links: CardNavLink[]
+  label?: string
+  bgColor?: string
+  textColor?: string
+  links?: CardNavLink[]
 }
 
 export interface CardNavProps {
@@ -155,6 +155,36 @@ const CardNav: React.FC<CardNavProps> = ({
     }
   }
 
+  const scrollToHash = (href: string) => {
+    const target = document.querySelector(href)
+    if (target) {
+      const offset = 80
+      const y = target.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top: y, behavior: "smooth" })
+    }
+  }
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const href = e.currentTarget.getAttribute("href")
+    if (!href?.startsWith("#")) return
+
+    e.preventDefault()
+
+    if (isExpanded) {
+      const tl = tlRef.current
+      if (tl) {
+        setIsHamburgerOpen(false)
+        tl.eventCallback("onReverseComplete", () => {
+          setIsExpanded(false)
+          scrollToHash(href)
+        })
+        tl.reverse()
+      }
+    } else {
+      scrollToHash(href)
+    }
+  }
+
   const setCardRef = (i: number) => (el: HTMLDivElement | null) => {
     if (el) cardsRef.current[i] = el
   }
@@ -227,6 +257,7 @@ const CardNav: React.FC<CardNavProps> = ({
                     className="nav-card-link inline-flex cursor-pointer items-center gap-[6px] text-[15px] no-underline transition-opacity duration-300 hover:opacity-75 md:text-[16px]"
                     href={lnk.href}
                     aria-label={lnk.ariaLabel}
+                    onClick={handleLinkClick}
                   >
                     <GoArrowUpRight
                       className="nav-card-link-icon shrink-0"
