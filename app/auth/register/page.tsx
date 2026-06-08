@@ -15,11 +15,13 @@ import { InputFormField } from "@/components/form-fields/input-form-field"
 import { useMemo, useState } from "react"
 import { useTranslations } from "next-intl"
 import { useForm } from "@/hooks/use-form"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register")
   const tValidation = useTranslations("validation")
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const formSchema = useMemo(
     () =>
@@ -63,6 +65,7 @@ export default function RegisterPage() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("email", values.email)
     formData.append("password", values.password)
@@ -71,6 +74,7 @@ export default function RegisterPage() {
     if (error) {
       setError(error)
     }
+    setIsLoading(() => false)
   }
 
   return (
@@ -167,7 +171,16 @@ export default function RegisterPage() {
             {error}
           </p>
 
-          <Button type="submit" form="register-form" className="w-full">
+          <Button
+            type="submit"
+            form="register-form"
+            className="w-full"
+            disabled={isLoading}
+          >
+            <Spinner
+              data-hidden={!isLoading}
+              className="data-[hidden=true]:hidden"
+            />
             {t("submit")}
           </Button>
 

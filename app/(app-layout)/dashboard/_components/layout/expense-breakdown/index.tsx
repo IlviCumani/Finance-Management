@@ -15,7 +15,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { InboxIcon } from "@hugeicons/core-free-icons"
+import { PieChartIcon } from "@hugeicons/core-free-icons"
 import { getTranslations } from "next-intl/server"
 
 export async function ExpenseBreakdown({
@@ -41,7 +41,7 @@ export async function ExpenseBreakdown({
           <Empty className="h-full items-center justify-center px-4">
             <EmptyHeader>
               <EmptyMedia variant={"icon"}>
-                <HugeiconsIcon icon={InboxIcon} className="size-4" />
+                <HugeiconsIcon icon={PieChartIcon} className="size-4" />
               </EmptyMedia>
               <EmptyTitle>{t("emptyTitle")}</EmptyTitle>
             </EmptyHeader>

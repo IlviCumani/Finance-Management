@@ -48,7 +48,7 @@ export function TransactionsForm({
 }: TransactionsFormProps) {
   const t = useTranslations("transactions.form")
   const formSchema = useTransactionFormSchema()
-
+  const [isLoading, setIsLoading] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,6 +58,7 @@ export function TransactionsForm({
   const [error, setError] = useState<string | undefined>(undefined)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("amount", values.amount)
@@ -87,6 +88,7 @@ export function TransactionsForm({
       })
       form.reset(defaultValues)
     }
+    setIsLoading(() => false)
   }
 
   const { watch } = form
@@ -109,9 +111,10 @@ export function TransactionsForm({
       open={open}
       onOpenChange={onOpenChange}
       error={error}
+      isLoading={isLoading}
     >
       <form onSubmit={form.handleSubmit(onSubmit)} id="transactions-form">
-        <FieldGroup className="max-h-[calc(100vh-200px)] overflow-y-auto">
+        <FieldGroup className="max-h-[calc(100dvh-200px)] overflow-y-auto">
           <Controller
             control={form.control}
             name="name"

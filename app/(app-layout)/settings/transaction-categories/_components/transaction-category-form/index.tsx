@@ -51,7 +51,7 @@ export function TransactionCategoryForm({
     "settings.transactionCategories.validation"
   )
   const [error, setError] = useState<string | undefined>(undefined)
-
+  const [isLoading, setIsLoading] = useState(false)
   const formSchema = useMemo(
     () =>
       z.object({
@@ -85,6 +85,7 @@ export function TransactionCategoryForm({
   }, [category, reset, open])
 
   async function onSubmit(values: FormValues) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("type", values.type)
@@ -113,6 +114,7 @@ export function TransactionCategoryForm({
         })
       }
     }
+    setIsLoading(() => false)
   }
 
   return (
@@ -123,6 +125,7 @@ export function TransactionCategoryForm({
       onOpenChange={onOpenChange}
       error={error}
       description={t("description")}
+      isLoading={isLoading}
     >
       <form
         onSubmit={form.handleSubmit(onSubmit)}
