@@ -9,13 +9,13 @@ type MacbookMockupProps = {
 export function MacbookMockup({ image, alt }: MacbookMockupProps) {
   return (
     <div className="device device-macbook-pro relative z-0">
-      <div className="device-frame">
+      <div className="device-frame overflow-hidden">
         <Image
           src={image}
           alt={alt}
           width={1440}
           height={900}
-          className="device-content h-full w-full object-cover"
+          className="device-content h-full w-full rounded-xl object-cover"
         />
       </div>
 

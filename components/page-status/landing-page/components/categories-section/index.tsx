@@ -45,7 +45,7 @@ export default function CategoriesSection() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border shadow-xl">
+          <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl border border-border shadow-xl">
             <Image
               src={CategoriesImage}
               alt="Categories breakdown preview"
