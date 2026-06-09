@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
@@ -123,8 +124,11 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const tlRef = useRef<gsap.core.Timeline | null>(null)
   const intervalRef = useRef<number>(0)
   const container = useRef<HTMLDivElement>(null)
+  const [isPositioned, setIsPositioned] = useState(false)
 
   useEffect(() => {
+    setIsPositioned(false)
+
     const total = refs.length
     refs.forEach((r, i) =>
       placeNow(
@@ -133,6 +137,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         skewAmount
       )
     )
+    setIsPositioned(true)
 
     const swap = () => {
       if (order.current.length < 2) return
@@ -197,7 +202,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
       })
     }
 
-    swap()
     intervalRef.current = window.setInterval(swap, delay)
 
     if (pauseOnHover) {
@@ -239,7 +243,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
     <div
       ref={container}
       className={cn(
-        "absolute right-0 bottom-0 origin-bottom-right translate-x-[5%] translate-y-[20%] transform overflow-visible perspective-[900px] max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]",
+        "absolute right-0 bottom-0 origin-bottom-right translate-x-[5%] translate-y-[20%] transform overflow-visible transition-opacity duration-150 perspective-[900px] max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]",
+        !isPositioned && "opacity-0",
         className
       )}
       style={{ width, height }}

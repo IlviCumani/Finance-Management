@@ -1,7 +1,5 @@
+import { LandingPageLoadingLayout } from "@/components/page-status/loading/landing-page-loading-layout"
+
 export default function Loading() {
-  return (
-    <div>
-      <h1>Loading...</h1>
-    </div>
-  )
+  return <LandingPageLoadingLayout />
 }

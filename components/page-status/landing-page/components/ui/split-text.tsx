@@ -20,6 +20,9 @@ export interface SplitTextProps {
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span"
   textAlign?: React.CSSProperties["textAlign"]
   onLetterAnimationComplete?: () => void
+  onAnimationStart?: () => void
+  animateOnMount?: boolean
+  startDelay?: number
 }
 
 const SplitText: React.FC<SplitTextProps> = ({
@@ -36,16 +39,21 @@ const SplitText: React.FC<SplitTextProps> = ({
   tag = "p",
   textAlign = "center",
   onLetterAnimationComplete,
+  onAnimationStart,
+  animateOnMount = false,
+  startDelay = 0,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null)
   const animationCompletedRef = useRef(false)
   const onCompleteRef = useRef(onLetterAnimationComplete)
+  const onAnimationStartRef = useRef(onAnimationStart)
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
 
   // Keep callback ref updated
   useEffect(() => {
     onCompleteRef.current = onLetterAnimationComplete
-  }, [onLetterAnimationComplete])
+    onAnimationStartRef.current = onAnimationStart
+  }, [onLetterAnimationComplete, onAnimationStart])
 
   useEffect(() => {
     if (document.fonts.status === "loaded") {
@@ -107,14 +115,32 @@ const SplitText: React.FC<SplitTextProps> = ({
         reduceWhiteSpace: false,
         onSplit: (self: GSAPSplitText) => {
           assignTargets(self)
+          gsap.set(el, { opacity: 1 })
+          onAnimationStartRef.current?.()
+
+          const tweenVars: gsap.TweenVars = {
+            ...to,
+            duration,
+            ease,
+            stagger: delay / 1000,
+            delay: startDelay / 1000,
+            onComplete: () => {
+              animationCompletedRef.current = true
+              onCompleteRef.current?.()
+            },
+            willChange: "transform, opacity",
+            force3D: true,
+          }
+
+          if (animateOnMount) {
+            return gsap.fromTo(targets, { ...from }, tweenVars)
+          }
+
           return gsap.fromTo(
             targets,
             { ...from },
             {
-              ...to,
-              duration,
-              ease,
-              stagger: delay / 1000,
+              ...tweenVars,
               scrollTrigger: {
                 trigger: el,
                 start,
@@ -122,12 +148,6 @@ const SplitText: React.FC<SplitTextProps> = ({
                 fastScrollEnd: true,
                 anticipatePin: 0.4,
               },
-              onComplete: () => {
-                animationCompletedRef.current = true
-                onCompleteRef.current?.()
-              },
-              willChange: "transform, opacity",
-              force3D: true,
             }
           )
         },
@@ -155,6 +175,8 @@ const SplitText: React.FC<SplitTextProps> = ({
         threshold,
         rootMargin,
         fontsLoaded,
+        animateOnMount,
+        startDelay,
       ],
       scope: ref,
     }
@@ -165,6 +187,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       textAlign,
       wordWrap: "break-word",
       willChange: "transform, opacity",
+      opacity: 0,
     }
     const classes = `split-parent overflow-hidden inline-block whitespace-normal ${className}`
     const Tag = (tag || "p") as React.ElementType
