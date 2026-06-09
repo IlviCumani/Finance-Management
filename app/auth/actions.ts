@@ -52,3 +52,19 @@ export async function logout() {
   await supabase.auth.signOut()
   redirect("/auth/login")
 }
+
+export async function signInWithGoogle() {
+  const supabase = await createActionClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+    },
+  })
+
+  if (error || !data.url) {
+    return { error: error?.message ?? "OAuth initiation failed" }
+  }
+
+  redirect(data.url)
+}
