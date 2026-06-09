@@ -3,10 +3,12 @@
 import Image from "next/image"
 import { motion } from "motion/react"
 import AccountsImage from "@/assets/temp-images/goku-blue.jpg"
+import { MotionNeonBorder } from "@/components/ui/neon-border"
 import {
   ScrollReveal,
   StaggerItem,
   fadeDown,
+  scaleIn,
   springPop,
   staggerContainer,
 } from "@/components/page-status/landing-page/components/ui/scroll-reveal"
@@ -78,24 +80,34 @@ export default function AccountsSection() {
             <StaggerItem
               key={card.title}
               variants={springPop}
-              className="rounded-2xl border border-border bg-background p-8 shadow-sm"
+              className="h-full"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  {card.icon}
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">
-                {card.title}
-              </h3>
-              <p className="mt-2 text-muted-foreground">{card.description}</p>
+              <MotionNeonBorder
+                key={card.title}
+                variants={scaleIn}
+                mode="hover"
+                color1="oklch(0.627 0.194 149.214)"
+                color2="oklch(0.845 0.143 164.978)"
+                className="h-full"
+                contentClassName="flex h-full flex-col justify-between rounded-[calc(var(--radius-2xl)-3px)] border border-border bg-background p-8 shadow-sm"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    {card.icon}
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-foreground">
+                  {card.title}
+                </h3>
+                <p className="mt-2 text-muted-foreground">{card.description}</p>
+              </MotionNeonBorder>
             </StaggerItem>
           ))}
         </ScrollReveal>

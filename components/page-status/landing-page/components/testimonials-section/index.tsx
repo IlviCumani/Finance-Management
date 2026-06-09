@@ -1,8 +1,8 @@
 "use client"
 
+import { MotionNeonBorder } from "@/components/ui/neon-border"
 import {
   ScrollReveal,
-  StaggerItem,
   fadeUp,
   scaleIn,
   staggerContainer,
@@ -74,10 +74,14 @@ export default function TestimonialsSection() {
           whileInView="visible"
         >
           {testimonials.map((t) => (
-            <StaggerItem
+            <MotionNeonBorder
               key={t.name}
               variants={scaleIn}
-              className="flex flex-col justify-between rounded-2xl border border-border bg-background p-8 shadow-sm"
+              mode="hover"
+              color1="oklch(0.627 0.194 149.214)"
+              color2="oklch(0.845 0.143 164.978)"
+              className="h-full"
+              contentClassName="flex h-full flex-col justify-between rounded-[calc(var(--radius-2xl)-3px)] border border-border bg-background p-8 shadow-sm"
             >
               <blockquote className="text-foreground">
                 <p className="leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
@@ -93,7 +97,7 @@ export default function TestimonialsSection() {
                   <div className="text-xs text-muted-foreground">{t.role}</div>
                 </div>
               </figcaption>
-            </StaggerItem>
+            </MotionNeonBorder>
           ))}
         </ScrollReveal>
       </div>
