@@ -13,9 +13,17 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/app-logo/favicon.svg",
   },
+  openGraph: {
+    type: "website",
+    title: "FinSanctuary",
+    description:
+      "Track spending, manage recurring payments, and gain insights into your finances.",
+  },
 }
 
 import "./globals.css"
+import "devices.css/dist/devices.min.css"
+
 import { LocaleSync } from "@/components/locale-sync"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
