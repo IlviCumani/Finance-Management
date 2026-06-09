@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useRef, useEffect } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SplitText as GSAPSplitText } from "gsap/SplitText"
 import { useGSAP } from "@gsap/react"
+import { useFontsLoaded } from "@/hooks/use-fonts-loaded"
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP)
 
@@ -47,23 +48,13 @@ const SplitText: React.FC<SplitTextProps> = ({
   const animationCompletedRef = useRef(false)
   const onCompleteRef = useRef(onLetterAnimationComplete)
   const onAnimationStartRef = useRef(onAnimationStart)
-  const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
+  const fontsLoaded = useFontsLoaded()
 
   // Keep callback ref updated
   useEffect(() => {
     onCompleteRef.current = onLetterAnimationComplete
     onAnimationStartRef.current = onAnimationStart
   }, [onLetterAnimationComplete, onAnimationStart])
-
-  useEffect(() => {
-    if (document.fonts.status === "loaded") {
-      setFontsLoaded(true)
-    } else {
-      document.fonts.ready.then(() => {
-        setFontsLoaded(true)
-      })
-    }
-  }, [])
 
   useGSAP(
     () => {
