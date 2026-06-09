@@ -7,9 +7,13 @@ import { Button } from "@/components/ui/button"
 import Image1PNG from "@/assets/temp-images/goku-blue.jpg"
 import Image2PNG from "@/assets/temp-images/goku-yellow.avif"
 import Image3PNG from "@/assets/temp-images/goku-red.jpg"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function HeroSection() {
   const colors = ["#bbf7d0", "#6ee7b7", "#86efac"]
+  const mobileBreakpointBiggerTHan1126 = useIsMobile(1126)
+  const mobileBreakpointBiggerThan768 = useIsMobile(768)
+  const mobileBreakpointBiggerThan480 = useIsMobile(480)
 
   return (
     <div className="relative h-[800px] w-full overflow-hidden">
@@ -65,19 +69,67 @@ export default function HeroSection() {
         </Button>
       </div>
 
-      <CardSwap
-        cardDistance={55}
-        verticalDistance={65}
-        delay={7000}
-        width={700}
-        height={500}
-        pauseOnHover={false}
-        easing="linear"
-      >
-        <CardSwapCard imageurl={Image1PNG.src} />
-        <CardSwapCard imageurl={Image2PNG.src} />
-        <CardSwapCard imageurl={Image3PNG.src} />
-      </CardSwap>
+      {!mobileBreakpointBiggerTHan1126 && (
+        <CardSwap
+          cardDistance={55}
+          verticalDistance={65}
+          delay={7000}
+          width={700}
+          height={500}
+          pauseOnHover={false}
+          easing="linear"
+        >
+          <CardSwapCard imageurl={Image1PNG.src} />
+          <CardSwapCard imageurl={Image2PNG.src} />
+          <CardSwapCard imageurl={Image3PNG.src} />
+        </CardSwap>
+      )}
+      {mobileBreakpointBiggerTHan1126 && !mobileBreakpointBiggerThan768 && (
+        <CardSwap
+          cardDistance={55}
+          verticalDistance={65}
+          delay={7000}
+          width={700}
+          height={350}
+          pauseOnHover={false}
+          easing="linear"
+        >
+          <CardSwapCard imageurl={Image1PNG.src} />
+          <CardSwapCard imageurl={Image2PNG.src} />
+          <CardSwapCard imageurl={Image3PNG.src} />
+        </CardSwap>
+      )}
+      {mobileBreakpointBiggerThan768 && !mobileBreakpointBiggerThan480 && (
+        <CardSwap
+          cardDistance={55}
+          verticalDistance={65}
+          delay={7000}
+          width={900}
+          height={600}
+          pauseOnHover={false}
+          easing="linear"
+        >
+          <CardSwapCard imageurl={Image1PNG.src} />
+          <CardSwapCard imageurl={Image2PNG.src} />
+          <CardSwapCard imageurl={Image3PNG.src} />
+        </CardSwap>
+      )}
+      {mobileBreakpointBiggerThan480 && (
+        <CardSwap
+          cardDistance={55}
+          verticalDistance={65}
+          delay={7000}
+          width={400}
+          height={400}
+          pauseOnHover={false}
+          easing="linear"
+          className="absolute right-10 -bottom-10 h-full w-full origin-top"
+        >
+          <CardSwapCard imageurl={Image1PNG.src} />
+          <CardSwapCard imageurl={Image2PNG.src} />
+          <CardSwapCard imageurl={Image3PNG.src} />
+        </CardSwap>
+      )}
     </div>
   )
 }

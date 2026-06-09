@@ -14,7 +14,7 @@ import Footer from "@/components/page-status/landing-page/components/footer"
 
 export default function LandingPage() {
   return (
-    <div className="dark bg-background text-foreground">
+    <div className="dark overflow-hidden bg-background text-foreground">
       <Header />
       <HeroSection />
       <AboutSection />
