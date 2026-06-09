@@ -1,3 +1,13 @@
+"use client"
+
+import {
+  ScrollReveal,
+  StaggerItem,
+  fadeUp,
+  scaleIn,
+  staggerContainer,
+} from "@/components/page-status/landing-page/components/ui/scroll-reveal"
+
 const testimonials = [
   {
     quote:
@@ -44,7 +54,7 @@ export default function TestimonialsSection() {
       className="bg-muted/40 px-6 py-24 md:px-12 lg:px-24"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-16 text-center">
+        <ScrollReveal className="mb-16 text-center" variants={fadeUp}>
           <span className="text-sm font-semibold tracking-widest text-primary uppercase">
             Testimonials
           </span>
@@ -55,12 +65,18 @@ export default function TestimonialsSection() {
             Real feedback from early users who made the switch from chaos to
             clarity.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ScrollReveal
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+        >
           {testimonials.map((t) => (
-            <figure
+            <StaggerItem
               key={t.name}
+              variants={scaleIn}
               className="flex flex-col justify-between rounded-2xl border border-border bg-background p-8 shadow-sm"
             >
               <blockquote className="text-foreground">
@@ -77,9 +93,9 @@ export default function TestimonialsSection() {
                   <div className="text-xs text-muted-foreground">{t.role}</div>
                 </div>
               </figcaption>
-            </figure>
+            </StaggerItem>
           ))}
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   )

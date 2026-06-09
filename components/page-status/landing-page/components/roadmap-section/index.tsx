@@ -1,46 +1,56 @@
-export default function RoadmapSection() {
-  const milestones = [
-    {
-      status: "done" as const,
-      quarter: "Launched",
-      title: "Core Dashboard & Transactions",
-      description:
-        "Manual account creation, transaction logging, category tagging, and the at-a-glance dashboard you see today.",
-    },
-    {
-      status: "current" as const,
-      quarter: "In Progress",
-      title: "Recurring Payments & Alerts",
-      description:
-        "Auto-detection of subscriptions, calendar view of upcoming charges, and configurable reminders before each billing cycle.",
-    },
-    {
-      status: "upcoming" as const,
-      quarter: "Next Up",
-      title: "Budgets & Spending Goals",
-      description:
-        "Set monthly limits per category, track progress in real time, and receive a gentle nudge when you're close to the edge.",
-    },
-    {
-      status: "upcoming" as const,
-      quarter: "Planned",
-      title: "Reports & Insights",
-      description:
-        "Monthly and yearly summaries, trend comparisons, and visual breakdowns that turn raw numbers into clear answers.",
-    },
-    {
-      status: "upcoming" as const,
-      quarter: "Exploring",
-      title: "Multi-user & Shared Households",
-      description:
-        "Invite a partner or family member, share selected accounts, and split shared expenses without the awkward spreadsheet.",
-    },
-  ]
+"use client"
 
+import { motion } from "motion/react"
+import {
+  ScrollReveal,
+  fadeUp,
+  scrollViewport,
+} from "@/components/page-status/landing-page/components/ui/scroll-reveal"
+import TypewriterText from "@/components/page-status/landing-page/components/ui/typewriter-text"
+
+const milestones = [
+  {
+    status: "done" as const,
+    quarter: "Launched",
+    title: "Core Dashboard & Transactions",
+    description:
+      "Manual account creation, transaction logging, category tagging, and the at-a-glance dashboard you see today.",
+  },
+  {
+    status: "current" as const,
+    quarter: "In Progress",
+    title: "Recurring Payments & Alerts",
+    description:
+      "Auto-detection of subscriptions, calendar view of upcoming charges, and configurable reminders before each billing cycle.",
+  },
+  {
+    status: "upcoming" as const,
+    quarter: "Next Up",
+    title: "Budgets & Spending Goals",
+    description:
+      "Set monthly limits per category, track progress in real time, and receive a gentle nudge when you're close to the edge.",
+  },
+  {
+    status: "upcoming" as const,
+    quarter: "Planned",
+    title: "Reports & Insights",
+    description:
+      "Monthly and yearly summaries, trend comparisons, and visual breakdowns that turn raw numbers into clear answers.",
+  },
+  {
+    status: "upcoming" as const,
+    quarter: "Exploring",
+    title: "Multi-user & Shared Households",
+    description:
+      "Invite a partner or family member, share selected accounts, and split shared expenses without the awkward spreadsheet.",
+  },
+]
+
+export default function RoadmapSection() {
   return (
     <section id="roadmap" className="bg-muted/40 px-6 py-24 md:px-12 lg:px-24">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-16 text-center">
+        <ScrollReveal className="mb-16 text-center" variants={fadeUp}>
           <span className="text-sm font-semibold tracking-widest text-primary uppercase">
             Roadmap
           </span>
@@ -51,10 +61,17 @@ export default function RoadmapSection() {
             This project is built in the open. Here&apos;s what&apos;s shipped,
             what&apos;s in the workshop, and what&apos;s coming down the road.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="relative">
-          <div className="absolute top-0 bottom-0 left-[15px] w-px bg-border md:left-1/2 md:-translate-x-px" />
+          <motion.div
+            className="absolute top-0 bottom-0 left-[15px] w-px bg-border md:left-1/2 md:-translate-x-px"
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={scrollViewport}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "top" }}
+          />
 
           <div className="space-y-12">
             {milestones.map((m, i) => {
@@ -68,14 +85,35 @@ export default function RoadmapSection() {
                     : "bg-border"
 
               return (
-                <div
+                <motion.div
                   key={m.title}
                   className={`relative flex flex-col pl-10 md:pl-0 ${
                     isLeft ? "md:flex-row" : "md:flex-row-reverse"
                   } md:items-start md:gap-10`}
+                  initial={{
+                    opacity: 0,
+                    x: isLeft ? -56 : 56,
+                    y: 24,
+                  }}
+                  whileInView={{ opacity: 1, x: 0, y: 0 }}
+                  viewport={scrollViewport}
+                  transition={{
+                    duration: 0.7,
+                    delay: i * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                 >
-                  <div
+                  <motion.div
                     className={`absolute top-1.5 left-[11px] z-10 h-2.5 w-2.5 rounded-full ring-4 ring-background ${dotColor} md:left-1/2 md:-translate-x-1/2`}
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={scrollViewport}
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 16,
+                      delay: i * 0.12 + 0.2,
+                    }}
                   />
 
                   <div
@@ -87,11 +125,13 @@ export default function RoadmapSection() {
                     <h3 className="mt-1 text-lg font-semibold text-foreground">
                       {m.title}
                     </h3>
-                    <p className="mt-1 text-muted-foreground">
-                      {m.description}
-                    </p>
+                    <TypewriterText
+                      text={m.description}
+                      speed={16}
+                      delay={480}
+                    />
                   </div>
-                </div>
+                </motion.div>
               )
             })}
           </div>

@@ -1,17 +1,32 @@
+"use client"
+
+import {
+  ScrollReveal,
+  StaggerItem,
+  blurFade,
+  staggerContainer,
+  fadeUp,
+} from "@/components/page-status/landing-page/components/ui/scroll-reveal"
+
 export default function Footer() {
   return (
     <footer className="border-t border-border px-6 py-16 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-6xl">
+      <ScrollReveal
+        className="mx-auto max-w-6xl"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+      >
         <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
+          <StaggerItem className="md:col-span-2" variants={blurFade}>
             <img src="/app-logo/favicon.svg" alt="Logo" className="mb-4 h-8" />
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               A personal finance tool built for clarity, not complexity. Track
               what matters, ignore what doesn&apos;t.
             </p>
-          </div>
+          </StaggerItem>
 
-          <div>
+          <StaggerItem variants={fadeUp}>
             <h4 className="mb-3 text-sm font-semibold tracking-wider text-foreground uppercase">
               Features
             </h4>
@@ -41,9 +56,9 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </StaggerItem>
 
-          <div>
+          <StaggerItem variants={fadeUp}>
             <h4 className="mb-3 text-sm font-semibold tracking-wider text-foreground uppercase">
               Product
             </h4>
@@ -89,14 +104,17 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </StaggerItem>
         </div>
 
-        <div className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+        <StaggerItem
+          className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground"
+          variants={blurFade}
+        >
           &copy; {new Date().getFullYear()} Finance Management. All rights
           reserved.
-        </div>
-      </div>
+        </StaggerItem>
+      </ScrollReveal>
     </footer>
   )
 }
