@@ -6,10 +6,9 @@ import React, {
   ReactElement,
   ReactNode,
   RefObject,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
-  useState,
 } from "react"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
@@ -89,24 +88,27 @@ const CardSwap: React.FC<CardSwapProps> = ({
   className,
   children,
 }) => {
-  const config =
-    easing === "elastic"
-      ? {
-          ease: "elastic.out(0.6,0.9)",
-          durDrop: 2,
-          durMove: 2,
-          durReturn: 2,
-          promoteOverlap: 0.9,
-          returnDelay: 0.05,
-        }
-      : {
-          ease: "power1.inOut",
-          durDrop: 0.8,
-          durMove: 0.8,
-          durReturn: 0.8,
-          promoteOverlap: 0.45,
-          returnDelay: 0.2,
-        }
+  const config = useMemo(
+    () =>
+      easing === "elastic"
+        ? {
+            ease: "elastic.out(0.6,0.9)",
+            durDrop: 2,
+            durMove: 2,
+            durReturn: 2,
+            promoteOverlap: 0.9,
+            returnDelay: 0.05,
+          }
+        : {
+            ease: "power1.inOut",
+            durDrop: 0.8,
+            durMove: 0.8,
+            durReturn: 0.8,
+            promoteOverlap: 0.45,
+            returnDelay: 0.2,
+          },
+    [easing]
+  )
 
   const childArr = useMemo(
     () => Children.toArray(children) as ReactElement<CardProps>[],
@@ -114,7 +116,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   )
   const refs = useMemo<CardRef[]>(
     () => childArr.map(() => React.createRef<HTMLDivElement>()),
-    [childArr.length]
+    [childArr]
   )
 
   const order = useRef<number[]>(
@@ -124,20 +126,22 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const tlRef = useRef<gsap.core.Timeline | null>(null)
   const intervalRef = useRef<number>(0)
   const container = useRef<HTMLDivElement>(null)
-  const [isPositioned, setIsPositioned] = useState(false)
 
-  useEffect(() => {
-    setIsPositioned(false)
+  useLayoutEffect(() => {
+    const node = container.current
+    if (!node) return
 
     const total = refs.length
-    refs.forEach((r, i) =>
+    refs.forEach((r, i) => {
+      if (!r.current) return
       placeNow(
-        r.current!,
+        r.current,
         makeSlot(i, cardDistance, verticalDistance, total),
         skewAmount
       )
-    )
-    setIsPositioned(true)
+    })
+
+    node.style.opacity = "1"
 
     const swap = () => {
       if (order.current.length < 2) return
@@ -205,7 +209,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
     intervalRef.current = window.setInterval(swap, delay)
 
     if (pauseOnHover) {
-      const node = container.current!
       const pause = () => {
         tlRef.current?.pause()
         clearInterval(intervalRef.current)
@@ -217,13 +220,26 @@ const CardSwap: React.FC<CardSwapProps> = ({
       node.addEventListener("mouseenter", pause)
       node.addEventListener("mouseleave", resume)
       return () => {
+        node.style.opacity = "0"
         node.removeEventListener("mouseenter", pause)
         node.removeEventListener("mouseleave", resume)
         clearInterval(intervalRef.current)
       }
     }
-    return () => clearInterval(intervalRef.current)
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing])
+
+    return () => {
+      node.style.opacity = "0"
+      clearInterval(intervalRef.current)
+    }
+  }, [
+    cardDistance,
+    verticalDistance,
+    delay,
+    pauseOnHover,
+    skewAmount,
+    config,
+    refs,
+  ])
 
   const rendered = childArr.map((child, i) =>
     isValidElement<CardProps>(child)
@@ -243,8 +259,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     <div
       ref={container}
       className={cn(
-        "absolute right-0 bottom-0 origin-bottom-right translate-x-[5%] translate-y-[20%] transform overflow-visible transition-opacity duration-150 perspective-[900px] max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]",
-        !isPositioned && "opacity-0",
+        "absolute right-0 bottom-0 origin-bottom-right translate-x-[5%] translate-y-[20%] transform overflow-visible opacity-0 transition-opacity duration-150 perspective-[900px] max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]",
         className
       )}
       style={{ width, height }}
