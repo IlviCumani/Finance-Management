@@ -7,6 +7,21 @@ import {
   staggerContainer,
   fadeUp,
 } from "@/components/page-status/landing-page/components/ui/scroll-reveal"
+import { SectionLink } from "@/components/page-status/landing-page/components/ui/section-link"
+
+const featureLinks = [
+  { href: "#dashboard", label: "Dashboard" },
+  { href: "#transactions", label: "Transactions" },
+  { href: "#recurring", label: "Recurring Payments" },
+]
+
+const productLinks = [
+  { href: "#accounts", label: "Accounts" },
+  { href: "#categories", label: "Categories" },
+  { href: "#about", label: "About" },
+  { href: "#testimonials", label: "Testimonials" },
+  { href: "#roadmap", label: "Roadmap" },
+]
 
 export default function Footer() {
   return (
@@ -31,30 +46,11 @@ export default function Footer() {
               Features
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <a
-                  href="#dashboard"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#transactions"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Transactions
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#recurring"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Recurring Payments
-                </a>
-              </li>
+              {featureLinks.map((link) => (
+                <li key={link.href}>
+                  <SectionLink href={link.href}>{link.label}</SectionLink>
+                </li>
+              ))}
             </ul>
           </StaggerItem>
 
@@ -63,46 +59,11 @@ export default function Footer() {
               Product
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <a
-                  href="#accounts"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Accounts
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#categories"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Categories
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="transition-colors hover:text-foreground"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#testimonials"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Testimonials
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#roadmap"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Roadmap
-                </a>
-              </li>
+              {productLinks.map((link) => (
+                <li key={link.href}>
+                  <SectionLink href={link.href}>{link.label}</SectionLink>
+                </li>
+              ))}
             </ul>
           </StaggerItem>
         </div>
