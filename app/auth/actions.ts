@@ -55,14 +55,11 @@ export async function logout() {
 
 export async function signInWithGoogle() {
   const supabase = await createActionClient()
-  const isProduction = process.env.NODE_ENV === "production"
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: !isProduction
-        ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
-        : `${process.env.NEXT_PUBLIC_APP_URL}/auth/v1/callback`,
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
     },
   })
 
