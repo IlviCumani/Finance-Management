@@ -60,6 +60,9 @@ export async function signInWithGoogle() {
     provider: "google",
     options: {
       redirectTo: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL,
+      queryParams: {
+        next: "/dashboard",
+      },
     },
   })
 
@@ -67,5 +70,6 @@ export async function signInWithGoogle() {
     return { error: error?.message ?? "OAuth initiation failed" }
   }
 
+  console.log("data", data)
   redirect(data.url)
 }
