@@ -1,7 +1,6 @@
 "use server"
 
 import { createActionClient } from "@/lib/supabase/actions"
-import { getSiteUrl } from "@/lib/supabase/site-url"
 import { redirect } from "next/navigation"
 
 export async function login(formData: FormData) {
@@ -56,12 +55,11 @@ export async function logout() {
 
 export async function signInWithGoogle() {
   const supabase = await createActionClient()
-  const siteUrl = await getSiteUrl()
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${siteUrl}/auth/callback`,
+      redirectTo: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL,
     },
   })
 
