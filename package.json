@@ -17,8 +17,7 @@
     "test:ci": "vitest run",
     "postinstall": "patch-package",
     "quality": "npm run lint && npm run typecheck && npm run format:check && npm run test:ci",
-    "prepare": "husky",
-    "update-before-date": "node scripts/update-npm-before.mjs"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
