@@ -1,4 +1,6 @@
 {
   "title": "Balance Trend",
-  "description": "Balance trend over the last 30 days"
+  "description": "Balance trend over the last 30 days",
+  "emptyTitle": "No balance trend data available",
+  "emptyDescription": "No balance trend data available for the selected period"
 }

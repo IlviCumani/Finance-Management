@@ -67,9 +67,6 @@ export default function LoginPage() {
       setIsLoading(() => false)
     }
   }
-  const runningAt = process.env.NEXT_PUBLIC_APP_URL
-
-  console.log("runningAt", runningAt)
 
   return (
     <CardLayout title={t("title")} description={t("description")}>
