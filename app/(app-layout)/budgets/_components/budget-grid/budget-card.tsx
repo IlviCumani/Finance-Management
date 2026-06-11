@@ -18,6 +18,7 @@ import { formatCurrency } from "@/lib/format/number-format"
 import { cn } from "@/lib/utils"
 import { BudgetForm } from "../budget-category-form"
 import { useRef, useState } from "react"
+import { confirm } from "@/components/ui/confirmer"
 
 type BudgetCardProps = {
   category: BudgetCategory
@@ -49,6 +50,18 @@ export function BudgetCard({ category, totalBudget }: BudgetCardProps) {
     setOpen(true)
   }
 
+  function handleDelete(event: React.MouseEvent<HTMLButtonElement>) {
+    event.stopPropagation()
+    confirm({
+      title: "Delete Budget Category",
+      description: "Are you sure you want to delete this budget category?",
+    }).then((confirmed) => {
+      if (confirmed) {
+        console.log("delete")
+      }
+    })
+  }
+
   return (
     <>
       <Card onClick={handleCardClick} className="group cursor-pointer">
@@ -60,7 +73,7 @@ export function BudgetCard({ category, totalBudget }: BudgetCardProps) {
           <Button
             variant={"destructive"}
             size={"icon-sm"}
-            onClick={(event) => event.stopPropagation()}
+            onClick={handleDelete}
             className="translate-y-2 opacity-0 transition-transform duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 max-sm:translate-y-0 max-sm:opacity-100"
           >
             <HugeiconsIcon icon={DeleteIcon} />
