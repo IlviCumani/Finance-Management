@@ -1,16 +1,35 @@
+"use client"
+
 import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { PlusSignCircleIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { useState } from "react"
+import { BudgetForm } from "../budget-category-form"
 
-export function AddBudgetCategoryCard() {
+type AddBudgetCategoryCardProps = {
+  totalBudget: number
+}
+
+export function AddBudgetCategoryCard({
+  totalBudget,
+}: AddBudgetCategoryCardProps) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Card className="min-h-56">
-      <CardContent className="flex h-full flex-col items-center justify-center gap-2">
-        <HugeiconsIcon icon={PlusSignCircleIcon} className="size-10" />
-        <CardDescription className="text-sm font-medium">
-          Add Budget Category
-        </CardDescription>
-      </CardContent>
-    </Card>
+    <>
+      <Card onClick={() => setOpen(true)} className="min-h-56">
+        <CardContent className="flex h-full flex-col items-center justify-center gap-2">
+          <HugeiconsIcon icon={PlusSignCircleIcon} className="size-10" />
+          <CardDescription className="text-sm font-medium">
+            Add Budget Category
+          </CardDescription>
+        </CardContent>
+      </Card>
+      <BudgetForm
+        open={open}
+        onOpenChange={setOpen}
+        totalBudget={totalBudget}
+      />
+    </>
   )
 }

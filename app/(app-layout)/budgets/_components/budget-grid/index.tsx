@@ -18,9 +18,13 @@ export function BudgetGrid({ totalBudget, budgetCategories }: BudgetGridProps) {
       />
       <GridRepeat>
         {budgetCategories.map((category) => (
-          <BudgetCard key={category.id} category={category} />
+          <BudgetCard
+            key={category.id}
+            category={category}
+            totalBudget={totalBudget}
+          />
         ))}
-        <AddBudgetCategoryCard />
+        <AddBudgetCategoryCard totalBudget={totalBudget} />
       </GridRepeat>
     </div>
   )
