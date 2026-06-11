@@ -51,7 +51,7 @@ export function BudgetCard({ category, totalBudget }: BudgetCardProps) {
 
   return (
     <>
-      <Card onClick={handleCardClick}>
+      <Card onClick={handleCardClick} className="group cursor-pointer">
         <CardHeader className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
             <CardTitle>{name}</CardTitle>
@@ -61,6 +61,7 @@ export function BudgetCard({ category, totalBudget }: BudgetCardProps) {
             variant={"destructive"}
             size={"icon-sm"}
             onClick={(event) => event.stopPropagation()}
+            className="translate-y-2 opacity-0 transition-transform duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 max-sm:translate-y-0 max-sm:opacity-100"
           >
             <HugeiconsIcon icon={DeleteIcon} />
           </Button>
