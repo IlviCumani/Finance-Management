@@ -49,7 +49,7 @@ export function TotalBudgetCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <h1 className="text-2xl font-bold">{formatCurrency(totalBudget)}</h1>
-        <div className="flex justify-between">
+        <div className="flex justify-between max-sm:flex-col max-sm:space-y-2">
           <div className="space-x-1">
             <span className="text-muted-foreground">Spent:</span>
             <span className="font-bold">{formatCurrency(totalSpent)}</span>
