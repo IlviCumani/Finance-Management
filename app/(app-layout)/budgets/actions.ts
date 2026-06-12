@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/require-user"
 import { createActionClient } from "@/lib/supabase/actions"
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import type { BudgetCategory } from "@/types/budget/budget-types"
+import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 import { startOfMonth, endOfMonth } from "date-fns"
 
 export async function getBudgetsCategories(): Promise<{
@@ -39,17 +40,32 @@ export async function getBudgetsCategories(): Promise<{
     }
   }
 
+  const transactions = transactionsThisMonth.data ?? []
+
   return {
-    data: data?.map((category) => ({
-      id: category.id,
-      userId: category.user_id,
-      name: category.name,
-      description: category.description,
-      amount: category.amount,
-      limit: category.limit,
-      transactionCategoriesAffectedBy:
-        category.transaction_categories_affected_by,
-    })),
+    data: data?.map((category) => {
+      const affectedCategoryIds =
+        category.transaction_categories_affected_by ?? []
+
+      const amount = transactions
+        .filter(
+          (transaction) =>
+            transaction.transactionCategory?.id &&
+            affectedCategoryIds.includes(transaction.transactionCategory.id) &&
+            transaction.transactionType === TransactionCategoryTypeEnum.EXPENSE
+        )
+        .reduce((sum, transaction) => sum + transaction.amount, 0)
+
+      return {
+        id: category.id,
+        userId: category.user_id,
+        name: category.name,
+        description: category.description,
+        amount,
+        limit: category.limit,
+        transactionCategoriesAffectedBy: affectedCategoryIds,
+      }
+    }),
   }
 }
 

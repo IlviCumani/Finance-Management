@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { FieldGroup } from "@/components/ui/field"
 import { InputFormField } from "@/components/form-fields/input-form-field"
-import { SelectFormField } from "@/components/form-fields/select-form-field"
+import { MultiSelectFormField } from "@/components/form-fields/multi-select-form-field"
 import { Controller } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { BudgetCategory } from "@/types/budget/budget-types"
@@ -69,6 +69,8 @@ export function BudgetForm({
         name: budgetCategory?.name || "",
         description: budgetCategory?.description || "",
         limit: budgetCategory?.limit.toString() || "",
+        transactionCategoriesAffectedBy:
+          budgetCategory?.transactionCategoriesAffectedBy || [],
       })
     }
   }, [budgetCategory, reset, open])
@@ -87,7 +89,7 @@ export function BudgetForm({
       isLoading={isLoading}
     >
       <form onSubmit={form.handleSubmit(onSubmit)} id="budget-form">
-        <FieldGroup className="max-h-[calc(100dvh-200px)] overflow-y-auto">
+        <FieldGroup className="">
           <Controller
             control={form.control}
             name="name"
@@ -114,7 +116,7 @@ export function BudgetForm({
             control={form.control}
             name="transactionCategoriesAffectedBy"
             render={({ field, fieldState }) => (
-              <SelectFormField
+              <MultiSelectFormField
                 label="Transaction Categories Affected By"
                 field={field}
                 fieldState={fieldState}
