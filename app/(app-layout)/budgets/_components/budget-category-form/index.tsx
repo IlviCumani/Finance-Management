@@ -10,6 +10,7 @@ import { Controller } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { BudgetCategory } from "@/types/budget/budget-types"
 import { TextareaFormField } from "@/components/form-fields"
+import { useBudgetContext } from "../../context/budget-context"
 
 type BudgetFormProps = {
   open: boolean
@@ -32,6 +33,9 @@ export function BudgetForm({
         .string()
         .min(1, "Limit is required")
         .regex(/^\d+$/, "Limit must be a number"),
+      transactionCategoriesAffectedBy: z
+        .array(z.string())
+        .min(1, "At least one transaction category is required"),
     })
     .refine((data) => Number(data.limit) > 0, {
       path: ["limit"],
@@ -48,10 +52,14 @@ export function BudgetForm({
       name: budgetCategory?.name || "",
       description: budgetCategory?.description || "",
       limit: budgetCategory?.limit.toString() || "",
+      transactionCategoriesAffectedBy:
+        budgetCategory?.transactionCategoriesAffectedBy || [],
     },
   })
+
   const [error, setError] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
+  const { transactionCategories } = useBudgetContext()
 
   const { reset } = form
 
@@ -71,13 +79,15 @@ export function BudgetForm({
 
   return (
     <FormSheetWrapper
-      title="Budget"
+      title={budgetCategory ? "Edit Budget" : "Add Budget"}
       formId="budget-form"
       open={open}
       onOpenChange={onOpenChange}
+      error={error}
+      isLoading={isLoading}
     >
       <form onSubmit={form.handleSubmit(onSubmit)} id="budget-form">
-        <FieldGroup>
+        <FieldGroup className="max-h-[calc(100dvh-200px)] overflow-y-auto">
           <Controller
             control={form.control}
             name="name"
@@ -97,6 +107,21 @@ export function BudgetForm({
                 label="Limit"
                 field={field}
                 fieldState={fieldState}
+              />
+            )}
+          />
+          <Controller
+            control={form.control}
+            name="transactionCategoriesAffectedBy"
+            render={({ field, fieldState }) => (
+              <SelectFormField
+                label="Transaction Categories Affected By"
+                field={field}
+                fieldState={fieldState}
+                options={transactionCategories.map((category) => ({
+                  label: category.name,
+                  value: category.id,
+                }))}
               />
             )}
           />

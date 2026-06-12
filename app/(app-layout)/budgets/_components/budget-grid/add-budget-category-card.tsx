@@ -5,14 +5,10 @@ import { PlusSignCircleIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useState } from "react"
 import { BudgetForm } from "../budget-category-form"
+import { useBudgetContext } from "../../context/budget-context"
 
-type AddBudgetCategoryCardProps = {
-  totalBudget: number
-}
-
-export function AddBudgetCategoryCard({
-  totalBudget,
-}: AddBudgetCategoryCardProps) {
+export function AddBudgetCategoryCard() {
+  const { totalBudget } = useBudgetContext()
   const [open, setOpen] = useState(false)
 
   return (

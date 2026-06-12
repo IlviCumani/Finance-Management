@@ -9,4 +9,6 @@ export type BudgetCategory = {
   description: string
   amount: number
   limit: number
+  transactionCategoriesAffectedBy: Array<string>
+  userId: string
 }

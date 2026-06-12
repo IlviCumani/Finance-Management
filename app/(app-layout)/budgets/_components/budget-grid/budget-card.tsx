@@ -19,13 +19,14 @@ import { cn } from "@/lib/utils"
 import { BudgetForm } from "../budget-category-form"
 import { useRef, useState } from "react"
 import { confirm } from "@/components/ui/confirmer"
+import { useBudgetContext } from "../../context/budget-context"
 
 type BudgetCardProps = {
   category: BudgetCategory
-  totalBudget: number
 }
 
-export function BudgetCard({ category, totalBudget }: BudgetCardProps) {
+export function BudgetCard({ category }: BudgetCardProps) {
+  const { totalBudget } = useBudgetContext()
   const [open, setOpen] = useState(false)
   const skipOpenRef = useRef(false)
   const { name, description, amount, limit } = category

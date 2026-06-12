@@ -1,7 +1,62 @@
-export async function getBudgets() {}
+"use server"
 
-export async function createBudget(formData: FormData) {}
+import { requireUser } from "@/lib/require-user"
+import { createActionClient } from "@/lib/supabase/actions"
+import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
+import type { BudgetCategory } from "@/types/budget/budget-types"
+import { startOfMonth, endOfMonth } from "date-fns"
 
-export async function updateBudget(formData: FormData) {}
+export async function getBudgetsCategories(): Promise<{
+  data?: Array<BudgetCategory> | null
+  error?: string
+}> {
+  const supabase = await createActionClient()
+  const user = await requireUser()
 
-export async function deleteBudget(id: string) {}
+  const { data, error } = await supabase
+    .from("budgets_categories")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    return {
+      error: error.message,
+    }
+  }
+
+  const startOfMonthDate = startOfMonth(new Date())
+  const endOfMonthDate = endOfMonth(new Date())
+
+  const transactionsThisMonth = await getTransactionsByDateRange(
+    startOfMonthDate.toISOString(),
+    endOfMonthDate.toISOString()
+  )
+
+  if (transactionsThisMonth.error) {
+    return {
+      error: transactionsThisMonth.error,
+    }
+  }
+
+  return {
+    data: data?.map((category) => ({
+      id: category.id,
+      userId: category.user_id,
+      name: category.name,
+      description: category.description,
+      amount: category.amount,
+      limit: category.limit,
+      transactionCategoriesAffectedBy:
+        category.transaction_categories_affected_by,
+    })),
+  }
+}
+
+export async function createBudgetsCategory(formData: FormData) {}
+
+export async function updateBudgetsCategory(formData: FormData) {}
+
+export async function deleteBudgetsCategory(id: string) {}
+
+export async function updateTotalBudget(updatedTotalBudget: number) {}

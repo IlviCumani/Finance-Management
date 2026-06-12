@@ -10,16 +10,14 @@ import { TotalBudgetForm } from "../total-budget-form"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { formatNumberForUI, formatCurrency } from "@/lib/format/number-format"
+import { useBudgetContext } from "../../context/budget-context"
 
 type TotalBudgetCardProps = {
-  totalBudget: number
   budgetCategories: Array<BudgetCategory>
 }
 
-export function TotalBudgetCard({
-  totalBudget,
-  budgetCategories,
-}: TotalBudgetCardProps) {
+export function TotalBudgetCard({ budgetCategories }: TotalBudgetCardProps) {
+  const { totalBudget } = useBudgetContext()
   const totalSpent = budgetCategories.reduce(
     (acc, category) => acc + category.amount,
     0
