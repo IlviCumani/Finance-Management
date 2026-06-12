@@ -20,6 +20,7 @@ import { BudgetForm } from "../budget-category-form"
 import { useRef, useState } from "react"
 import { confirm } from "@/components/ui/confirmer"
 import { useBudgetContext } from "../../context/budget-context"
+import { deleteBudgetsCategory } from "../../actions"
 
 type BudgetCardProps = {
   category: BudgetCategory
@@ -29,9 +30,9 @@ export function BudgetCard({ category }: BudgetCardProps) {
   const { totalBudget } = useBudgetContext()
   const [open, setOpen] = useState(false)
   const skipOpenRef = useRef(false)
-  const { name, description, amount, limit } = category
-  const utilization = limit > 0 ? (amount / limit) * 100 : 0
-  const remaining = limit - amount
+  const { name, description, amount, budgetLimit } = category
+  const utilization = budgetLimit > 0 ? (amount / budgetLimit) * 100 : 0
+  const remaining = budgetLimit - amount
   const isWarning = utilization >= 80 && utilization < 100
   const isFilled = utilization === 100
   const isOverLimit = utilization > 100
@@ -58,7 +59,7 @@ export function BudgetCard({ category }: BudgetCardProps) {
       description: "Are you sure you want to delete this budget category?",
     }).then((confirmed) => {
       if (confirmed) {
-        console.log("delete")
+        deleteBudgetsCategory(category.id)
       }
     })
   }
@@ -85,7 +86,7 @@ export function BudgetCard({ category }: BudgetCardProps) {
             <div className="space-x-1">
               <span>{formatCurrency(amount)}</span>
               <span className="text-muted-foreground">
-                / {formatCurrency(limit)}
+                / {formatCurrency(budgetLimit)}
               </span>
             </div>
             <div className="space-x-1">

@@ -11,6 +11,8 @@ import { useEffect, useState } from "react"
 import { BudgetCategory } from "@/types/budget/budget-types"
 import { TextareaFormField } from "@/components/form-fields"
 import { useBudgetContext } from "../../context/budget-context"
+import { createBudgetsCategory } from "../../actions"
+import { toast } from "sonner"
 
 type BudgetFormProps = {
   open: boolean
@@ -29,21 +31,21 @@ export function BudgetForm({
     .object({
       name: z.string().min(1, "Name is required"),
       description: z.string().min(1, "Description is required"),
-      limit: z
+      budgetLimit: z
         .string()
-        .min(1, "Limit is required")
-        .regex(/^\d+$/, "Limit must be a number"),
+        .min(1, "Budget Limit is required")
+        .regex(/^\d+$/, "Budget Limit must be a number"),
       transactionCategoryIds: z
         .array(z.string())
         .min(1, "At least one transaction category is required"),
     })
-    .refine((data) => Number(data.limit) > 0, {
-      path: ["limit"],
-      message: "Limit must be greater than 0",
+    .refine((data) => Number(data.budgetLimit) > 0, {
+      path: ["budgetLimit"],
+      message: "Budget Limit must be greater than 0",
     })
-    .refine((data) => Number(data.limit) < totalBudget, {
-      path: ["limit"],
-      message: "Limit must be less than total budget",
+    .refine((data) => Number(data.budgetLimit) < totalBudget, {
+      path: ["budgetLimit"],
+      message: "Budget Limit must be less than total budget",
     })
 
   const form = useForm<z.infer<typeof budgetCategoryFormSchema>>({
@@ -51,7 +53,7 @@ export function BudgetForm({
     defaultValues: {
       name: budgetCategory?.name || "",
       description: budgetCategory?.description || "",
-      limit: budgetCategory?.limit.toString() || "",
+      budgetLimit: budgetCategory?.budgetLimit.toString() || "",
       transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
     },
   })
@@ -67,14 +69,41 @@ export function BudgetForm({
       reset({
         name: budgetCategory?.name || "",
         description: budgetCategory?.description || "",
-        limit: budgetCategory?.limit.toString() || "",
+        budgetLimit: budgetCategory?.budgetLimit.toString() || "",
         transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
       })
     }
   }, [budgetCategory, reset, open])
 
   async function onSubmit(values: z.infer<typeof budgetCategoryFormSchema>) {
-    console.log(values)
+    const formData = new FormData()
+    formData.append("name", values.name)
+    formData.append("description", values.description)
+    formData.append("budgetLimit", values.budgetLimit)
+    values.transactionCategoryIds.forEach((transactionCategoryId) => {
+      formData.append("transactionCategoryIds", transactionCategoryId)
+    })
+
+    if (budgetCategory) {
+      formData.append("id", budgetCategory.id)
+    } else {
+      const { error } = await createBudgetsCategory(formData)
+      if (error) {
+        setError(error)
+        setIsLoading(false)
+        toast.error(error, {
+          position: "top-right",
+        })
+      } else {
+        onOpenChange(false)
+        setError(undefined)
+        setIsLoading(false)
+        form.reset()
+        toast.success("Budget category created successfully", {
+          position: "top-right",
+        })
+      }
+    }
   }
 
   return (
@@ -101,10 +130,10 @@ export function BudgetForm({
           />
           <Controller
             control={form.control}
-            name="limit"
+            name="budgetLimit"
             render={({ field, fieldState }) => (
               <InputFormField
-                label="Limit"
+                label="Budget Limit"
                 field={field}
                 fieldState={fieldState}
               />

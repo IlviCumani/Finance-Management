@@ -18,7 +18,7 @@ export async function getBudgetsCategories(): Promise<{
   const user = await requireUser()
 
   const { data, error } = await supabase
-    .from("budgets_categories")
+    .from("budget_categories")
     .select("*")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
@@ -64,18 +64,67 @@ export async function getBudgetsCategories(): Promise<{
         name: category.name,
         description: category.description,
         amount,
-        limit: category.limit,
+        budgetLimit: category.budget_limit,
         transactionCategoryIds: affectedCategoryIds,
       }
     }),
   }
 }
 
-export async function createBudgetsCategory(formData: FormData) {}
+export async function createBudgetsCategory(formData: FormData) {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const name = formData.get("name") as string
+  const description = formData.get("description") as string
+  const budgetLimit = formData.get("budgetLimit") as string
+  const transactionCategoryIds = formData.get(
+    "transactionCategoryIds"
+  ) as unknown as string[]
+
+  const { error } = await supabase.from("budget_categories").insert({
+    user_id: user.id,
+    name,
+    description,
+    budget_limit: Number(budgetLimit),
+    transaction_category_ids: transactionCategoryIds,
+  })
+
+  if (error) {
+    return {
+      error: error.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
+}
 
 export async function updateBudgetsCategory(formData: FormData) {}
 
-export async function deleteBudgetsCategory(id: string) {}
+export async function deleteBudgetsCategory(id: string) {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const { error } = await supabase
+    .from("budget_categories")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id)
+
+  if (error) {
+    return {
+      error: error.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
+}
 
 export async function updateTotalBudget(updatedTotalBudget: number) {
   const supabase = await createActionClient()

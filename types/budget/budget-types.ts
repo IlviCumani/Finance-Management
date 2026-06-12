@@ -3,7 +3,7 @@ export type BudgetCategory = {
   name: string
   description: string
   amount: number
-  limit: number
+  budgetLimit: number
   transactionCategoryIds: Array<string>
   userId: string
 }
@@ -13,7 +13,7 @@ export type BudgetCategory_Response = {
   user_id: string
   name: string
   description: string
-  limit: number
+  budget_limit: number
   transaction_category_ids: Array<string>
   created_at: string
   updated_at: string
