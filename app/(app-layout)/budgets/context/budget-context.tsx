@@ -3,6 +3,7 @@
 import { createContext, useContext } from "react"
 import type { BudgetCategory } from "@/types/budget/budget-types"
 import type { TransactionCategory } from "@/types/transaction-category/transaction-category-types"
+import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 
 interface BudgetContextType {
   totalBudget: number
@@ -27,9 +28,21 @@ export function BudgetCategoriesProvider({
   budgetCategories,
   transactionCategories,
 }: BudgetCategoriesProviderProps) {
+  const notUsedTransactionCategories = transactionCategories.filter(
+    (category) =>
+      category.type === TransactionCategoryTypeEnum.EXPENSE &&
+      !budgetCategories.some((budgetCategory) =>
+        budgetCategory.transactionCategoryIds.includes(category.id)
+      )
+  )
+
   return (
     <BudgetCategoriesContext.Provider
-      value={{ totalBudget, budgetCategories, transactionCategories }}
+      value={{
+        totalBudget,
+        budgetCategories,
+        transactionCategories: notUsedTransactionCategories,
+      }}
     >
       {children}
     </BudgetCategoriesContext.Provider>

@@ -33,7 +33,7 @@ export function BudgetForm({
         .string()
         .min(1, "Limit is required")
         .regex(/^\d+$/, "Limit must be a number"),
-      transactionCategoriesAffectedBy: z
+      transactionCategoryIds: z
         .array(z.string())
         .min(1, "At least one transaction category is required"),
     })
@@ -52,8 +52,7 @@ export function BudgetForm({
       name: budgetCategory?.name || "",
       description: budgetCategory?.description || "",
       limit: budgetCategory?.limit.toString() || "",
-      transactionCategoriesAffectedBy:
-        budgetCategory?.transactionCategoriesAffectedBy || [],
+      transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
     },
   })
 
@@ -69,8 +68,7 @@ export function BudgetForm({
         name: budgetCategory?.name || "",
         description: budgetCategory?.description || "",
         limit: budgetCategory?.limit.toString() || "",
-        transactionCategoriesAffectedBy:
-          budgetCategory?.transactionCategoriesAffectedBy || [],
+        transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
       })
     }
   }, [budgetCategory, reset, open])
@@ -114,7 +112,7 @@ export function BudgetForm({
           />
           <Controller
             control={form.control}
-            name="transactionCategoriesAffectedBy"
+            name="transactionCategoryIds"
             render={({ field, fieldState }) => (
               <MultiSelectFormField
                 label="Transaction Categories Affected By"

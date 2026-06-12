@@ -6,6 +6,9 @@ import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import type { BudgetCategory } from "@/types/budget/budget-types"
 import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 import { startOfMonth, endOfMonth } from "date-fns"
+import { revalidatePath } from "next/cache"
+
+const PATH = "/budgets"
 
 export async function getBudgetsCategories(): Promise<{
   data?: Array<BudgetCategory> | null
@@ -44,8 +47,7 @@ export async function getBudgetsCategories(): Promise<{
 
   return {
     data: data?.map((category) => {
-      const affectedCategoryIds =
-        category.transaction_categories_affected_by ?? []
+      const affectedCategoryIds = category.transaction_category_ids ?? []
 
       const amount = transactions
         .filter(
@@ -63,7 +65,7 @@ export async function getBudgetsCategories(): Promise<{
         description: category.description,
         amount,
         limit: category.limit,
-        transactionCategoriesAffectedBy: affectedCategoryIds,
+        transactionCategoryIds: affectedCategoryIds,
       }
     }),
   }
@@ -75,4 +77,25 @@ export async function updateBudgetsCategory(formData: FormData) {}
 
 export async function deleteBudgetsCategory(id: string) {}
 
-export async function updateTotalBudget(updatedTotalBudget: number) {}
+export async function updateTotalBudget(updatedTotalBudget: number) {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      total_budget: updatedTotalBudget,
+    })
+    .eq("id", user.id)
+
+  if (error) {
+    return {
+      error: error.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
+}

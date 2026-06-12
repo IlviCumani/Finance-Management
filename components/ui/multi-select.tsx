@@ -267,7 +267,7 @@ const MultiSelectorTrigger = forwardRef<
         {value.map((item, index) => (
           <Badge
             key={item}
-            variant="secondary"
+            variant="default"
             className={cn(
               "h-6 gap-1 rounded-2xl px-2 text-xs font-medium",
               activeIndex === index && "ring-2 ring-ring/30"

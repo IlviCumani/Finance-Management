@@ -9,6 +9,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { useState } from "react"
 import { FieldGroup } from "@/components/ui/field"
 import { InputFormField } from "@/components/form-fields/input-form-field"
+import { updateTotalBudget } from "../../actions"
+import { toast } from "sonner"
 
 const totalBudgetFormSchema = z
   .object({
@@ -43,6 +45,15 @@ export function TotalBudgetForm({
   const [loading, setLoading] = useState(false)
   async function onSubmit(values: z.infer<typeof totalBudgetFormSchema>) {
     setLoading(true)
+    const result = await updateTotalBudget(Number(values.totalBudget))
+    if (result.error) {
+      setError(result.error)
+      toast.error(result.error)
+    } else {
+      toast.success("Total budget updated successfully")
+      onOpenChange(false)
+      setError(undefined)
+    }
     setLoading(false)
   }
   return (
