@@ -21,6 +21,7 @@ import { useRef, useState } from "react"
 import { confirm } from "@/components/ui/confirmer"
 import { useBudgetContext } from "../../context/budget-context"
 import { deleteBudgetsCategory } from "../../actions"
+import { toast } from "sonner"
 
 type BudgetCardProps = {
   category: BudgetCategory
@@ -52,14 +53,27 @@ export function BudgetCard({ category }: BudgetCardProps) {
     setOpen(true)
   }
 
-  function handleDelete(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleDelete() {
+    const { error } = await deleteBudgetsCategory(category.id)
+    if (error) {
+      toast.error(error, {
+        position: "top-right",
+      })
+    } else {
+      toast.success("Budget category deleted successfully", {
+        position: "top-right",
+      })
+    }
+  }
+
+  function handleDeleteClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.stopPropagation()
     confirm({
       title: "Delete Budget Category",
       description: "Are you sure you want to delete this budget category?",
     }).then((confirmed) => {
       if (confirmed) {
-        deleteBudgetsCategory(category.id)
+        handleDelete()
       }
     })
   }
@@ -75,7 +89,7 @@ export function BudgetCard({ category }: BudgetCardProps) {
           <Button
             variant={"destructive"}
             size={"icon-sm"}
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             className="translate-y-2 opacity-0 transition-transform duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 max-sm:translate-y-0 max-sm:opacity-100"
           >
             <HugeiconsIcon icon={DeleteIcon} />
