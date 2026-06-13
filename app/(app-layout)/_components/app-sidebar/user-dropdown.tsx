@@ -34,6 +34,8 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const t = useTranslations("userMenu")
 
+  console.log(user)
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>

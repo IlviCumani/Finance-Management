@@ -10,6 +10,20 @@ import { revalidatePath } from "next/cache"
 
 const PATH = "/budgets"
 
+function normalizeTransactionCategoryIds(
+  ids: Array<string> | string | null | undefined
+): Array<string> {
+  if (Array.isArray(ids)) {
+    return ids
+  }
+
+  if (typeof ids === "string" && ids.length > 0) {
+    return [ids]
+  }
+
+  return []
+}
+
 export async function getBudgetsCategories(): Promise<{
   data?: Array<BudgetCategory> | null
   error?: string
@@ -47,7 +61,9 @@ export async function getBudgetsCategories(): Promise<{
 
   return {
     data: data?.map((category) => {
-      const affectedCategoryIds = category.transaction_category_ids ?? []
+      const affectedCategoryIds = normalizeTransactionCategoryIds(
+        category.transaction_category_ids
+      )
 
       const amount = transactions
         .filter(
@@ -77,9 +93,9 @@ export async function createBudgetsCategory(formData: FormData) {
   const name = formData.get("name") as string
   const description = formData.get("description") as string
   const budgetLimit = formData.get("budgetLimit") as string
-  const transactionCategoryIds = formData.get(
+  const transactionCategoryIds = formData.getAll(
     "transactionCategoryIds"
-  ) as unknown as string[]
+  ) as Array<string>
 
   const { error } = await supabase.from("budget_categories").insert({
     user_id: user.id,

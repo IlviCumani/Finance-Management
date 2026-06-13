@@ -7,7 +7,7 @@ import { FieldGroup } from "@/components/ui/field"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { MultiSelectFormField } from "@/components/form-fields/multi-select-form-field"
 import { Controller } from "react-hook-form"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { BudgetCategory } from "@/types/budget/budget-types"
 import { TextareaFormField } from "@/components/form-fields"
 import { useBudgetContext } from "../../context/budget-context"
@@ -48,22 +48,53 @@ export function BudgetForm({
       message: "Budget Limit must be less than total budget",
     })
 
+  const assignedTransactionCategoryIds = useMemo(
+    () => [...(budgetCategory?.transactionCategoryIds ?? [])],
+    [budgetCategory?.transactionCategoryIds]
+  )
+
   const form = useForm<z.infer<typeof budgetCategoryFormSchema>>({
     resolver: zodResolver(budgetCategoryFormSchema),
     defaultValues: {
       name: budgetCategory?.name || "",
       description: budgetCategory?.description || "",
       budgetLimit: budgetCategory?.budgetLimit.toString() || "",
-      transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
+      transactionCategoryIds: [...assignedTransactionCategoryIds],
     },
   })
 
   const [error, setError] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const { transactionCategories, allTransactionCategories } = useBudgetContext()
-  const selectedTransactionCategories = allTransactionCategories.filter(
-    (category) => budgetCategory?.transactionCategoryIds.includes(category.id)
-  )
+  const formId = budgetCategory
+    ? `budget-form-${budgetCategory.id}`
+    : "budget-form-new"
+
+  const transactionCategoryOptions = useMemo(() => {
+    const assignedIds = new Set(assignedTransactionCategoryIds)
+    const selectedTransactionCategories = allTransactionCategories.filter(
+      (category) => assignedIds.has(category.id)
+    )
+    const seenIds = new Set<string>()
+
+    return [...selectedTransactionCategories, ...transactionCategories]
+      .filter((category) => {
+        if (seenIds.has(category.id)) {
+          return false
+        }
+
+        seenIds.add(category.id)
+        return true
+      })
+      .map((category) => ({
+        label: category.name,
+        value: category.id,
+      }))
+  }, [
+    allTransactionCategories,
+    assignedTransactionCategoryIds,
+    transactionCategories,
+  ])
 
   const { reset } = form
 
@@ -73,10 +104,10 @@ export function BudgetForm({
         name: budgetCategory?.name || "",
         description: budgetCategory?.description || "",
         budgetLimit: budgetCategory?.budgetLimit.toString() || "",
-        transactionCategoryIds: budgetCategory?.transactionCategoryIds || [],
+        transactionCategoryIds: [...assignedTransactionCategoryIds],
       })
     }
-  }, [budgetCategory, reset, open])
+  }, [assignedTransactionCategoryIds, budgetCategory, reset, open])
 
   async function onSubmit(values: z.infer<typeof budgetCategoryFormSchema>) {
     const formData = new FormData()
@@ -112,13 +143,13 @@ export function BudgetForm({
   return (
     <FormSheetWrapper
       title={budgetCategory ? "Edit Budget" : "Add Budget"}
-      formId="budget-form"
+      formId={formId}
       open={open}
       onOpenChange={onOpenChange}
       error={error}
       isLoading={isLoading}
     >
-      <form onSubmit={form.handleSubmit(onSubmit)} id="budget-form">
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
         <FieldGroup className="">
           <Controller
             control={form.control}
@@ -147,16 +178,11 @@ export function BudgetForm({
             name="transactionCategoryIds"
             render={({ field, fieldState }) => (
               <MultiSelectFormField
+                key={`${formId}-${open ? "open" : "closed"}`}
                 label="Transaction Categories Affected By"
                 field={field}
                 fieldState={fieldState}
-                options={[
-                  ...selectedTransactionCategories,
-                  ...transactionCategories,
-                ].map((category) => ({
-                  label: category.name,
-                  value: category.id,
-                }))}
+                options={transactionCategoryOptions}
               />
             )}
           />
