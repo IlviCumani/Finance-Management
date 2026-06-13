@@ -9,6 +9,7 @@ interface BudgetContextType {
   totalBudget: number
   budgetCategories: Array<BudgetCategory>
   transactionCategories: Array<TransactionCategory>
+  allTransactionCategories: Array<TransactionCategory>
 }
 
 export const BudgetCategoriesContext = createContext<BudgetContextType | null>(
@@ -42,6 +43,7 @@ export function BudgetCategoriesProvider({
         totalBudget,
         budgetCategories,
         transactionCategories: notUsedTransactionCategories,
+        allTransactionCategories: transactionCategories,
       }}
     >
       {children}

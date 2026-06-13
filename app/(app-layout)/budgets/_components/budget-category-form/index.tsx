@@ -60,7 +60,10 @@ export function BudgetForm({
 
   const [error, setError] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
-  const { transactionCategories } = useBudgetContext()
+  const { transactionCategories, allTransactionCategories } = useBudgetContext()
+  const selectedTransactionCategories = allTransactionCategories.filter(
+    (category) => budgetCategory?.transactionCategoryIds.includes(category.id)
+  )
 
   const { reset } = form
 
@@ -147,7 +150,10 @@ export function BudgetForm({
                 label="Transaction Categories Affected By"
                 field={field}
                 fieldState={fieldState}
-                options={transactionCategories.map((category) => ({
+                options={[
+                  ...selectedTransactionCategories,
+                  ...transactionCategories,
+                ].map((category) => ({
                   label: category.name,
                   value: category.id,
                 }))}
