@@ -1,0 +1,12 @@
+{
+  "nameRequired": "Emri është i detyrueshëm",
+  "descriptionRequired": "Përshkrimi është i detyrueshëm",
+  "budgetLimitRequired": "Limiti i buxhetit është i detyrueshëm",
+  "budgetLimitWholeNumber": "Limiti i buxhetit duhet të jetë numër",
+  "transactionCategoriesRequired": "Duhet të zgjidhet të paktën një kategori transaksioni",
+  "budgetLimitMin": "Limiti i buxhetit duhet të jetë më i madh se 0",
+  "budgetLimitLessThanTotal": "Limiti i buxhetit duhet të jetë më i vogël se buxheti total",
+  "totalBudgetRequired": "Buxheti total është i detyrueshëm",
+  "totalBudgetWholeNumber": "Buxheti total duhet të jetë numër",
+  "totalBudgetMin": "Buxheti total duhet të jetë më i madh se 0"
+}

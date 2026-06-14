@@ -1,0 +1,12 @@
+{
+  "addTitle": "Add Budget",
+  "editTitle": "Edit Budget",
+  "totalBudgetTitle": "Total Budget",
+  "name": "Name",
+  "description": "Description",
+  "budgetLimit": "Budget Limit",
+  "totalBudget": "Total Budget",
+  "transactionCategoriesAffectedBy": "Transaction Categories Affected By",
+  "createdSuccess": "Budget category created successfully",
+  "updatedSuccess": "Budget category updated successfully"
+}

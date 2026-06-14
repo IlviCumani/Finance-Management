@@ -1,3 +1,5 @@
+"use client"
+
 import { FormSheetWrapper } from "@/app/(app-layout)/_components/form-sheet-wrapper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "@/hooks/use-form"
@@ -11,18 +13,8 @@ import { FieldGroup } from "@/components/ui/field"
 import { InputFormField } from "@/components/form-fields/input-form-field"
 import { updateTotalBudget } from "../../actions"
 import { toast } from "sonner"
-
-const totalBudgetFormSchema = z
-  .object({
-    totalBudget: z
-      .string()
-      .min(1, "Total budget is required")
-      .regex(/^\d+$/, "Total budget must be a number"),
-  })
-  .refine((data) => Number(data.totalBudget) > 0, {
-    path: ["totalBudget"],
-    message: "Total budget must be greater than 0",
-  })
+import { useTranslations } from "next-intl"
+import { useTotalBudgetFormSchema } from "./use-form-schema"
 
 type TotalBudgetFormProps = {
   open: boolean
@@ -35,6 +27,10 @@ export function TotalBudgetForm({
   onOpenChange,
   totalBudget = 0,
 }: TotalBudgetFormProps) {
+  const t = useTranslations("budgets.form")
+  const tCard = useTranslations("budgets.card")
+  const totalBudgetFormSchema = useTotalBudgetFormSchema()
+
   const form = useForm<z.infer<typeof totalBudgetFormSchema>>({
     resolver: zodResolver(totalBudgetFormSchema),
     defaultValues: {
@@ -43,6 +39,7 @@ export function TotalBudgetForm({
   })
   const [error, setError] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(false)
+
   async function onSubmit(values: z.infer<typeof totalBudgetFormSchema>) {
     setLoading(true)
     const result = await updateTotalBudget(Number(values.totalBudget))
@@ -50,17 +47,18 @@ export function TotalBudgetForm({
       setError(result.error)
       toast.error(result.error)
     } else {
-      toast.success("Total budget updated successfully")
+      toast.success(tCard("updateSuccess"))
       onOpenChange(false)
       setError(undefined)
     }
     setLoading(false)
   }
+
   return (
     <FormSheetWrapper
       open={open}
       onOpenChange={onOpenChange}
-      title="Total Budget"
+      title={t("totalBudgetTitle")}
       formId="total-budget-form"
       error={error}
       isLoading={loading}
@@ -72,7 +70,7 @@ export function TotalBudgetForm({
             name="totalBudget"
             render={({ field, fieldState }) => (
               <InputFormField
-                label="Total Budget"
+                label={t("totalBudget")}
                 field={field}
                 fieldState={fieldState}
               >

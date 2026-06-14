@@ -1,0 +1,12 @@
+{
+  "nameRequired": "Name is required",
+  "descriptionRequired": "Description is required",
+  "budgetLimitRequired": "Budget Limit is required",
+  "budgetLimitWholeNumber": "Budget Limit must be a number",
+  "transactionCategoriesRequired": "At least one transaction category is required",
+  "budgetLimitMin": "Budget Limit must be greater than 0",
+  "budgetLimitLessThanTotal": "Budget Limit must be less than total budget",
+  "totalBudgetRequired": "Total budget is required",
+  "totalBudgetWholeNumber": "Total budget must be a number",
+  "totalBudgetMin": "Total budget must be greater than 0"
+}

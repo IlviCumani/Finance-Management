@@ -1,5 +1,10 @@
+"use client"
+
 import { PageHeader } from "@/app/(app-layout)/_components/page-header"
+import { useTranslations } from "next-intl"
 
 export function BudgetsHeader() {
-  return <PageHeader title="Budgets" description="Manage your budgets" />
+  const t = useTranslations("budgets.page")
+
+  return <PageHeader title={t("title")} description={t("description")} />
 }

@@ -1,0 +1,18 @@
+{
+  "addBudgetCategory": "Shto Kategori Buxheti",
+  "percentUsed": "{percent}% e përdorur",
+  "nearLimit": "Afër Limitit",
+  "overLimit": "Mbi Limit",
+  "left": "mbetur",
+  "overLimitAmount": "mbi limit",
+  "deleteTitle": "Fshi Kategorinë e Buxhetit",
+  "deleteDescription": "Je i sigurt që dëshiron ta fshish këtë kategori buxheti?",
+  "deleteSuccess": "Kategoria e buxhetit u fshi me sukses",
+  "totalBudgetTitle": "Buxheti Total",
+  "spent": "Shpenzuar:",
+  "remaining": "Mbetur:",
+  "overLimitBy": "Mbi limit me",
+  "utilization": "Përdorimi:",
+  "add": "Shto",
+  "updateSuccess": "Buxheti total u përditësua me sukses"
+}

@@ -13,6 +13,8 @@ import { TextareaFormField } from "@/components/form-fields"
 import { useBudgetContext } from "../../context/budget-context"
 import { createBudgetsCategory, updateBudgetsCategory } from "../../actions"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
+import { useBudgetCategoryFormSchema } from "./use-form-schema"
 
 type BudgetFormProps = {
   open: boolean
@@ -27,26 +29,8 @@ export function BudgetForm({
   budgetCategory,
   totalBudget,
 }: BudgetFormProps) {
-  const budgetCategoryFormSchema = z
-    .object({
-      name: z.string().min(1, "Name is required"),
-      description: z.string().min(1, "Description is required"),
-      budgetLimit: z
-        .string()
-        .min(1, "Budget Limit is required")
-        .regex(/^\d+$/, "Budget Limit must be a number"),
-      transactionCategoryIds: z
-        .array(z.string())
-        .min(1, "At least one transaction category is required"),
-    })
-    .refine((data) => Number(data.budgetLimit) > 0, {
-      path: ["budgetLimit"],
-      message: "Budget Limit must be greater than 0",
-    })
-    .refine((data) => Number(data.budgetLimit) < totalBudget, {
-      path: ["budgetLimit"],
-      message: "Budget Limit must be less than total budget",
-    })
+  const t = useTranslations("budgets.form")
+  const budgetCategoryFormSchema = useBudgetCategoryFormSchema(totalBudget)
 
   const assignedTransactionCategoryIds = useMemo(
     () => [...(budgetCategory?.transactionCategoryIds ?? [])],
@@ -131,7 +115,7 @@ export function BudgetForm({
         onOpenChange(false)
         setError(undefined)
         setIsLoading(false)
-        toast.success("Budget category updated successfully", {
+        toast.success(t("updatedSuccess"), {
           position: "top-right",
         })
       }
@@ -148,7 +132,7 @@ export function BudgetForm({
         setError(undefined)
         setIsLoading(false)
         form.reset()
-        toast.success("Budget category created successfully", {
+        toast.success(t("createdSuccess"), {
           position: "top-right",
         })
       }
@@ -157,7 +141,7 @@ export function BudgetForm({
 
   return (
     <FormSheetWrapper
-      title={budgetCategory ? "Edit Budget" : "Add Budget"}
+      title={budgetCategory ? t("editTitle") : t("addTitle")}
       formId={formId}
       open={open}
       onOpenChange={onOpenChange}
@@ -171,7 +155,7 @@ export function BudgetForm({
             name="name"
             render={({ field, fieldState }) => (
               <InputFormField
-                label="Name"
+                label={t("name")}
                 field={field}
                 fieldState={fieldState}
               />
@@ -182,7 +166,7 @@ export function BudgetForm({
             name="budgetLimit"
             render={({ field, fieldState }) => (
               <InputFormField
-                label="Budget Limit"
+                label={t("budgetLimit")}
                 field={field}
                 fieldState={fieldState}
               />
@@ -194,7 +178,7 @@ export function BudgetForm({
             render={({ field, fieldState }) => (
               <MultiSelectFormField
                 key={`${formId}-${open ? "open" : "closed"}`}
-                label="Transaction Categories Affected By"
+                label={t("transactionCategoriesAffectedBy")}
                 field={field}
                 fieldState={fieldState}
                 options={transactionCategoryOptions}
@@ -206,7 +190,7 @@ export function BudgetForm({
             name="description"
             render={({ field, fieldState }) => (
               <TextareaFormField
-                label="Description"
+                label={t("description")}
                 field={field}
                 fieldState={fieldState}
               />

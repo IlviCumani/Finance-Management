@@ -22,12 +22,14 @@ import { confirm } from "@/components/ui/confirmer"
 import { useBudgetContext } from "../../context/budget-context"
 import { deleteBudgetsCategory } from "../../actions"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 
 type BudgetCardProps = {
   category: BudgetCategory
 }
 
 export function BudgetCard({ category }: BudgetCardProps) {
+  const t = useTranslations("budgets.card")
   const { totalBudget } = useBudgetContext()
   const [open, setOpen] = useState(false)
   const skipOpenRef = useRef(false)
@@ -60,7 +62,7 @@ export function BudgetCard({ category }: BudgetCardProps) {
         position: "top-right",
       })
     } else {
-      toast.success("Budget category deleted successfully", {
+      toast.success(t("deleteSuccess"), {
         position: "top-right",
       })
     }
@@ -69,8 +71,8 @@ export function BudgetCard({ category }: BudgetCardProps) {
   function handleDeleteClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.stopPropagation()
     confirm({
-      title: "Delete Budget Category",
-      description: "Are you sure you want to delete this budget category?",
+      title: t("deleteTitle"),
+      description: t("deleteDescription"),
     }).then((confirmed) => {
       if (confirmed) {
         handleDelete()
@@ -105,7 +107,7 @@ export function BudgetCard({ category }: BudgetCardProps) {
             </div>
             <div className="space-x-1">
               <span className="text-muted-foreground">
-                {Math.round(utilization)}% used
+                {t("percentUsed", { percent: Math.round(utilization) })}
               </span>
             </div>
           </div>
@@ -122,19 +124,19 @@ export function BudgetCard({ category }: BudgetCardProps) {
             {isWarning && (
               <ColorBadge color="amber">
                 <HugeiconsIcon icon={InformationCircleIcon} />
-                Near Limit
+                {t("nearLimit")}
               </ColorBadge>
             )}
             {isOverLimit && (
               <ColorBadge color="red">
                 <HugeiconsIcon icon={InformationCircleIcon} />
-                Over Limit
+                {t("overLimit")}
               </ColorBadge>
             )}
             <div className="ml-auto">
               <span>
                 {formatCurrency(remaining)}{" "}
-                {isOverLimit ? "over limit" : "left"}
+                {isOverLimit ? t("overLimitAmount") : t("left")}
               </span>
             </div>
           </div>

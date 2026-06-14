@@ -11,12 +11,15 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { formatNumberForUI, formatCurrency } from "@/lib/format/number-format"
 import { useBudgetContext } from "../../context/budget-context"
+import { useTranslations } from "next-intl"
 
 type TotalBudgetCardProps = {
   budgetCategories: Array<BudgetCategory>
 }
 
 export function TotalBudgetCard({ budgetCategories }: TotalBudgetCardProps) {
+  const t = useTranslations("budgets.card")
+  const tCommon = useTranslations("common")
   const { totalBudget } = useBudgetContext()
   const totalSpent = budgetCategories.reduce(
     (acc, category) => acc + category.amount,
@@ -34,7 +37,7 @@ export function TotalBudgetCard({ budgetCategories }: TotalBudgetCardProps) {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
-        <CardTitle>Total Budget</CardTitle>
+        <CardTitle>{t("totalBudgetTitle")}</CardTitle>
         <Button
           variant="default"
           size="sm"
@@ -42,19 +45,19 @@ export function TotalBudgetCard({ budgetCategories }: TotalBudgetCardProps) {
           onClick={() => setOpen(true)}
         >
           <HugeiconsIcon icon={totalBudget > 0 ? EditIcon : CirclePlus} />
-          {totalBudget > 0 ? "Edit" : "Add"}
+          {totalBudget > 0 ? tCommon("edit") : t("add")}
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
         <h1 className="text-2xl font-bold">{formatCurrency(totalBudget)}</h1>
         <div className="flex justify-between max-sm:flex-col max-sm:space-y-2">
           <div className="space-x-1">
-            <span className="text-muted-foreground">Spent:</span>
+            <span className="text-muted-foreground">{t("spent")}</span>
             <span className="font-bold">{formatCurrency(totalSpent)}</span>
           </div>
           <div className="space-x-1">
             <span className="text-muted-foreground">
-              {isOverLimit ? "Over Limit by " : "Remaining: "}
+              {isOverLimit ? t("overLimitBy") : t("remaining")}
             </span>
             <span className="">
               {formatCurrency(
@@ -73,7 +76,7 @@ export function TotalBudgetCard({ budgetCategories }: TotalBudgetCardProps) {
           )}
         />
         <div className="flex justify-end space-x-1" hidden={totalBudget === 0}>
-          <span className="text-muted-foreground">Utilization:</span>
+          <span className="text-muted-foreground">{t("utilization")}</span>
           <span className="font-bold">{formatNumberForUI(utilization)}%</span>
         </div>
       </CardContent>
