@@ -94,6 +94,7 @@ export function BudgetForm({
   }, [assignedTransactionCategoryIds, budgetCategory, reset, open])
 
   async function onSubmit(values: z.infer<typeof budgetCategoryFormSchema>) {
+    setIsLoading(() => true)
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append("description", values.description)
@@ -107,14 +108,12 @@ export function BudgetForm({
       const { error } = await updateBudgetsCategory(formData)
       if (error) {
         setError(error)
-        setIsLoading(false)
         toast.error(error, {
           position: "top-right",
         })
       } else {
         onOpenChange(false)
         setError(undefined)
-        setIsLoading(false)
         toast.success(t("updatedSuccess"), {
           position: "top-right",
         })
@@ -123,20 +122,19 @@ export function BudgetForm({
       const { error } = await createBudgetsCategory(formData)
       if (error) {
         setError(error)
-        setIsLoading(false)
         toast.error(error, {
           position: "top-right",
         })
       } else {
         onOpenChange(false)
         setError(undefined)
-        setIsLoading(false)
         form.reset()
         toast.success(t("createdSuccess"), {
           position: "top-right",
         })
       }
     }
+    setIsLoading(() => false)
   }
 
   return (

@@ -3,6 +3,7 @@ import type { Transaction } from "@/types/transaction/transaction-types"
 import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 
 let selectResult: { data: unknown; error: unknown } = { data: [], error: null }
+let selectResults: Array<{ data: unknown; error: unknown }> | null = null
 let insertResult: { data: unknown; error: unknown } = {
   data: null,
   error: null,
@@ -11,24 +12,35 @@ let insertResult: { data: unknown; error: unknown } = {
 const mockGetTransactionsByDateRange = vi.fn()
 
 vi.mock("@/lib/supabase/actions", () => ({
-  createActionClient: vi.fn().mockImplementation(async () => ({
-    from: () => {
-      const chain: Record<string, unknown> = {}
-      chain.select = vi.fn().mockReturnValue(chain)
-      chain.insert = vi.fn().mockResolvedValue(insertResult)
-      chain.update = vi.fn().mockReturnValue(chain)
-      chain.delete = vi.fn().mockReturnValue(chain)
-      chain.eq = vi.fn().mockReturnValue(chain)
-      chain.order = vi.fn().mockReturnValue(chain)
+  createActionClient: vi.fn().mockImplementation(async () => {
+    let selectCallIndex = 0
 
-      Object.defineProperty(chain, "then", {
-        value: (resolve: (val: unknown) => void) => resolve(selectResult),
-        enumerable: false,
-      })
+    return {
+      from: () => {
+        const chain: Record<string, unknown> = {}
+        chain.select = vi.fn().mockReturnValue(chain)
+        chain.insert = vi.fn().mockResolvedValue(insertResult)
+        chain.update = vi.fn().mockReturnValue(chain)
+        chain.delete = vi.fn().mockReturnValue(chain)
+        chain.eq = vi.fn().mockReturnValue(chain)
+        chain.order = vi.fn().mockReturnValue(chain)
+        chain.single = vi.fn().mockReturnValue(chain)
 
-      return chain
-    },
-  })),
+        Object.defineProperty(chain, "then", {
+          value: (resolve: (val: unknown) => void) => {
+            const results = selectResults ?? [selectResult]
+            const result =
+              results[selectCallIndex] ?? results[results.length - 1]
+            selectCallIndex += 1
+            resolve(result)
+          },
+          enumerable: false,
+        })
+
+        return chain
+      },
+    }
+  }),
 }))
 
 vi.mock("@/lib/require-user", () => ({
@@ -39,6 +51,12 @@ vi.mock("@/lib/require-user", () => ({
 
 vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
+}))
+
+vi.mock("next-intl/server", () => ({
+  getTranslations: vi
+    .fn()
+    .mockResolvedValue((key: string) => `translated:${key}`),
 }))
 
 vi.mock("@/lib/supabase/queries/transaction", () => ({
@@ -54,6 +72,27 @@ import {
   updateTotalBudget,
 } from "@/app/(app-layout)/budgets/actions"
 import { revalidatePath } from "next/cache"
+
+function setValidationSelectResults(
+  overrides: {
+    totalBudget?: number
+    budgetCategories?: Array<{
+      id: string
+      transaction_category_ids: Array<string> | string | null
+    }>
+  } = {}
+) {
+  selectResults = [
+    {
+      data: { total_budget: overrides.totalBudget ?? 3000 },
+      error: null,
+    },
+    {
+      data: overrides.budgetCategories ?? [],
+      error: null,
+    },
+  ]
+}
 
 function buildFormData(
   entries: Record<string, string | Array<string>>
@@ -98,6 +137,7 @@ function buildTransaction(overrides: Partial<Transaction> = {}): Transaction {
 describe("getBudgetsCategories", () => {
   beforeEach(() => {
     selectResult = { data: [], error: null }
+    selectResults = null
     mockGetTransactionsByDateRange.mockClear()
     mockGetTransactionsByDateRange.mockResolvedValue({ data: [], error: null })
   })
@@ -449,6 +489,7 @@ describe("getBudgetsCategories", () => {
 describe("createBudgetsCategory", () => {
   beforeEach(() => {
     insertResult = { data: null, error: null }
+    setValidationSelectResults()
     vi.mocked(revalidatePath).mockClear()
   })
 
@@ -484,11 +525,65 @@ describe("createBudgetsCategory", () => {
     expect(result.success).toBeUndefined()
     expect(revalidatePath).not.toHaveBeenCalled()
   })
+
+  it("rejects invalid budget limits before insert", async () => {
+    const formData = buildFormData({
+      name: "Food",
+      description: "Food budget",
+      budgetLimit: "abc",
+      transactionCategoryIds: ["cat-food"],
+    })
+
+    const result = await createBudgetsCategory(formData)
+    expect(result.error).toBe("translated:budgetLimitWholeNumber")
+    expect(result.success).toBeUndefined()
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
+
+  it("rejects budget limits above the total budget before insert", async () => {
+    setValidationSelectResults({ totalBudget: 500 })
+
+    const formData = buildFormData({
+      name: "Food",
+      description: "Food budget",
+      budgetLimit: "500",
+      transactionCategoryIds: ["cat-food"],
+    })
+
+    const result = await createBudgetsCategory(formData)
+    expect(result.error).toBe("translated:budgetLimitLessThanTotal")
+    expect(result.success).toBeUndefined()
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
+
+  it("rejects transaction categories already assigned to another budget", async () => {
+    setValidationSelectResults({
+      budgetCategories: [
+        {
+          id: "budget-food",
+          transaction_category_ids: ["cat-food"],
+        },
+      ],
+    })
+
+    const formData = buildFormData({
+      name: "Transport",
+      description: "Transport budget",
+      budgetLimit: "200",
+      transactionCategoryIds: ["cat-food"],
+    })
+
+    const result = await createBudgetsCategory(formData)
+    expect(result.error).toBe("translated:transactionCategoriesAlreadyAssigned")
+    expect(result.success).toBeUndefined()
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
 })
 
 describe("updateBudgetsCategory", () => {
   beforeEach(() => {
     selectResult = { data: null, error: null }
+    setValidationSelectResults()
     vi.mocked(revalidatePath).mockClear()
   })
 
@@ -508,7 +603,11 @@ describe("updateBudgetsCategory", () => {
   })
 
   it("returns error when update fails", async () => {
-    selectResult = { data: null, error: { message: "Row not found" } }
+    selectResults = [
+      { data: { total_budget: 3000 }, error: null },
+      { data: [], error: null },
+      { data: null, error: { message: "Row not found" } },
+    ]
 
     const formData = buildFormData({
       id: "budget-missing",
@@ -523,11 +622,37 @@ describe("updateBudgetsCategory", () => {
     expect(result.success).toBeUndefined()
     expect(revalidatePath).not.toHaveBeenCalled()
   })
+
+  it("allows keeping categories assigned to the budget being edited", async () => {
+    setValidationSelectResults({
+      budgetCategories: [
+        {
+          id: "budget-1",
+          transaction_category_ids: ["cat-food"],
+        },
+      ],
+    })
+    selectResults = [...(selectResults ?? []), { data: null, error: null }]
+
+    const formData = buildFormData({
+      id: "budget-1",
+      name: "Updated Food",
+      description: "Updated description",
+      budgetLimit: "600",
+      transactionCategoryIds: ["cat-food"],
+    })
+
+    const result = await updateBudgetsCategory(formData)
+    expect(result.success).toBe(true)
+    expect(result.error).toBeUndefined()
+    expect(revalidatePath).toHaveBeenCalledWith("/budgets")
+  })
 })
 
 describe("deleteBudgetsCategory", () => {
   beforeEach(() => {
     selectResult = { data: null, error: null }
+    selectResults = null
     vi.mocked(revalidatePath).mockClear()
   })
 

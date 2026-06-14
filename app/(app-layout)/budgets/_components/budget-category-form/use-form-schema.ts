@@ -1,33 +1,31 @@
+import { createBudgetCategoryFormSchema } from "@/lib/budget/budget-category-validation"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"
-import * as z from "zod"
 
 export function useBudgetCategoryFormSchema(totalBudget: number) {
   const tValidation = useTranslations("budgets.validation")
 
+  const messages = useMemo(
+    () => ({
+      nameRequired: tValidation("nameRequired"),
+      descriptionRequired: tValidation("descriptionRequired"),
+      budgetLimitRequired: tValidation("budgetLimitRequired"),
+      budgetLimitWholeNumber: tValidation("budgetLimitWholeNumber"),
+      transactionCategoriesRequired: tValidation(
+        "transactionCategoriesRequired"
+      ),
+      budgetLimitMin: tValidation("budgetLimitMin"),
+      budgetLimitLessThanTotal: tValidation("budgetLimitLessThanTotal"),
+      transactionCategoriesAlreadyAssigned: tValidation(
+        "transactionCategoriesAlreadyAssigned"
+      ),
+    }),
+    [tValidation]
+  )
+
   const formSchema = useMemo(
-    () =>
-      z
-        .object({
-          name: z.string().min(1, tValidation("nameRequired")),
-          description: z.string().min(1, tValidation("descriptionRequired")),
-          budgetLimit: z
-            .string()
-            .min(1, tValidation("budgetLimitRequired"))
-            .regex(/^\d+$/, tValidation("budgetLimitWholeNumber")),
-          transactionCategoryIds: z
-            .array(z.string())
-            .min(1, tValidation("transactionCategoriesRequired")),
-        })
-        .refine((data) => Number(data.budgetLimit) > 0, {
-          path: ["budgetLimit"],
-          message: tValidation("budgetLimitMin"),
-        })
-        .refine((data) => Number(data.budgetLimit) < totalBudget, {
-          path: ["budgetLimit"],
-          message: tValidation("budgetLimitLessThanTotal"),
-        }),
-    [tValidation, totalBudget]
+    () => createBudgetCategoryFormSchema(totalBudget, messages),
+    [messages, totalBudget]
   )
 
   return formSchema

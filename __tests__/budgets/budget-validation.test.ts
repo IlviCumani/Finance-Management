@@ -1,27 +1,23 @@
 import { describe, it, expect } from "vitest"
 import * as z from "zod"
+import {
+  collectAssignedTransactionCategoryIds,
+  createBudgetCategoryFormSchema,
+  findConflictingTransactionCategoryIds,
+  validateBudgetCategoryInput,
+} from "@/lib/budget/budget-category-validation"
 
-function createBudgetCategoryFormSchema(totalBudget: number) {
-  return z
-    .object({
-      name: z.string().min(1, "Name is required"),
-      description: z.string().min(1, "Description is required"),
-      budgetLimit: z
-        .string()
-        .min(1, "Budget Limit is required")
-        .regex(/^\d+$/, "Budget Limit must be a number"),
-      transactionCategoryIds: z
-        .array(z.string())
-        .min(1, "At least one transaction category is required"),
-    })
-    .refine((data) => Number(data.budgetLimit) > 0, {
-      path: ["budgetLimit"],
-      message: "Budget Limit must be greater than 0",
-    })
-    .refine((data) => Number(data.budgetLimit) < totalBudget, {
-      path: ["budgetLimit"],
-      message: "Budget Limit must be less than total budget",
-    })
+const validationMessages = {
+  nameRequired: "Name is required",
+  descriptionRequired: "Description is required",
+  budgetLimitRequired: "Budget Limit is required",
+  budgetLimitWholeNumber: "Budget Limit must be a number",
+  transactionCategoriesRequired:
+    "At least one transaction category is required",
+  budgetLimitMin: "Budget Limit must be greater than 0",
+  budgetLimitLessThanTotal: "Budget Limit must be less than total budget",
+  transactionCategoriesAlreadyAssigned:
+    "One or more transaction categories are already assigned to another budget",
 }
 
 const totalBudgetFormSchema = z
@@ -37,7 +33,7 @@ const totalBudgetFormSchema = z
   })
 
 describe("budget category form validation", () => {
-  const schema = createBudgetCategoryFormSchema(2000)
+  const schema = createBudgetCategoryFormSchema(2000, validationMessages)
 
   it("accepts valid input", () => {
     const result = schema.safeParse({
@@ -167,6 +163,73 @@ describe("budget category form validation", () => {
     })
 
     expect(result.success).toBe(true)
+  })
+})
+
+describe("exclusive transaction category assignment validation", () => {
+  it("rejects categories already assigned to another budget", () => {
+    const assignedIds = collectAssignedTransactionCategoryIds([
+      {
+        id: "budget-food",
+        transaction_category_ids: ["cat-food"],
+      },
+    ])
+
+    const result = validateBudgetCategoryInput(
+      {
+        name: "Transport",
+        description: "Transport budget",
+        budgetLimit: "200",
+        transactionCategoryIds: ["cat-food"],
+      },
+      2000,
+      validationMessages,
+      assignedIds
+    )
+
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      expect(result.error).toBe(
+        validationMessages.transactionCategoriesAlreadyAssigned
+      )
+    }
+  })
+
+  it("allows categories assigned to the budget being edited", () => {
+    const assignedIds = collectAssignedTransactionCategoryIds(
+      [
+        {
+          id: "budget-food",
+          transaction_category_ids: ["cat-food"],
+        },
+      ],
+      "budget-food"
+    )
+
+    const result = validateBudgetCategoryInput(
+      {
+        name: "Food",
+        description: "Updated food budget",
+        budgetLimit: "500",
+        transactionCategoryIds: ["cat-food"],
+      },
+      2000,
+      validationMessages,
+      assignedIds
+    )
+
+    expect(result.success).toBe(true)
+  })
+
+  it("finds conflicts against the assigned category set", () => {
+    const assignedIds = new Set(["cat-food", "cat-dining"])
+
+    expect(
+      findConflictingTransactionCategoryIds(["cat-food"], assignedIds)
+    ).toEqual(["cat-food"])
+    expect(
+      findConflictingTransactionCategoryIds(["cat-transport"], assignedIds)
+    ).toEqual([])
   })
 })
 

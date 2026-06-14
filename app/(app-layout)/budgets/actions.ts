@@ -1,27 +1,106 @@
 "use server"
 
+import {
+  collectAssignedTransactionCategoryIds,
+  normalizeTransactionCategoryIds,
+  parseBudgetCategoryFormData,
+  validateBudgetCategoryInput,
+  type BudgetCategoryValidationMessages,
+} from "@/lib/budget/budget-category-validation"
 import { requireUser } from "@/lib/require-user"
 import { createActionClient } from "@/lib/supabase/actions"
 import { getTransactionsByDateRange } from "@/lib/supabase/queries/transaction"
 import type { BudgetCategory } from "@/types/budget/budget-types"
 import { TransactionCategoryTypeEnum } from "@/types/transaction-category/transaction-category-types"
 import { startOfMonth, endOfMonth } from "date-fns"
+import { getTranslations } from "next-intl/server"
 import { revalidatePath } from "next/cache"
 
 const PATH = "/budgets"
 
-function normalizeTransactionCategoryIds(
-  ids: Array<string> | string | null | undefined
-): Array<string> {
-  if (Array.isArray(ids)) {
-    return ids
+async function getBudgetCategoryValidationMessages(): Promise<BudgetCategoryValidationMessages> {
+  const t = await getTranslations("budgets.validation")
+
+  return {
+    nameRequired: t("nameRequired"),
+    descriptionRequired: t("descriptionRequired"),
+    budgetLimitRequired: t("budgetLimitRequired"),
+    budgetLimitWholeNumber: t("budgetLimitWholeNumber"),
+    transactionCategoriesRequired: t("transactionCategoriesRequired"),
+    budgetLimitMin: t("budgetLimitMin"),
+    budgetLimitLessThanTotal: t("budgetLimitLessThanTotal"),
+    transactionCategoriesAlreadyAssigned: t(
+      "transactionCategoriesAlreadyAssigned"
+    ),
+  }
+}
+
+async function validateBudgetCategoryMutation(
+  formData: FormData,
+  excludeBudgetId?: string
+): Promise<
+  | {
+      success: true
+      supabase: Awaited<ReturnType<typeof createActionClient>>
+      userId: string
+      data: {
+        name: string
+        description: string
+        budgetLimit: number
+        transactionCategoryIds: Array<string>
+      }
+    }
+  | { success: false; error: string }
+> {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const messages = await getBudgetCategoryValidationMessages()
+  const input = parseBudgetCategoryFormData(formData)
+
+  const [profileResult, categoriesResult] = await Promise.all([
+    supabase.from("profiles").select("total_budget").eq("id", user.id).single(),
+    supabase
+      .from("budget_categories")
+      .select("id, transaction_category_ids")
+      .eq("user_id", user.id),
+  ])
+
+  if (profileResult.error) {
+    return {
+      success: false,
+      error: profileResult.error.message,
+    }
   }
 
-  if (typeof ids === "string" && ids.length > 0) {
-    return [ids]
+  if (categoriesResult.error) {
+    return {
+      success: false,
+      error: categoriesResult.error.message,
+    }
   }
 
-  return []
+  const totalBudget = profileResult.data?.total_budget ?? 0
+  const assignedTransactionCategoryIds = collectAssignedTransactionCategoryIds(
+    categoriesResult.data ?? [],
+    excludeBudgetId
+  )
+  const validationResult = validateBudgetCategoryInput(
+    input,
+    totalBudget,
+    messages,
+    assignedTransactionCategoryIds
+  )
+
+  if (!validationResult.success) {
+    return validationResult
+  }
+
+  return {
+    success: true,
+    supabase,
+    userId: user.id,
+    data: validationResult.data,
+  }
 }
 
 export async function getBudgetsCategories(): Promise<{
@@ -88,21 +167,22 @@ export async function getBudgetsCategories(): Promise<{
 }
 
 export async function createBudgetsCategory(formData: FormData) {
-  const supabase = await createActionClient()
-  const user = await requireUser()
-  const name = formData.get("name") as string
-  const description = formData.get("description") as string
-  const budgetLimit = formData.get("budgetLimit") as string
-  const transactionCategoryIds = formData.getAll(
-    "transactionCategoryIds"
-  ) as Array<string>
+  const validationResult = await validateBudgetCategoryMutation(formData)
+
+  if (!validationResult.success) {
+    return {
+      error: validationResult.error,
+    }
+  }
+
+  const { supabase, userId, data } = validationResult
 
   const { error } = await supabase.from("budget_categories").insert({
-    user_id: user.id,
-    name,
-    description,
-    budget_limit: Number(budgetLimit),
-    transaction_category_ids: transactionCategoryIds,
+    user_id: userId,
+    name: data.name,
+    description: data.description,
+    budget_limit: data.budgetLimit,
+    transaction_category_ids: data.transactionCategoryIds,
   })
 
   if (error) {
@@ -119,26 +199,27 @@ export async function createBudgetsCategory(formData: FormData) {
 }
 
 export async function updateBudgetsCategory(formData: FormData) {
-  const supabase = await createActionClient()
-  const user = await requireUser()
   const id = formData.get("id") as string
-  const name = formData.get("name") as string
-  const description = formData.get("description") as string
-  const budgetLimit = formData.get("budgetLimit") as string
-  const transactionCategoryIds = formData.getAll(
-    "transactionCategoryIds"
-  ) as Array<string>
+  const validationResult = await validateBudgetCategoryMutation(formData, id)
+
+  if (!validationResult.success) {
+    return {
+      error: validationResult.error,
+    }
+  }
+
+  const { supabase, userId, data } = validationResult
 
   const { error } = await supabase
     .from("budget_categories")
     .update({
-      name,
-      description,
-      budget_limit: Number(budgetLimit),
-      transaction_category_ids: transactionCategoryIds,
+      name: data.name,
+      description: data.description,
+      budget_limit: data.budgetLimit,
+      transaction_category_ids: data.transactionCategoryIds,
     })
     .eq("id", id)
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
 
   if (error) {
     return {

@@ -6,6 +6,7 @@
   "transactionCategoriesRequired": "At least one transaction category is required",
   "budgetLimitMin": "Budget Limit must be greater than 0",
   "budgetLimitLessThanTotal": "Budget Limit must be less than total budget",
+  "transactionCategoriesAlreadyAssigned": "One or more transaction categories are already assigned to another budget",
   "totalBudgetRequired": "Total budget is required",
   "totalBudgetWholeNumber": "Total budget must be a number",
   "totalBudgetMin": "Total budget must be greater than 0"

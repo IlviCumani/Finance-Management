@@ -37,7 +37,10 @@ export async function MonthlyComparison({ data }: MonthlyComparisonProps) {
     0
   )
 
-  const isEmpty = totalSavings === 0
+  const hasComparisonData = data.some(
+    (item) => item.income > 0 || item.expenses > 0
+  )
+  const isEmpty = !hasComparisonData
 
   return (
     <Card>
