@@ -110,6 +110,32 @@ FinSanctuary does not have a traditional REST API. Instead, it uses:
 
 ---
 
+### Budget Actions
+
+**File**: `app/(app-layout)/budgets/actions.ts`
+
+| Action | Parameters | Returns | Description |
+|:---|:---|:---|:---|
+| `getBudgetsCategories()` | — | `{ data?: Array<BudgetCategory>, error?: string }` | Fetch budget categories with computed monthly spend |
+| `createBudgetsCategory(formData)` | `FormData` (see below) | `{ success?: boolean, error?: string }` | Create a new budget category |
+| `updateBudgetsCategory(formData)` | `FormData` (see below) | `{ success?: boolean, error?: string }` | Update a budget category |
+| `deleteBudgetsCategory(id)` | `string` | `{ success?: boolean, error?: string }` | Delete a budget category |
+| `updateTotalBudget(updatedTotalBudget)` | `number` | `{ success?: boolean, error?: string }` | Set the profile-level total budget |
+
+**`createBudgetsCategory` / `updateBudgetsCategory` FormData fields:**
+
+| Field | Type | Required | Description |
+|:---|:---|:---|:---|
+| `name` | `string` | Yes | Budget category name |
+| `description` | `string` | Yes | Budget category description |
+| `budgetLimit` | `string` | Yes | Monthly limit (numeric string, must be less than total budget) |
+| `transactionCategoryIds` | `string` (repeatable) | Yes | One or more expense category IDs |
+| `id` | `string` | Update only | Budget category ID |
+
+See [budgets.md](budgets.md) for spending computation and UI details.
+
+---
+
 ### Locale Action
 
 **File**: `app/(app-layout)/_components/app-header/locale.ts`
@@ -180,6 +206,7 @@ Reusable query functions in `lib/supabase/queries/` are used by multiple modules
 | `getTransactionCategories()` | — | `{ data?: Array<TransactionCategory>, error?: string }` | Fetch all categories |
 | `getTransactionCategoryById(id)` | `string` | `{ data?: TransactionCategory, error?: string }` | Fetch a single category |
 | `getTransactionCategoriesByIds(ids)` | `Array<string>` | `{ data?: Array<TransactionCategory>, error?: string }` | Batch fetch categories |
+| `getTransactionsByDateRange(startDate, endDate)` | `string`, `string` | `{ data?: Array<Transaction>, error?: string }` | Fetch transactions within a date range (used by budgets) |
 
 ### User Profile Query
 

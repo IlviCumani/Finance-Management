@@ -82,7 +82,7 @@ Email/password auth powered by Supabase Auth. Middleware-enforced route protecti
 <td width="50%">
 
 ### 💰 Budgets
-Create monthly and category-level budgets with progress tracking and overspending warnings.
+Set a monthly total budget on your profile, then break it into category-level limits linked to expense transaction categories. Spending is computed live from the current month's transactions. Progress bars show utilization with near-limit and over-limit warnings.
 
 </td>
 <td width="50%">
@@ -238,7 +238,8 @@ finance-management/
 │   ├── account/
 │   ├── transaction/
 │   ├── transaction-category/
-│   └── recurring-transactions/
+│   ├── recurring-transactions/
+│   └── budget/
 ├── __tests__/                        # Test suite
 │   ├── accounts/
 │   ├── transactions/
@@ -253,6 +254,7 @@ finance-management/
     ├── authentication.md
     ├── transactions.md
     ├── subscriptions.md
+    ├── budgets.md
     ├── deployment.md
     └── api.md
 ```
@@ -345,6 +347,7 @@ Detailed documentation for each major subsystem lives in the [`docs/`](docs/) di
 | [**authentication.md**](docs/authentication.md) | Auth flows, middleware, session handling, and route protection |
 | [**transactions.md**](docs/transactions.md) | Transaction types, balance logic, and transfer mechanics |
 | [**subscriptions.md**](docs/subscriptions.md) | Recurring transactions, CRON processing, and frequency scheduling |
+| [**budgets.md**](docs/budgets.md) | Total and category budgets, monthly spend tracking, and progress warnings |
 | [**deployment.md**](docs/deployment.md) | Production deployment, environment setup, and CI/CD |
 | [**api.md**](docs/api.md) | Server Actions, API routes, and data layer reference |
 
@@ -367,8 +370,8 @@ Detailed documentation for each major subsystem lives in the [`docs/`](docs/) di
 <td>
 
 **Phase 2** 🚧
-- Budgets
-- Subscriptions
+- Budgets ✅
+- Subscriptions ✅
 - Savings goals
 - Charts
 
