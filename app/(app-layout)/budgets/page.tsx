@@ -4,8 +4,11 @@ import { BudgetCategoriesProvider } from "./context/budget-context"
 import { getBudgetsCategories } from "./actions"
 import { getTransactionCategories } from "@/lib/supabase/queries/transaction"
 import { getLoggedUserProfile } from "@/lib/supabase/queries/user-profile"
+import { toast } from "sonner"
+import { getTranslations } from "next-intl/server"
 
 export default async function BudgetsPage() {
+  const t = await getTranslations("budgets.page")
   const [
     budgetCategoriesResult,
     transactionCategoriesResult,
@@ -15,6 +18,14 @@ export default async function BudgetsPage() {
     getTransactionCategories(),
     getLoggedUserProfile(),
   ])
+
+  if (budgetCategoriesResult.error) {
+    toast.error(budgetCategoriesResult.error || t("fetchError"))
+  }
+
+  if (transactionCategoriesResult.error) {
+    toast.error(transactionCategoriesResult.error || t("fetchError"))
+  }
 
   return (
     <BudgetCategoriesProvider
