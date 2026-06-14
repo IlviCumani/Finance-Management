@@ -21,6 +21,7 @@ User profile information, linked 1:1 to Supabase Auth users.
 | `id` | `uuid` (PK) | References `auth.users.id` |
 | `full_name` | `text` | User's display name |
 | `avatar_url` | `text` | Profile image URL |
+| `total_budget` | `numeric` | Monthly spending cap for budget tracking (default `0`) |
 | `created_at` | `timestamptz` | Record creation timestamp |
 | `updated_at` | `timestamptz` | Last update timestamp |
 
@@ -124,6 +125,30 @@ Subscription and recurring payment definitions.
 
 ---
 
+### `budget_categories`
+
+User-defined budget groups with monthly spending limits.
+
+| Column | Type | Description |
+|:---|:---|:---|
+| `id` | `uuid` (PK) | Auto-generated |
+| `user_id` | `uuid` (FK) | Owner |
+| `name` | `text` | Budget category display name |
+| `description` | `text` | Short description |
+| `budget_limit` | `numeric` | Maximum allowed spend for the current month |
+| `transaction_category_ids` | `uuid[]` | Expense categories whose transactions count toward this budget |
+| `created_at` | `timestamptz` | Record creation timestamp |
+| `updated_at` | `timestamptz` | Last update timestamp |
+
+**Key behaviors:**
+- Monthly spend is **not stored** — it is computed at read time from expense transactions in the current calendar month
+- Each expense transaction category should be linked to at most one budget category
+- Category limits are validated in the UI to stay below the user's `profiles.total_budget`
+
+See [budgets.md](budgets.md) for spend computation and progress tracking details.
+
+---
+
 ## Entity Relationships
 
 ```
@@ -139,7 +164,10 @@ auth.users
     │
     ├── 1:N ── transaction_categories
     │              │
-    │              └── N:1 ── transactions.transaction_category_id
+    │              ├── N:1 ── transactions.transaction_category_id
+    │              └── N:M ── budget_categories.transaction_category_ids
+    │
+    ├── 1:N ── budget_categories
     │
     ├── 1:N ── transactions
     │

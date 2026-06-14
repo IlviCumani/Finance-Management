@@ -13,6 +13,7 @@ import transactions from "./transactions/transactions-en"
 import settings from "./settings/settings-en"
 import recurringTransactions from "./recurringTransactions/recurringTransactions-en"
 import dashboard from "./dashboard/dashboard-en"
+import budgets from "./budgets/budgets-en"
 
 const messages = {
   common,
@@ -30,6 +31,7 @@ const messages = {
   settings,
   recurringTransactions,
   dashboard,
+  budgets,
 } as const
 
 export default messages

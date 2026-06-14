@@ -1,0 +1,12 @@
+{
+  "addTitle": "Shto Buxhet",
+  "editTitle": "Ndrysho Buxhetin",
+  "totalBudgetTitle": "Buxheti Total",
+  "name": "Emri",
+  "description": "Përshkrimi",
+  "budgetLimit": "Limiti i Buxhetit",
+  "totalBudget": "Buxheti Total",
+  "transactionCategoriesAffectedBy": "Kategoritë e Transaksioneve të Përfshira",
+  "createdSuccess": "Kategoria e buxhetit u krijua me sukses",
+  "updatedSuccess": "Kategoria e buxhetit u përditësua me sukses"
+}

@@ -1,0 +1,18 @@
+{
+  "addBudgetCategory": "Add Budget Category",
+  "percentUsed": "{percent}% used",
+  "nearLimit": "Near Limit",
+  "overLimit": "Over Limit",
+  "left": "left",
+  "overLimitAmount": "over limit",
+  "deleteTitle": "Delete Budget Category",
+  "deleteDescription": "Are you sure you want to delete this budget category?",
+  "deleteSuccess": "Budget category deleted successfully",
+  "totalBudgetTitle": "Total Budget",
+  "spent": "Spent:",
+  "remaining": "Remaining:",
+  "overLimitBy": "Over Limit by",
+  "utilization": "Utilization:",
+  "add": "Add",
+  "updateSuccess": "Total budget updated successfully"
+}

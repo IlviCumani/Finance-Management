@@ -70,6 +70,5 @@ export async function signInWithGoogle() {
     return { error: error?.message ?? "OAuth initiation failed" }
   }
 
-  console.log("data", data)
   redirect(data.url)
 }

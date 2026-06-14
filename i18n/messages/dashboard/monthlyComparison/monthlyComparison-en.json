@@ -3,5 +3,7 @@
   "description": "Monthly comparison over the last 3 months",
   "totalSavings": "Total: Savings",
   "income": "Income",
-  "expenses": "Expenses"
+  "expenses": "Expenses",
+  "emptyTitle": "No monthly comparison data available",
+  "emptyDescription": "No monthly comparison data available for the selected period"
 }

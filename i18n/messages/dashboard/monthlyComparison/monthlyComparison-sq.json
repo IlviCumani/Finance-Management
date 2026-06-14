@@ -3,5 +3,7 @@
   "description": "Krahasimi mujor gjatë 3 muajve të fundit",
   "totalSavings": "Totali: Kursimet",
   "income": "Të ardhura",
-  "expenses": "Shpenzime"
+  "expenses": "Shpenzime",
+  "emptyTitle": "Asnjë krahasim mujor të disponueshëm",
+  "emptyDescription": "Asnjë krahasim mujor nuk është regjistruar për periodën e zgjedhur"
 }

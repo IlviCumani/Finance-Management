@@ -1,4 +1,9 @@
-import { ChartDownIcon } from "@hugeicons/core-free-icons"
+import {
+  BanknoteArrowUpIcon,
+  BanknoteArrowDownIcon,
+  DistributeHorizontalLeftIcon,
+  BitcoinBagIcon,
+} from "@hugeicons/core-free-icons"
 import { InformationCard } from "./information-card"
 import { formatCurrency, formatNumberForUI } from "@/lib/format/number-format"
 import { getTranslations } from "next-intl/server"
@@ -36,28 +41,28 @@ export async function InformationCards({
         value={formatCurrency(accountsData.totalBalance ?? 0)}
         change={accountsData.totalBalanceChange}
         description={t("totalBalanceDescription")}
-        icon={ChartDownIcon}
+        icon={BitcoinBagIcon}
       />
       <InformationCard
         title={t("monthlyIncome")}
         value={formatCurrency(transactionsData.thisMonthIncome ?? 0)}
         change={transactionsData.percentageDifferenceInIncome}
         description={t("monthlyIncomeDescription")}
-        icon={ChartDownIcon}
+        icon={BanknoteArrowUpIcon}
       />
       <InformationCard
         title={t("monthlyExpenses")}
         value={formatCurrency(transactionsData.thisMonthExpenses ?? 0)}
         change={transactionsData.percentageDifferenceInExpenses}
         description={t("monthlyExpensesDescription")}
-        icon={ChartDownIcon}
+        icon={BanknoteArrowDownIcon}
       />
       <InformationCard
         title={t("accountsDistribution")}
         value={accountsDistribution}
         type="multiProgress"
         description={t("accountsDistributionDescription")}
-        icon={ChartDownIcon}
+        icon={DistributeHorizontalLeftIcon}
       />
     </div>
   )
