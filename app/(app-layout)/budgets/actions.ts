@@ -118,7 +118,40 @@ export async function createBudgetsCategory(formData: FormData) {
   }
 }
 
-export async function updateBudgetsCategory(formData: FormData) {}
+export async function updateBudgetsCategory(formData: FormData) {
+  const supabase = await createActionClient()
+  const user = await requireUser()
+  const id = formData.get("id") as string
+  const name = formData.get("name") as string
+  const description = formData.get("description") as string
+  const budgetLimit = formData.get("budgetLimit") as string
+  const transactionCategoryIds = formData.getAll(
+    "transactionCategoryIds"
+  ) as Array<string>
+
+  const { error } = await supabase
+    .from("budget_categories")
+    .update({
+      name,
+      description,
+      budget_limit: Number(budgetLimit),
+      transaction_category_ids: transactionCategoryIds,
+    })
+    .eq("id", id)
+    .eq("user_id", user.id)
+
+  if (error) {
+    return {
+      error: error.message,
+    }
+  }
+
+  revalidatePath(PATH)
+
+  return {
+    success: true,
+  }
+}
 
 export async function deleteBudgetsCategory(id: string) {
   const supabase = await createActionClient()

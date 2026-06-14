@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react"
 import { BudgetCategory } from "@/types/budget/budget-types"
 import { TextareaFormField } from "@/components/form-fields"
 import { useBudgetContext } from "../../context/budget-context"
-import { createBudgetsCategory } from "../../actions"
+import { createBudgetsCategory, updateBudgetsCategory } from "../../actions"
 import { toast } from "sonner"
 
 type BudgetFormProps = {
@@ -120,6 +120,21 @@ export function BudgetForm({
 
     if (budgetCategory) {
       formData.append("id", budgetCategory.id)
+      const { error } = await updateBudgetsCategory(formData)
+      if (error) {
+        setError(error)
+        setIsLoading(false)
+        toast.error(error, {
+          position: "top-right",
+        })
+      } else {
+        onOpenChange(false)
+        setError(undefined)
+        setIsLoading(false)
+        toast.success("Budget category updated successfully", {
+          position: "top-right",
+        })
+      }
     } else {
       const { error } = await createBudgetsCategory(formData)
       if (error) {
